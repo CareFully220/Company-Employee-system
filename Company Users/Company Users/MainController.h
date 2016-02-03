@@ -49,7 +49,7 @@ public:
 	  * @returns -1 if user has no permissions to login.
 	  * @returns -2 if login failed because the username or password was wrong.
 	  */
-	int LogIn(std::string Username, std::string Password, EmployeeList * EmpList);
+	int LogIn(std::string Username, std::string Password, EmployeeList& EmpList);
 	
 	//! Logs out the user.
 	void LogOut();

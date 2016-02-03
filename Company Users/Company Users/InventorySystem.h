@@ -30,7 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include <cstdlib>
 #include "ConsoleController.h"
-#include "Permissions.h"
 using namespace std;
 
 //class about device
@@ -77,7 +76,7 @@ protected:
 public:
 	Device();
 
-
+	
 	void setDevice(string newName, string newDevice_ID, string newModel_ID, string newUser_ID, string newLocation, string newSetPrice, string newBuyDate, string newDescription) {
 		name = newName;
 		device_ID = newDevice_ID;

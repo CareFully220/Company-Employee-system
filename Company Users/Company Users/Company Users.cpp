@@ -54,7 +54,7 @@ int main()
 
 	}
 	ConsoleController::PrintWelcomeMessage();
-	ConsoleController::CommandHandler(&Employees, &Loginsys);
+	ConsoleController::CommandHandler(Employees, Loginsys);
 
 //	Device go;
 //	go.printMenu();

@@ -35,7 +35,7 @@ void ConsoleController::PrintWelcomeMessage()
 	std::cout << " Type 'help' to see a list of available commands." << std::endl;
 	std::cout << " Before you can do anything, you need to 'login'." << std::endl;
 }
-void ConsoleController::CommandHandler(EmployeeList * EmpList, MainController * LoginSys)
+void ConsoleController::CommandHandler(EmployeeList& EmpList, MainController& LoginSys)
 {
 	// Ask for command
 	while (true) {
@@ -71,14 +71,14 @@ void ConsoleController::CommandHandler(EmployeeList * EmpList, MainController * 
 			std::cout << "================" << std::endl;
 		}
 		else if (input.compare("login") == 0) {
-			if (!LoginSys->IsLoggedIn()) {
+			if (!LoginSys.IsLoggedIn()) {
 				std::string Username, Password;
 				std::cout << "Enter your username: ";
 				getline(std::cin, Username);
 				std::cout << "Enter your password: ";
 				Password = hidecin();
 
-				int retval = LoginSys->LogIn(Username, Password, EmpList);
+				int retval = LoginSys.LogIn(Username, Password, EmpList);
 				if (retval == 1) {
 					std::cout << "Log in successful!" << std::endl;
 				}
@@ -93,11 +93,11 @@ void ConsoleController::CommandHandler(EmployeeList * EmpList, MainController * 
 				std::cout << "You are already logged in!" << std::endl;
 			}
 		}
-		else if (LoginSys->IsLoggedIn()) {
+		else if (LoginSys.IsLoggedIn()) {
 			bool bSuccess = false;
 			for (auto &it : CommandList) {
 				if (it.commandName.compare(input) == 0) {
-					if (EmpList->GetEmployeeByID(LoginSys->GetLoggedInUserID())->GetPermission(it.reqPerms)) {// Check if user has permissions to do this.
+					if (EmpList.GetEmployeeByID(LoginSys.GetLoggedInUserID())->GetPermission(it.reqPerms)) {// Check if user has permissions to do this.
 						if (it.argNum == argnum) { // Check if user entered the right amount of arguments.
 							it.callbackFnc(arguments);
 						}
@@ -184,4 +184,14 @@ std::string ConsoleController::hidecin() {
 
 	std::cout << std::endl;
 	return result;
+}
+int ConsoleController::replaceAll(std::string& str, const std::string& from, const std::string& to) {
+	size_t start_pos = 0;
+	int nReplacements = 0;
+	while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
+		str.replace(start_pos, from.length(), to);
+		start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
+		nReplacements++;
+	}
+	return nReplacements;
 }

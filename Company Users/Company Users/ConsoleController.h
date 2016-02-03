@@ -63,7 +63,7 @@ public:
 	  *	@param MainCtrl Pointer to the EmployeeList used by Login system.
 	  *	@param LoginSys Pointer to Login system to get user permissions.
 	  */
-	static void CommandHandler(EmployeeList * MainCtrl, MainController * LoginSys);
+	static void CommandHandler(EmployeeList& MainCtrl, MainController& LoginSys);
 
 	/**
 	  * Create new command!
@@ -82,5 +82,11 @@ public:
 	  *	@returns Inputted string.
 	  */
 	static std::string hidecin();
+
+	/**
+	  * Replace string to another string inside a string :)
+	  * @returns Number of replacements.
+	  */
+	static int replaceAll(std::string& str, const std::string& from, const std::string& to);
 };
 

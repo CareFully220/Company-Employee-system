@@ -163,6 +163,7 @@ bool EmployeeList::SetEmployeeInfo(int id, EInfo InfoID, std::string newValue)
 {
 	Employee * tempEmp = GetEmployeeByID(id);
 	if (tempEmp != nullptr) {
+		ConsoleController::replaceAll(newValue, "\"", "");
 		tempEmp->SetInfo(InfoID, newValue);
 		return true;
 	}
@@ -250,10 +251,13 @@ void EmployeeList::ConCmd_CreateRoot()
 	std::string Firstname, Lastname, Username, Password;
 	std::cout << "Enter Employee's First name: ";
 	getline(std::cin, Firstname);
+	ConsoleController::replaceAll(Firstname, "\"", "");
 	std::cout << "Enter Employee's Last name: ";
 	getline(std::cin, Lastname);
+	ConsoleController::replaceAll(Lastname, "\"", "");
 	std::cout << "Enter Employee's Unique Username: ";
 	getline(std::cin, Username);
+	ConsoleController::replaceAll(Username, "\"", "");
 	while (true) {
 		std::cout << "Enter Employee's Password: ";
 		Password = ConsoleController::hidecin();
