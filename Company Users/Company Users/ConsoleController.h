@@ -1,10 +1,31 @@
+/* *********************************************************************
+* Employee User System
+* Copyright 2016 Marvin Hestein, Lauri Mäe
+*
+* This file is part of Employee User System.
+*
+* Employee User System is free software : you can redistribute it and / or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* Employee User System 2k16 is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with Employee User System. If not, see <http://www.gnu.org/licenses/>.
+*
+* ********************************************************************/
+
 /**
 * @file ConsoleController.h
-* @brief Handles all the console commands.
+* @brief Everything related to Commands.
 *
 */
-
 #pragma once
+
 #include <functional>
 #include <iostream>
 #include <string>
@@ -19,6 +40,7 @@
 class MainController;
 class EmployeeList;
 
+//! Single command.
 struct Command
 {
 	std::string commandName;
@@ -38,8 +60,8 @@ public:
 	static void PrintWelcomeMessage();
 	/**
 	  * Main command interface. This is a loop that asks for command input.
-	  *
-	  *	@param loginsystem Login system to get user permissions.
+	  *	@param MainCtrl Pointer to the EmployeeList used by Login system.
+	  *	@param LoginSys Pointer to Login system to get user permissions.
 	  */
 	static void CommandHandler(EmployeeList * MainCtrl, MainController * LoginSys);
 

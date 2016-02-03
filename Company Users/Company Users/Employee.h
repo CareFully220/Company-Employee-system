@@ -1,12 +1,30 @@
-#pragma once
+/* *********************************************************************
+* Employee User System
+* Copyright 2016 Marvin Hestein, Lauri Mäe
+*
+* This file is part of Employee User System.
+*
+* Employee User System is free software : you can redistribute it and / or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* Employee User System 2k16 is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with Employee User System. If not, see <http://www.gnu.org/licenses/>.
+*
+* ********************************************************************/
+
 /**
 * @file Employee.h
-* @brief Everyting nessescary for the employee(s) account including few functions.
-* 
-* 
+* @brief Everyting nessescary for the employees.
 *
 */
-
+#pragma once
 
 #include <fstream>
 #include <vector>
@@ -14,6 +32,7 @@
 #include "Permissions.h"
 #include "sha256.h"
 
+//! Informations that can be saved for each employee.
 enum EInfo {
 	EINF_INVALID = -1,
 	EINF_FIRSTNAME,
@@ -28,7 +47,7 @@ enum EInfo {
 
 	EINFOS
 };
-
+//! The names of the Informations.
 const std::string EmployeeInfoNames[EINFOS] = {
 	"firstname",
 	"lastname",
@@ -42,7 +61,7 @@ const std::string EmployeeInfoNames[EINFOS] = {
 };
 
 /**
-  * This class is responsible for all the information what one employee account should include.
+  * Responsible for all the information what one employee account should have.
   */
 class Employee {
 	static int newid;

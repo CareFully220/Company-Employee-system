@@ -1,9 +1,29 @@
-#pragma once
+/* *********************************************************************
+* Employee User System
+* Copyright 2016 Marvin Hestein, Lauri Mäe
+*
+* This file is part of Employee User System.
+*
+* Employee User System is free software : you can redistribute it and / or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* Employee User System 2k16 is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with Employee User System. If not, see <http://www.gnu.org/licenses/>.
+*
+* ********************************************************************/
+
 /**
   * @file EmployeeList.h
-  * @brief Includes class that creates a list of employees.
-  * You need to include this file if your program uses Employees.
+  * @brief Creates a list of employees.
   */
+#pragma once
 
 #include <functional>
 #include <iostream>
@@ -44,7 +64,7 @@ public:
 	//! Used only once to create root account!
 	void ConCmd_CreateRoot();
 
-	/** 
+	/**
 	  * Read employees data from file.
 	  *
 	  * @param FileName The name of the file that includes all the data of the Employees.
@@ -85,7 +105,7 @@ public:
 	//! @returns Pointer to the Employee with the specified ID or nullptr if no Employee with such ID was found.
 	Employee* GetEmployeeByID(int id);
 
-	int GetEmployeeCount(); //! Returns the count of the employees on the list.
+	int GetEmployeeCount(); //!< Returns the count of the employees on the list.
 
 	
 };
