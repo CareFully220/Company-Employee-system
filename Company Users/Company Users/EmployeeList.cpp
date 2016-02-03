@@ -116,7 +116,7 @@ bool EmployeeList::ConCmd_Save(cmdArgs Args)
 }
 bool EmployeeList::ConCmd_Add(cmdArgs Args)
 {
-
+	return true;
 }
 bool EmployeeList::ConCmd_Remove(cmdArgs Args)
 {
@@ -235,7 +235,7 @@ void EmployeeList::ConCmd_CreateRoot()
 	getline(std::cin, Username);
 	while (true) {
 		std::cout << "Enter Employee's Password: ";
-		getline(std::cin, Password);
+		Password = ConsoleController::hidecin();
 		if (Password.size() < 6 || Password.size() > 20) {
 			std::cout << "Password must be 6 to 20 characters long! Try Again...";
 		}

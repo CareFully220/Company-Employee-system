@@ -10,6 +10,8 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <windows.h>
+
 
 #include "Typedefs.h"
 #include "EmployeeList.h"
@@ -26,11 +28,10 @@ struct Command
 	callback callbackFnc;
 };
 //! Handles all commands
-//! This is static class! You should never make an object with it!
+//! This is static class! You should never make an object of it!
 class ConsoleController
 {
-	static int cinnum();
-	static void cinreset();
+	
 	static std::vector <Command> CommandList;
 
 public:
@@ -41,7 +42,6 @@ public:
 	  *	@param loginsystem Login system to get user permissions.
 	  */
 	static void CommandHandler(EmployeeList * MainCtrl, MainController * LoginSys);
-
 
 	/**
 	  * Create new command!
@@ -55,6 +55,10 @@ public:
 	  */
 	static void RegisterCommand(std::string commandName, int nArguments, int requiredPerms, callback callbackFnc, std::string description = "");
 
-	// Intregated Command handlers
+	/**
+	  * Used to get passwords. Hides the input. 
+	  *	@returns Inputted string.
+	  */
+	static std::string hidecin();
 };
 

@@ -55,7 +55,7 @@ void ConsoleController::CommandHandler(EmployeeList * EmpList, MainController * 
 				std::cout << "Enter your username: ";
 				getline(std::cin, Username);
 				std::cout << "Enter your password: ";
-				getline(std::cin, Password);
+				Password = hidecin();
 
 				int retval = LoginSys->LogIn(Username, Password, EmpList);
 				if (retval == 1) {
@@ -127,17 +127,40 @@ void ConsoleController::RegisterCommand(std::string commandName, int nArguments,
 		std::cerr << "Error registering command '" << "' !" << std::endl;
 	}
 }
-int ConsoleController::cinnum()
-{
-	int x;
-	while (!(std::cin >> x)) {
-		cinreset();
-		std::cout << "You didn't enter a number! please try again: ";
+std::string ConsoleController::hidecin() {
+	// Grabbed from http://www.cplusplus.com/forum/general/3570/#msg15410
+	// Set the console mode to no-echo, not-line-buffered input
+	std::string result;
+	DWORD mode, count;
+	HANDLE ih = GetStdHandle(STD_INPUT_HANDLE);
+	HANDLE oh = GetStdHandle(STD_OUTPUT_HANDLE);
+	if (!GetConsoleMode(ih, &mode))
+		throw std::runtime_error(
+			"You must be connected to a console to use this program.\n"
+			);
+	SetConsoleMode(ih, mode & ~(ENABLE_ECHO_INPUT | ENABLE_LINE_INPUT));
+	// Get the password string
+
+	char c;
+	while (ReadConsoleA(ih, &c, 1, &count, NULL) && (c != '\r') && (c != '\n'))
+	{
+		if (c == '\b')
+		{
+			if (result.length())
+			{
+				WriteConsoleA(oh, "\b \b", 3, &count, NULL);
+				result.erase(result.end() - 1);
+			}
+		}
+		else
+		{
+			WriteConsoleA(oh, "*", 1, &count, NULL);
+			result.push_back(c);
+		}
 	}
-	return x;
-}
-void ConsoleController::cinreset()
-{
-	std::cin.clear();
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	// Restore the console mode
+	SetConsoleMode(ih, mode);
+
+	std::cout << std::endl;
+	return result;
 }
