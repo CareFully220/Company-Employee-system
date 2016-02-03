@@ -49,7 +49,7 @@ struct Command
 	int reqPerms;
 	callback callbackFnc;
 };
-//! Handles all commands
+//! Handles all commands.
 //! This is static class! You should never make an object of it!
 class ConsoleController
 {
