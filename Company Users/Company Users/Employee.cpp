@@ -24,15 +24,15 @@
 
 int Employee::newid = 0;
 
-Employee::Employee(
+Employee::Employee( 
+	int id,
 	std::string firstname, std::string lastname,
 	std::string SSID, std::string address,
 	std::string gender, std::string position,
 	std::string education, std::string nationality,
 	std::string username, std::string password, std::string salt, int permissions) 
-	: id(newid++)
 {
-
+	this -> id = id;
 	SetInfo(EINF_GENDER, gender);
 	SetInfo(EINF_FIRSTNAME, firstname);
 	SetInfo(EINF_LASTNAME, lastname);
@@ -41,11 +41,15 @@ Employee::Employee(
 	SetInfo(EINF_POSITION, position);
 	SetInfo(EINF_EDUCATION, education);
 	SetInfo(EINF_NATIONALITY, nationality);
-
+	
 	this->username = username;
 	this->password = password;
 	this->salt = salt;
 	this->permissions = permissions;
+
+	if (newid <= id) { // Update the newid variable so any new Employee will not get used ID.
+		newid = id + 1;
+	}
 
 }
 
@@ -89,7 +93,10 @@ bool Employee::GetPermission(int perm)
 	else
 		return false;
 }
-
+bool Employee::IsRemoved()
+{
+	return GetPermission(PERM_DELETED);
+}
 
 // Get Functions
 int Employee::GetID()	

@@ -33,7 +33,6 @@
 #include <vector>
 #include <windows.h>
 
-
 #include "Typedefs.h"
 #include "EmployeeList.h"
 #include "MainController.h"

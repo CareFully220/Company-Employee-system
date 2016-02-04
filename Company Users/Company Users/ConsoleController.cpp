@@ -99,7 +99,9 @@ void ConsoleController::CommandHandler(EmployeeList& EmpList, MainController& Lo
 				if (it.commandName.compare(input) == 0) {
 					if (EmpList.GetEmployeeByID(LoginSys.GetLoggedInUserID())->GetPermission(it.reqPerms)) {// Check if user has permissions to do this.
 						if (it.argNum == argnum) { // Check if user entered the right amount of arguments.
-							it.callbackFnc(arguments);
+							if (!it.callbackFnc(arguments)) {
+								std::cout << "Usage >> " << it.commandDesc << std::endl;
+							}
 						}
 						else {
 							std::cerr << "Wrong number of arguments passed!" << std::endl;

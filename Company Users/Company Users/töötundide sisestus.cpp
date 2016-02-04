@@ -48,7 +48,7 @@ int Workhour_System::add_task(int person_id, float hours, std::string descriptio
 void Workhour_System::remove_task(int task_id)
 {
 	for (int i = 0; i < (int)list.size(); i++) {
-		if (list[i].task_id = task_id) {
+		if (list[i].task_id == task_id) {
 			list.erase(list.begin()+i);
 			return;
 		}

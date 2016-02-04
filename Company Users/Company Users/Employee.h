@@ -65,8 +65,7 @@ const std::string EmployeeInfoNames[EINFOS] = {
   */
 class Employee {
 	static int newid;
-	const int id;
-	int gender;
+	int id;
 
 	std::string Info[EINFOS];
 
@@ -79,12 +78,14 @@ class Employee {
 	std::string CreateSalt(); //!< Creates a 10 character random string.
 
 	//! Used to create empty employee object.
-	Employee() : id(newid++), permissions(PERM_USER) {
+	Employee() : id(newid++), permissions(0) {
 	}
 
 public:
+
 	//! Should only be used when loading employees from file. This Constructor needs already hashed password.
 	Employee(
+		int id,
 		std::string firstname, std::string lastname,
 		std::string SSID, std::string address, 
 		std::string gender, std::string position, 
@@ -96,7 +97,7 @@ public:
 	Employee(std::string firstname, std::string lastname);
 	
 	//! Create an account ( username, password and permissions )
-	void CreateAccount(std::string username, std::string password, int perms = PERM_USER | PERM_ALLOWLOGIN);
+	void CreateAccount(std::string username, std::string password, int perms = PERM_DEFAULT);
 
 	void AddPermission(int perm); //!< Add permissions
 
@@ -121,6 +122,8 @@ public:
 	//! @see Permissions.h
 	bool GetPermission(int perm);
 
+	bool IsRemoved();
+
 	int GetID();				//!< Returns employees ID
 
 	/** Get employee's info	
@@ -141,5 +144,30 @@ public:
 
 	//! Set new password.
 	void SetPassword(std::string Passwd);
+
+	// assignment operator
+	/*Employee& Employee::operator= (const Employee &cSource)
+	{
+		// check for self-assignment by comparing the address of the
+		// implicit object and the parameter
+		if (this == &cSource)
+			return *this;
+
+		// do the copy
+		newid = cSource.newid;
+		id = cSource.id;
+		gender = cSource.gender;
+
+		for (int i = 0; i < EINFOS; i++) {
+			Info[i] = cSource.Info[i];
+		}
+		username = cSource.username;
+		password = cSource.password;
+		salt = cSource.salt;
+		permissions = cSource.permissions;
+
+		// return the existing object
+		return *this;
+	}*/
 
 };

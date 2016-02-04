@@ -35,7 +35,7 @@ int MainController::LogIn(std::string Username, std::string Password, EmployeeLi
 		for (auto &it : EmpList.Employees) {
 			if (it.GetUsername().compare(Username) == 0) {  // Check if the username is correct
 				if (it.CheckPassword(Password)) { // Check if the password is correct
-					if (it.GetPermission(PERM_ALLOWLOGIN) || it.GetPermission(PERM_ROOT)) { // check if user has permission to login
+					if (it.GetPermission(PERM_ALLOWLOGIN) && !it.GetPermission(PERM_DELETED)) { // check if user has permission to login
 						bLoggedIn = true;
 						LoggedUserID = it.GetID();
 						return 1;

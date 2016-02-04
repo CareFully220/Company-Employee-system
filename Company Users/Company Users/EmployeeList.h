@@ -44,15 +44,14 @@ class EmployeeList
 {
 protected:
 	std::vector <Employee> Employees;
-	
 
 	// Command Callbacks
 	bool ConCmd_Load(cmdArgs Args);
 	bool ConCmd_Save(cmdArgs Args);
-	bool ConCmd_Add(cmdArgs Args);
 	bool ConCmd_Remove(cmdArgs Args);
 	bool ConCmd_List(cmdArgs Args);
 	bool ConCmd_Create(cmdArgs Args);
+	bool ConCmd_CreateUser(cmdArgs Args);
 	bool ConCmd_GetInfo(cmdArgs Args);
 	bool ConCmd_SetInfo(cmdArgs Args);
 
@@ -87,9 +86,11 @@ public:
 	/**
 	* Remove employee.
 	* @param id User ID.
-	* @returns True if Employee with such id was found and removed. False otherwise.
+	* @returns 1 if Employee with such id was found and removed.
+	* @returns 0 if Employee with such id was found but already removed.
+	* @returns -1 if Employee with such id was not found.
 	*/
-	bool RemoveEmployee(int id);
+	int RemoveEmployee(int id);
 
 	/**
 	* Get info about one Employee.
@@ -101,11 +102,14 @@ public:
 
 	bool SetEmployeeInfo(int id, EInfo InfoID, std::string newValue);
 	
-	//! Returns Employee's pointer so it is possible to get it's information.
-	//! @returns Pointer to the Employee with the specified ID or nullptr if no Employee with such ID was found.
-	Employee* GetEmployeeByID(int id);
-
+	//! Returns true if Employee with given id exists.
+	bool IsValidID(int id);
+	
 	int GetEmployeeCount(); //!< Returns the count of the employees on the list.
 
+	//! Returns Employee's pointer so it is possible to get it's information.
+	//! If possible, do not use this, use GetEmployeeInfo() instead.
+	//! @returns Pointer to the Employee with the specified ID or nullptr if no Employee with such ID was found.
+	Employee* GetEmployeeByID(int id);
 	
 };

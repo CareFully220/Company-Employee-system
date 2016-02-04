@@ -31,7 +31,7 @@ bool EmployeeList::LoadEmployees(std::string FileName )
 	std::string szBuffer; // Buffer to store selected line
 
 	std::string UserData[13];
-	int iUserData[1];
+	int iUserData[2];
 	while (std::getline(file, szBuffer)) {
 		// Check if the line is empty
 		if (szBuffer[0] != '\0') {
@@ -45,9 +45,9 @@ bool EmployeeList::LoadEmployees(std::string FileName )
 				if (szField[0] == '\0') continue;
 				UserData[i] = szField;
 			}
-
-			iUserData[0] = atoi(UserData[11].c_str());
-			AddEmployee(Employee(UserData[0], UserData[1], UserData[2], UserData[3], UserData[4], UserData[5], UserData[6], UserData[7], UserData[8], UserData[9], UserData[10], iUserData[0]));
+			iUserData[0] = atoi(UserData[0].c_str());
+			iUserData[1] = atoi(UserData[12].c_str());
+			AddEmployee(Employee( iUserData[0], UserData[1], UserData[2], UserData[3], UserData[4], UserData[5], UserData[6], UserData[7], UserData[8], UserData[9], UserData[10], UserData[11], iUserData[1]));
 		}
 	}
 	if (GetEmployeeCount()) 
@@ -69,7 +69,8 @@ void EmployeeList::SaveEmployees(std::string FileName )
 		std::string gender, std::string position, 
 		std::string education, std::string nationality,
 		std::string username, std::string password, std::string salt, int permissions);*/
-		file << "\"" << it.GetInfo(EINF_FIRSTNAME) << "\" \""
+		file << "\"" << it.GetID() << "\" \""
+			<< it.GetInfo(EINF_FIRSTNAME) << "\" \""
 			<< it.GetInfo(EINF_LASTNAME) << "\" \""
 			<< it.GetInfo(EINF_SSID) << "\" \""
 			<< it.GetInfo(EINF_ADDRESS) << "\" \""
@@ -92,15 +93,21 @@ void EmployeeList::AddEmployee(Employee newEmployee)
 }
 
 // Remove employee
-bool EmployeeList::RemoveEmployee(int id)
+int EmployeeList::RemoveEmployee(int id)
 {
 	for (auto it = Employees.begin(); it != Employees.end(); it++) {
 		if (it->GetID() == id) {
-			//Employees.erase(it);
-			return true;
+			if (!it->IsRemoved()) {
+				it->AddPermission(PERM_DELETED);
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
 		}
 	}
-	return false;
+	return -1;
 }
 
 int EmployeeList::GetEmployeeCount() //Returns value of how many employees are there
@@ -113,51 +120,29 @@ int EmployeeList::GetEmployeeCount() //Returns value of how many employees are t
 	else
 		return nullptr;
 }*/
-
+bool EmployeeList::IsValidID(int id) {
+	for (int i = 0; i < GetEmployeeCount(); i++) {
+		if (Employees[i].GetID() == id && !Employees[i].IsRemoved()) {
+			return true;
+		}
+	}
+	return nullptr;
+}
 Employee* EmployeeList::GetEmployeeByID(int id) {
 	for (int i = 0; i < GetEmployeeCount(); i++) {
-		if (Employees[i].GetID() == id) {
+		if (Employees[i].GetID() == id && !Employees[i].IsRemoved()) {
 			return &Employees[i];
 		}
 	}
 	return nullptr;
 }
-
-
-// Command Callbacks
-bool EmployeeList::ConCmd_Load(cmdArgs Args)
-{
-	return true;
-}
-bool EmployeeList::ConCmd_Save(cmdArgs Args)
-{
-	SaveEmployees("EmloyeeData.db");
-	std::cout << "Employees saved!" << std::endl;
-	return true;
-}
-bool EmployeeList::ConCmd_Add(cmdArgs Args)
-{
-	return true;
-}
-bool EmployeeList::ConCmd_Remove(cmdArgs Args)
-{
-	int id = atoi(Args[0].c_str());
-	if (RemoveEmployee(id)) {
-		std::cout << "Sucessfully removed Employee ID: " << id << std::endl;
-		return true;
-	}
-	else {
-		std::cout << "Didn't find Employee with ID: " << id << std::endl;
-		return true;
-	}
-}
-std::string EmployeeList::GetEmployeeInfo(int id, EInfo InfoID) 
+std::string EmployeeList::GetEmployeeInfo(int id, EInfo InfoID)
 {
 	Employee * tempEmp = GetEmployeeByID(id);
-	if (tempEmp != nullptr)
+	if (tempEmp != nullptr && !tempEmp->IsRemoved())
 		return tempEmp->GetInfo(InfoID);
-	else 
-		return "";
+
+	return "";
 }
 bool EmployeeList::SetEmployeeInfo(int id, EInfo InfoID, std::string newValue)
 {
@@ -173,39 +158,118 @@ bool EmployeeList::SetEmployeeInfo(int id, EInfo InfoID, std::string newValue)
 	}
 }
 
+// Command Callbacks
+bool EmployeeList::ConCmd_Load(cmdArgs Args)
+{
+	return true;
+}
+bool EmployeeList::ConCmd_Save(cmdArgs Args)
+{
+	SaveEmployees("EmloyeeData.db");
+	std::cout << "Employees saved!" << std::endl;
+	return true;
+}
+bool EmployeeList::ConCmd_Remove(cmdArgs Args)
+{
+	// Get arguments
+	int id = atoi(Args[0].c_str());
+
+	int retval = RemoveEmployee(id); // Remove Employee
+	// Check if it failed
+	if (retval == 1) {
+		std::cout << "Sucessfully removed Employee ID: " << id << std::endl;
+		return true;
+	}
+	else if ( retval == -1 ){
+		std::cout << "Didn't find Employee with ID: " << id << std::endl;
+		return true;
+	}
+	else {
+		std::cout << "Employee with ID " << id << " is already removed!" << std::endl;
+		return true;
+	}
+}
 bool EmployeeList::ConCmd_List(cmdArgs Args)
 {
-	std::cout << " ID    Name                   User Name" << std::endl;
+	std::cout << " ID    | Name                    | Username" << std::endl;
+	std::cout << "=======================================================" << std::endl;
 	for (auto &it : Employees) {
-		std::cout << "[ " << it.GetID() << " ] " << it.GetInfo(EINF_FIRSTNAME) << " " << it.GetInfo(EINF_LASTNAME) << " | " << it.GetUsername() << std::endl;
+		if (!it.IsRemoved()){
+			std::string temp;
+			std::stringstream spaces;
+
+			temp = " [" + std::to_string(it.GetID()) + "] "; // Format id column.
+			for (int i = 9 - temp.length(); i > 0; i--) spaces << " "; // Calculate the number of spaces we need to add.
+			std::cout << temp << spaces.str(); // Print the ID with the spaces
+			// Reset and clear space string
+			spaces.str(std::string());
+			spaces.clear();
+
+			temp = it.GetInfo(EINF_FIRSTNAME) + " " + it.GetInfo(EINF_LASTNAME);  // Format name column.
+			for (int i = 26 - temp.length(); i > 0; i--) spaces << " "; // Calculate the number of spaces we need to add.
+			std::cout << temp << spaces.str(); // Print the name with the spaces
+			std::cout << it.GetUsername() << std::endl; // Print the Username. Since nothing will come after this, we don't need t ocalculate the spaces.
+		}
 	}
 	return true;
 }
 bool EmployeeList::ConCmd_Create(cmdArgs Args)
 {
+	// Get arguments
 	std::string Firstname = Args[0];
 	std::string Lastname = Args[1];
-	std::string Username = Args[2];
-	std::string Password = Args[3];
 
-	if (Firstname[0] == '\0' || Lastname[0] == '\0' || Username[0] == '\0') {
-		std::cout << "You did not enter required arguments!" << std::endl;
-		return false;
-	}
-	for (auto &it : Employees) {
-		if (it.GetUsername().compare(Username) == 0) {
-			std::cout << "Given Account Name is already in use!" << std::endl;
-			return true;
-		}
-	}
-	if (Password.size() < 6 || Password.size() > 20) {
-		std::cout << "Password must be 6 to 20 characters long!" << std::endl;
+	Employee newEmployee(Firstname, Lastname);
+	AddEmployee(newEmployee);
+	return true;
+}
+bool EmployeeList::ConCmd_CreateUser(cmdArgs Args)
+{
+	// Get arguments
+	int userid = atoi(Args[0].c_str()); 
+
+	std::string Username, Password;
+
+	// Check if Employee with such id exist.
+	Employee* TempEmp = GetEmployeeByID(userid);
+	if (TempEmp == nullptr) { 
+		std::cout << "Didn't find Employee with id: " << userid << std::endl;
 		return true;
 	}
 
-	Employee newEmployee(Firstname, Lastname);
-	newEmployee.CreateAccount(Username, Password, PERM_USER | PERM_ALLOWLOGIN);
-	AddEmployee(newEmployee);
+	// Ask for Employee's username.
+	bool bIsUnique;
+	do {
+		bIsUnique = true;
+		std::cout << "Enter Employee's Unique Username: ";
+		getline(std::cin, Username);
+		ConsoleController::replaceAll(Username, "\"", "");
+
+		// Check if no other Employee has such username.
+		for (auto &it : Employees) {
+			if (it.GetUsername().compare(Username) == 0) {
+				bIsUnique = false;
+				std::cout << "Entered username is already in use!  Try Again..." << std::endl;
+				break;
+			}
+		}
+
+	} while (!bIsUnique); // If Username was not unique, ask again
+
+	// Ask for Employee's password.
+	while (true) {
+		std::cout << "Enter Employee's Password: ";
+		Password = ConsoleController::hidecin(); // Use hidecin to not show the password.
+
+		// Check if password is the right length
+		if (Password.size() < 6 || Password.size() > 20) {
+			std::cout << "Password must be 6 to 20 characters long! Try Again..." << std::endl;
+		}
+		else break;
+	}
+
+	// Create the account.
+	TempEmp->CreateAccount(Username, Password, PERM_DEFAULT );
 	return true;
 }
 bool EmployeeList::ConCmd_GetInfo(cmdArgs Args)
@@ -264,7 +328,7 @@ void EmployeeList::ConCmd_CreateRoot()
 		std::cout << "Enter Employee's Password: ";
 		Password = ConsoleController::hidecin();
 		if (Password.size() < 6 || Password.size() > 20) {
-			std::cout << "Password must be 6 to 20 characters long! Try Again...";
+			std::cout << "Password must be 6 to 20 characters long! Try Again..." << std::endl;
 		}
 		else break;
 	}
@@ -278,11 +342,12 @@ EmployeeList::EmployeeList()
 {
 	using namespace std::placeholders; // for `_1` placeholder
 	
-	ConsoleController::RegisterCommand("load", 0, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_Load, this, _1), "Loads all Employees from file.");
+	//ConsoleController::RegisterCommand("load", 0, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_Load, this, _1), "Loads all Employees from file.");
 	ConsoleController::RegisterCommand("save", 0, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_Save, this, _1), "Saves all Employees to file.");
 	ConsoleController::RegisterCommand("list", 0, PERM_VIEWUSERS, std::bind(&EmployeeList::ConCmd_List, this, _1), "Prints a list that contains all Employees.");
 	ConsoleController::RegisterCommand("remove", 1, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_Remove, this, _1), "Params: <UserID> | Remove Employee with specific UserID.");
-	ConsoleController::RegisterCommand("add", 4, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_Create, this, _1), "Params: <Frist name> <Last name> <Username> <Password> | Create a new Employee.");
+	ConsoleController::RegisterCommand("adduser", 1, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_CreateUser, this, _1), "Params: <UserID> | Create an Account for an employee.");
+	ConsoleController::RegisterCommand("addemployee", 2, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_Create, this, _1), "Params: <Frist name> <Last name> | Create a new Employee.");
 	ConsoleController::RegisterCommand("getinfo", 1, PERM_VIEWUSERS, std::bind(&EmployeeList::ConCmd_GetInfo, this, _1), "Params: <UserID> | Get Employee data.");
 	ConsoleController::RegisterCommand("setinfo", 3, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_SetInfo, this, _1), "Params: <UserID> <Info name> <new value> | Set Employee data.");
 }
