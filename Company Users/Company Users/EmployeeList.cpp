@@ -161,7 +161,8 @@ std::string EmployeeList::GetEmployeeInfo(int id, EInfo InfoID)
 }
 bool EmployeeList::SetEmployeeInfo(int id, EInfo InfoID, std::string newValue)
 {
-	Employee * tempEmp = GetEmployeeByID(id);
+	Employee * tempEmp = nullptr;
+	tempEmp = GetEmployeeByID(id);
 	if (tempEmp != nullptr) {
 		ConsoleController::replaceAll(newValue, "\"", "");
 		tempEmp->SetInfo(InfoID, newValue);
@@ -174,9 +175,9 @@ bool EmployeeList::SetEmployeeInfo(int id, EInfo InfoID, std::string newValue)
 
 bool EmployeeList::ConCmd_List(cmdArgs Args)
 {
-	std::cout << " ID - First Name - Last Name - User Name" << std::endl;
+	std::cout << " ID    Name                   User Name" << std::endl;
 	for (auto &it : Employees) {
-		std::cout << "[ " << it.GetID() << " ] " << it.GetInfo(EINF_FIRSTNAME) << " - " << it.GetInfo(EINF_LASTNAME) << " - " << it.GetUsername() << std::endl;
+		std::cout << "[ " << it.GetID() << " ] " << it.GetInfo(EINF_FIRSTNAME) << " " << it.GetInfo(EINF_LASTNAME) << " | " << it.GetUsername() << std::endl;
 	}
 	return true;
 }
@@ -239,8 +240,9 @@ bool EmployeeList::ConCmd_SetInfo(cmdArgs Args)
 		std::cout << std::endl;
 		return true;
 	}
-	if (SetEmployeeInfo(userid, infoID, newValue))
+	if (SetEmployeeInfo(userid, infoID, newValue)) {
 		std::cout << "Successfully changed Employee's info! " << std::endl;
+	}
 	else
 		std::cout << "Didn't find Employee with id: " << userid << std::endl;
 

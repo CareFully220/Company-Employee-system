@@ -98,7 +98,7 @@ int Employee::GetID()
 }
 std::string Employee::GetInfo(EInfo infoID)
 {
-	if (infoID <= 0 && infoID < EINFOS) {
+	if (infoID >= 0 && infoID < EINFOS) {
 		return Info[infoID];
 	}
 	else {
@@ -108,7 +108,7 @@ std::string Employee::GetInfo(EInfo infoID)
 }
 bool Employee::SetInfo(EInfo infoID, std::string value)
 {
-	if (infoID <= 0 && infoID < EINFOS) {
+	if (infoID >= 0 && infoID < EINFOS) {
 		Info[infoID] = value;
 		return true;
 	}
