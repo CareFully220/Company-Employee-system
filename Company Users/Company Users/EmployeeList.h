@@ -37,6 +37,28 @@
 
 class ConsoleController;
 class MainController;
+
+
+class InventorySystem {
+	EmployeeList * EmpList;
+public:
+	InventorySystem(EmployeeList * newEmpList) : EmpList(newEmpList) {}
+	void printNameAndNation(int UserID);
+};
+
+void InventorySystem::printNameAndNation(int UserID) {
+	// Võtame töötaja nime ja rahvuse ning prindime selle konsoolile.
+	std::cout << EmpList->GetEmployeeInfo(UserID, EINF_FIRSTNAME) << " " << // Eesnimi
+		EmpList->GetEmployeeInfo(UserID, EINF_LASTNAME) << // Perekonnanimi
+		" is " << 
+		EmpList->GetEmployeeInfo(UserID, EINF_NATIONALITY) << // Rahvus
+		std::endl; // Lõpetame rea
+	// Kõikide erinevate infode nimesid saad vaadata Employee.h'st.
+}
+
+
+
+
 /**
   * Creates a list of employees and everything required to modify the list.
   */
@@ -55,6 +77,8 @@ protected:
 	bool ConCmd_GetInfo(cmdArgs Args);
 	bool ConCmd_SetInfo(cmdArgs Args);
 
+	
+
 	friend MainController;
 public:
 	//! Constructor. Registers Employee manipulation commands.
@@ -64,7 +88,7 @@ public:
 	void ConCmd_CreateRoot();
 
 	/**
-	  * Read employees data from file.
+	  * Read employees data from file. Only called once at the beginning.
 	  *
 	  * @param FileName The name of the file that includes all the data of the Employees.
 	  * @returns True if any Employee was found, false if no employee was found or there was no file.
@@ -78,7 +102,7 @@ public:
 	void SaveEmployees(std::string FileName );
 
 	/**
-	  * Add employee.
+	  * Add employee to the list.
 	  * @param newEmployee Initialized Employee object.
 	  */
 	void AddEmployee(Employee newEmployee);

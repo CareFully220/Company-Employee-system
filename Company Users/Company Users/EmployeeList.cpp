@@ -285,6 +285,7 @@ bool EmployeeList::ConCmd_GetInfo(cmdArgs Args)
 }
 bool EmployeeList::ConCmd_SetInfo(cmdArgs Args)
 {
+
 	int userid = atoi(Args[0].c_str());
 	std::string infoName = Args[1];
 	std::string newValue = Args[2];

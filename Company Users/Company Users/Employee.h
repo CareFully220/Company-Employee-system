@@ -56,7 +56,7 @@ const std::string EmployeeInfoNames[EINFOS] = {
 	"gender",
 	"position",
 	"education",
-	"nation",
+	"nationality",
 	"department"
 };
 
