@@ -236,7 +236,11 @@ bool EmployeeList::ConCmd_CreateUser(cmdArgs Args)
 		std::cout << "Didn't find Employee with id: " << userid << std::endl;
 		return true;
 	}
-
+	// Check if user already has an account.
+	if (TempEmp->GetPermission(PERM_USER)) {
+		std::cout << "Employee id " << userid << "already has an account!" << std::endl;
+		return true;
+	}
 	// Ask for Employee's username.
 	bool bIsUnique;
 	do {
