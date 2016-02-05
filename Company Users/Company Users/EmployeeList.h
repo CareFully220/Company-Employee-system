@@ -37,28 +37,6 @@
 
 class ConsoleController;
 class MainController;
-
-
-class InventorySystem {
-	EmployeeList * EmpList;
-public:
-	InventorySystem(EmployeeList * newEmpList) : EmpList(newEmpList) {}
-	void printNameAndNation(int UserID);
-};
-
-void InventorySystem::printNameAndNation(int UserID) {
-	// Võtame töötaja nime ja rahvuse ning prindime selle konsoolile.
-	std::cout << EmpList->GetEmployeeInfo(UserID, EINF_FIRSTNAME) << " " << // Eesnimi
-		EmpList->GetEmployeeInfo(UserID, EINF_LASTNAME) << // Perekonnanimi
-		" is " << 
-		EmpList->GetEmployeeInfo(UserID, EINF_NATIONALITY) << // Rahvus
-		std::endl; // Lõpetame rea
-	// Kõikide erinevate infode nimesid saad vaadata Employee.h'st.
-}
-
-
-
-
 /**
   * Creates a list of employees and everything required to modify the list.
   */
