@@ -67,6 +67,7 @@ void ConsoleController::CommandHandler(EmployeeList& EmpList)
 			return;
 		}
 		else if (input.compare("help") == 0) {
+			// TODO: Make list multipaged.
 			std::cout << "===== Help =====" << std::endl;
 			for (auto &it : CommandList) {
 				std::cout << " " << it.commandName << " - " << it.commandDesc << std::endl;

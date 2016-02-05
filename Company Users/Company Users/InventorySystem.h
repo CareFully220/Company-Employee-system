@@ -32,6 +32,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ConsoleController.h"
 using namespace std;
 
+/* Some notes for you Karl and/or Kevin... and maybe to Lauri?:
+	* You should make ID's into intregers.
+	* So that i wouldn't change the whole code, I left the menu as it is (only fixed it). 
+		If you want you can make all the menu items into commands.
+	* I made seperate Inventory Class that controls the devices.
+	* You need to make checks where user needs to enter user id for example.
+		You need to check if it's valid.
+	* I commented the code i wrote as much as i could.
+
+	-- by *CareFully*
+*/
 
 //class about device
 class Device {

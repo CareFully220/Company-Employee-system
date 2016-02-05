@@ -110,7 +110,6 @@ int EmployeeList::RemoveEmployee(int id)
 	}
 	return -1;
 }
-
 int EmployeeList::GetEmployeeCount() //Returns value of how many employees are there
 {
 	return (int)Employees.size();
@@ -174,19 +173,36 @@ bool EmployeeList::ConCmd_Remove(cmdArgs Args)
 {
 	// Get arguments
 	int id = atoi(Args[0].c_str());
-	// Check if Employee user is trying to remove is currently logged in.
-	if (MainController::GetLoggedInUserID() == id) {
+
+	// Logged in user id
+	int luserid = MainController::GetLoggedInUserID();
+	// Check if Employee that the user is trying to remove is currently logged in.
+	if (luserid == id) {
 		std::cout << "You are currently logged in with this user. You can't remove it!" << std::endl;
 		return true;
 	}
-	int retval = RemoveEmployee(id); // Remove Employee
+	// Get employee pointer so we can work on it more easily
+	Employee * TempEmp = GetEmployeeByID(id);
+	
+	if (TempEmp != nullptr) {
+		// Check if the Employee that the user is trying to remove is an admin,
+		// and if the user who is deleting is not an admin.
+		if (TempEmp->GetPermission(PERM_ADMIN) && !(GetEmployeeByID(luserid)->GetPermission(PERM_ADMIN))) { // Pretty badly optimized. sorry.
+				std::cout << "The employee you are trying to remove is an admin!" << std::endl;
+				std::cout << "Only admins can remove admin accounts!" << std::endl;
+				return true;
+		}
+	}
+	else {
+		std::cout << "Didn't find Employee with ID: " << id << std::endl;
+		return true;
+	}
+
+	// Remove Employee
+	int retval = RemoveEmployee(id); 
 	// Check if it failed
 	if (retval == 1) {
 		std::cout << "Sucessfully removed Employee ID: " << id << std::endl;
-		return true;
-	}
-	else if ( retval == -1 ){
-		std::cout << "Didn't find Employee with ID: " << id << std::endl;
 		return true;
 	}
 	else {

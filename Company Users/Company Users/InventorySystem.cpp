@@ -75,10 +75,18 @@ void Inventory::loadDevices() {
 		getline(ss, field, ','); setPrice = field;
 		getline(ss, field, ','); buyDate = field;
 		getline(ss, field, ','); description = field;
-		
+		// If the loaded device had bigger id than newid then we need to increase the newid
+		// because we don't want to set this same id to any other device we might create later
+		int curid = atoi(device_ID.c_str()); // Convert id to intreger.
+		if (newid < curid) {
+			newid = curid + 1;
+		}
+
+		// Create new device and push it to list
+		deviceList.push_back(Device(name, device_ID, model_ID, user_ID, location, setPrice, buyDate, description));
 	}
 
-	cout << "Device successfully added!" << endl;
+	cout << "Devices successfully loaded!" << endl;
 	File.close();
 
 }
@@ -107,10 +115,12 @@ void Inventory::addDevice() {
 
 	string name, device_ID, model_ID, user_ID, location, setPrice, buyDate, description;
 
+	// Instead of letting user to choose the id, we'll add it automatically
+	// And increase the newid so the next device would not get the same id.
+	device_ID = to_string(newid++); // Here we would not need to this conversion if id's would be ints.
+	
 	cout << "Enter device name: ";
 	getline(cin, name);
-	cout << "Add device ID: ";
-	getline(cin, device_ID);
 	cout << "Add model ID: ";
 	getline(cin, model_ID);
 	cout << "Add user ID: ";

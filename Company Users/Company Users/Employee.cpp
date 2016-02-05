@@ -54,7 +54,7 @@ Employee::Employee(
 }
 
 
-Employee::Employee(std::string firstname, std::string lastname) : id(newid++), permissions(PERM_USER) {
+Employee::Employee(std::string firstname, std::string lastname) : id(newid++), permissions(0) {
 	SetInfo(EINF_FIRSTNAME, firstname);
 	SetInfo(EINF_LASTNAME, lastname);
 }
