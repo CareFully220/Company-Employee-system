@@ -54,7 +54,6 @@ protected:
 	bool ConCmd_CreateUser(cmdArgs Args);
 	bool ConCmd_GetInfo(cmdArgs Args);
 	bool ConCmd_SetInfo(cmdArgs Args);
-
 	
 
 	friend MainController;

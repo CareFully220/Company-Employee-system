@@ -175,7 +175,7 @@ bool EmployeeList::ConCmd_Remove(cmdArgs Args)
 	// Get arguments
 	int id = atoi(Args[0].c_str());
 	// Check if Employee user is trying to remove is currently logged in.
-	if (MainController::GetLoggedInUserID() != id) {
+	if (MainController::GetLoggedInUserID() == id) {
 		std::cout << "You are currently logged in with this user. You can't remove it!" << std::endl;
 		return true;
 	}
