@@ -40,7 +40,7 @@ int main()
 
 	EmployeeList Employees;
 	//MainController Loginsys;
-	Device Inventory;
+	Inventory Inv;
 	// Load employees
 	std::cout << "< Loading Employees." << std::endl;
 	

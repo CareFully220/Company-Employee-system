@@ -25,32 +25,46 @@ Changelog:
 #include "stdafx.h"
 #include "InventorySystem.h"
 
-bool Device::ConCmd_addDevice(cmdArgs Args) 
-{
-	addDevice();
-	return true;
-}
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <cstdlib>
+using namespace std;
 
-Device::Device() {
+// Constructor
+Inventory::Inventory() { 
+	newid = 0; // We will start from the id 0.
+
+	// Register commands
 	using namespace std::placeholders; // for `_1` placeholder
+	ConsoleController::RegisterCommand("inventory", 0, PERM_MODIFYINVENTORY, std::bind(&Inventory::ConCmd_Menu, this, _1), "Enter the inventory system.");
 
-	//ConsoleController::RegisterCommand("device_add", 0, PERM_MODIFYINVENTORY, std::bind(&Device::ConCmd_addDevice, this, _1), "Add a new device.");
-	//ConsoleController::RegisterCommand("device_change", 1, PERM_MODIFYINVENTORY, std::bind(&Device::ConCmd_addDevice, this, _1), "Params: <Device ID> | Change a device.");
-
-	/*cout << "[3]Remove device" << endl; //removeDevice();
-	cout << "[4]Inventory overview" << endl;  //showDevices();
-	cout << "[5]Model-based overview" << endl; //showModelDevices();
-	cout << "[6]Inventory total value" << endl; //totalValue();*/
+	// Load inventory.
+	loadDevices(); 
 }
+//==================================================================================================================//
+bool Inventory::removeDevice(string Device_ID) {
+	// Loop through all devices
+	for (int i = 0; i < (int)deviceList.size(); i++) { 
+		// Check if we got a correct one
+		if (deviceList[i].getDevice_ID() == Device_ID) { 
+			// If we did erase it and return true.
+			deviceList.erase(deviceList.begin() + i);
+			return true;
+		}
+	}
+	// If we didn't find device with specified id.
+	return false;
+}
+//==================================================================================================================//
+void Inventory::loadDevices() {
+	ifstream File("Inventory.db"); //change later to devices.db file
 
-
-void Device::addDevice() {
-	fstream File("info.txt", fstream::in | fstream::out); //change later to devices.db file
-	vector<Device*> deviceList;
 
 	string record;
 	while (getline(File, record)) {
-		Device *newDevice = new Device();
 		istringstream ss(record);
 		string field, name, device_ID, model_ID, user_ID, location, setPrice, buyDate, description;
 		getline(ss, field, ','); name = field;
@@ -61,9 +75,37 @@ void Device::addDevice() {
 		getline(ss, field, ','); setPrice = field;
 		getline(ss, field, ','); buyDate = field;
 		getline(ss, field, ','); description = field;
-		newDevice->setDevice(name, device_ID, model_ID, user_ID, location, setPrice, buyDate, description);
-		deviceList.push_back(newDevice);
+		
 	}
+
+	cout << "Device successfully added!" << endl;
+	File.close();
+
+}
+//==================================================================================================================//
+void Inventory::saveDevices() {
+
+	{
+		ofstream File("Inventory.db");
+		//cout << deviceList.size(); // <- this shows how many lines are in the info.txt file
+		for (int i = 0; i < (int)deviceList.size(); i++) {
+			File << deviceList[i].getName() << ", ";
+			File << deviceList[i].getDevice_ID() << ", ";
+			File << deviceList[i].getModel_ID() << ", ";
+			File << deviceList[i].getUser_ID() << ", ";
+			File << deviceList[i].getLocation() << ", ";
+			File << deviceList[i].getDescription() << ", ";
+			File << deviceList[i].getPrice() << ", ";
+			File << deviceList[i].setDate() << "\n";
+		}
+		File.close();
+	}
+}
+
+//==================================================================================================================//
+void Inventory::addDevice() {
+
+	string name, device_ID, model_ID, user_ID, location, setPrice, buyDate, description;
 
 	cout << "Enter device name: ";
 	getline(cin, name);
@@ -82,68 +124,39 @@ void Device::addDevice() {
 	cout << "Add device description: ";
 	getline(cin, description);
 
-	Device *newDevice = new Device();
-	newDevice->setDevice(name, device_ID, model_ID, user_ID, location, setPrice, buyDate, description); // setPrice == buyPrice
-	deviceList.push_back(newDevice);
-	cout << "Device successfully added!" << endl;
-	File.close();
-	{
-		ofstream File("info.txt");
-		cout << deviceList.size();
-		for (int i = 0; i < (int)deviceList.size(); i++) {
-			File << deviceList[i]->getName() << ", ";
-			File << deviceList[i]->getDevice_ID() << ", ";
-			File << deviceList[i]->getModel_ID() << ", ";
-			File << deviceList[i]->getUser_ID() << ", ";
-			File << deviceList[i]->getLocation() << ", ";
-			File << deviceList[i]->getDescription() << ", ";
-			File << deviceList[i]->getPrice() << ", ";
-			File << deviceList[i]->setDate() << "\n";
+	// Create new device and push it to list
+	deviceList.push_back(Device(name, device_ID, model_ID, user_ID, location, setPrice, buyDate, description));
+	// Save devices
+	saveDevices();
+}
+//==================================================================================================================//
+bool Inventory::ConCmd_Menu(cmdArgs Args) {
+
+	while (true) {
+		string input; // user option
+
+		cout << "[1]Add device" << endl; //addDevice();
+		cout << "[2]Change device" << endl; //changeDevice();
+		cout << "[3]Remove device" << endl; //removeDevice();
+		cout << "[4]Inventory overview" << endl;  //showDevices();
+		cout << "[5]Model-based overview" << endl; //showModelDevices();
+		cout << "[6]Inventory total value" << endl; //totalValue();
+		cout << "[7]Leave inventory system" << endl;
+		cout << "Choose action: ";
+		getline(cin, input); // user enters the action
+
+		if (input == "1") {
+			addDevice();
 		}
-		File.close();
+		else if (input == "6") {
+			//cout << buyPrice << endl;
+		}
+		else if (input == "7") {
+			return true;
+		}
+		else {
+			cout << "lol" << endl;
+		}
 	}
+	return true;
 }
-
-void Device::printMenu() {
-
-	string input; // user option
-
-	
-
-												//cin >> input;
-	getline(cin, input);
-
-	if (input == "1") {
-		addDevice();
-	}
-	else {
-		cout << "lol" << endl;
-	}
-	/*
-	switch (input) {
-	case 1:
-	addDevice();
-	case 2:
-	//changeDevice();
-	case 3:
-	//removeDevice();
-	case 4:
-	//DeviceList();
-	case 5:
-	//DeviceListByModel();
-	case 6:
-	//totalValue();
-	default:
-	cout << "Wrong input!" << endl;
-	return;
-	}
-	*/
-}
-
-/*int main() {
-
-	Device go;
-	go.printMenu();
-
-	system("pause");
-}*/

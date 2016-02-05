@@ -322,6 +322,32 @@ bool EmployeeList::ConCmd_SetInfo(cmdArgs Args)
 
 	return true;
 }
+bool EmployeeList::ConCmd_ListPerms(cmdArgs Args) 
+{
+	// Get arguments
+	int id = atoi(Args[0].c_str());
+	
+	// Check if Employee with such id exist.
+	Employee* TempEmp = GetEmployeeByID(id);
+	if (TempEmp == nullptr) {
+		std::cout << "Didn't find Employee with id: " << id << std::endl;
+		return true;
+	}
+	std::cout << " Employee " << TempEmp->GetInfo(EINF_FIRSTNAME) << " " << TempEmp->GetInfo(EINF_LASTNAME) << " has following permissions" << std::endl;
+	std::cout << "================================================" << std::endl;
+	for (int i = 0; i < PERMS; i++) {
+		if (TempEmp->GetPermission(1 << i)) {
+			std::cout << " " << PermNames[i] << std::endl;
+		}
+	}
+	std::cout << "================================================" << std::endl;
+	return true;
+}
+bool EmployeeList::ConCmd_ModifyPerms(cmdArgs Args)
+{
+	
+	return true;
+}
 void EmployeeList::ConCmd_CreateRoot() 
 {
 	std::string Firstname, Lastname, Username, Password;
@@ -360,4 +386,6 @@ EmployeeList::EmployeeList()
 	ConsoleController::RegisterCommand("addemployee", 2, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_Create, this, _1), "Params: <Frist name> <Last name> | Create a new Employee.");
 	ConsoleController::RegisterCommand("getinfo", 1, PERM_VIEWUSERS, std::bind(&EmployeeList::ConCmd_GetInfo, this, _1), "Params: <UserID> | Get Employee data.");
 	ConsoleController::RegisterCommand("setinfo", 3, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_SetInfo, this, _1), "Params: <UserID> <Info name> <new value> | Set Employee data.");
+	ConsoleController::RegisterCommand("listperms", 1, PERM_ADMIN, std::bind(&EmployeeList::ConCmd_SetInfo, this, _1), "Params: <UserID> | List all the permissions employee has.");
+	ConsoleController::RegisterCommand("modeperms", 1, PERM_ADMIN, std::bind(&EmployeeList::ConCmd_SetInfo, this, _1), "Params: <UserID> | Modify employee permissions.");
 }

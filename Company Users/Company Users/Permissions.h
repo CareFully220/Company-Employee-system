@@ -25,6 +25,30 @@
 
 #pragma once
 
+/*enum {
+	PERM_USER, //!< If Employee has an account.
+	PERM_ALLOWLOGIN, //!< If Employee can login.
+	PERM_VIEWUSERS,
+	PERM_VIEWINVENTORY,
+	PERM_VIEWWORKHOURS,
+	PERM_VIEWSALARY,
+	PERM_MODIFYUSERS,
+	PERM_MODIFYINVENTORY,
+	PERM_MODIFYWORKHOURS,
+	PERM_MODIFYSALARY,
+	PERM_ADMIN,
+	PERM_CUSTOM1,
+	PERM_CUSTOM2,
+	PERM_CUSTOM3,
+	PERM_CUSTOM4,
+	PERM_CUSTOM5,
+	PERM_CUSTOM6,
+	PERM_DELETED, //!< If Employee is deleted.
+
+	PERMS
+};*/
+//#define PERM_DEFAULT ( PERM_USER | PERM_ALLOWLOGIN | PERM_VIEWUSERS )
+
 #define PERM_USER ( 1 << 0 ) //!< If Employee has an account.
 #define PERM_ALLOWLOGIN ( 1 << 1 ) //!< If Employee can login.
 #define PERM_VIEWUSERS ( 1 << 2 )
@@ -40,3 +64,25 @@
 
 #define PERM_DEFAULT ( PERM_USER | PERM_ALLOWLOGIN | PERM_VIEWUSERS )
 #define PERM_ROOT ( 1 << 0 | 1 << 1 | 1 << 2 | 1 << 3 | 1 << 4 | 1 << 5 | 1 << 6 | 1 << 7 | 1 << 8 | 1 << 9 | 1 << 19 )
+
+#define PERMS 12
+const std::string PermNames[PERMS]{
+	"user",
+	"allow login",
+	"view user",
+	"view inventory",
+	"view work hours",
+	"view salary",
+	"modify users",
+	"modify inventory",
+	"modify work hours",
+	"modify salary",
+	"admin",
+	/*"custom1",
+	"custom2",
+	"custom3",
+	"custom4",
+	"custom5",
+	"custom6",*/
+	"deleted user"
+};

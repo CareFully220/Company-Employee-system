@@ -39,7 +39,7 @@
 class MainController;
 class EmployeeList;
 
-//! Single command.
+//! Single command. Used by the ConsoleController
 struct Command
 {
 	std::string commandName;
@@ -52,7 +52,6 @@ struct Command
 //! This is static class! You should never make an object of it!
 class ConsoleController
 {
-	
 	static std::vector <Command> CommandList;
 
 public:
