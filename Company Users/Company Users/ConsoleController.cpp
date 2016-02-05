@@ -56,6 +56,9 @@ void ConsoleController::CommandHandler(EmployeeList& EmpList, MainController& Lo
 			arguments.push_back(temp); // Add it to argument list.
 			argnum++; // Increment argument amount number.
 		}
+		if (arguments.size() == 0) {
+			continue;
+		}
 		input = arguments[0]; // Set the input to only include command
 		arguments.erase(arguments.begin()); // Remove the command from argument list
 

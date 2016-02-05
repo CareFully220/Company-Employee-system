@@ -34,8 +34,8 @@ bool Device::ConCmd_addDevice(cmdArgs Args)
 Device::Device() {
 	using namespace std::placeholders; // for `_1` placeholder
 
-	ConsoleController::RegisterCommand("device_add", 0, PERM_MODIFYINVENTORY, std::bind(&Device::ConCmd_addDevice, this, _1), "Add a new device.");
-	ConsoleController::RegisterCommand("device_change", 1, PERM_MODIFYINVENTORY, std::bind(&Device::ConCmd_addDevice, this, _1), "Params: <Device ID> | Change a device.");
+	//ConsoleController::RegisterCommand("device_add", 0, PERM_MODIFYINVENTORY, std::bind(&Device::ConCmd_addDevice, this, _1), "Add a new device.");
+	//ConsoleController::RegisterCommand("device_change", 1, PERM_MODIFYINVENTORY, std::bind(&Device::ConCmd_addDevice, this, _1), "Params: <Device ID> | Change a device.");
 
 	/*cout << "[3]Remove device" << endl; //removeDevice();
 	cout << "[4]Inventory overview" << endl;  //showDevices();
