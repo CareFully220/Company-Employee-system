@@ -238,7 +238,7 @@ bool EmployeeList::ConCmd_CreateUser(cmdArgs Args)
 	}
 	// Check if user already has an account.
 	if (TempEmp->GetPermission(PERM_USER)) {
-		std::cout << "Employee id " << userid << "already has an account!" << std::endl;
+		std::cout << "Employee id " << userid << " already has an account!" << std::endl;
 		return true;
 	}
 	// Ask for Employee's username.
