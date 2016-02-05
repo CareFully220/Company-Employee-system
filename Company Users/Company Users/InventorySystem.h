@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ConsoleController.h"
 using namespace std;
 
-//class about device
+
 class Device {
 protected:
 	string name; // device name

@@ -30,9 +30,10 @@ bool EmployeeList::LoadEmployees(std::string FileName )
 
 	std::string szBuffer; // Buffer to store selected line
 
-	std::string UserData[13];
-	int iUserData[2];
+	
 	while (std::getline(file, szBuffer)) {
+		std::string UserData[13];
+		int iUserData[2];
 		// Check if the line is empty
 		if (szBuffer[0] != '\0') {
 			std::string szField;
@@ -173,7 +174,11 @@ bool EmployeeList::ConCmd_Remove(cmdArgs Args)
 {
 	// Get arguments
 	int id = atoi(Args[0].c_str());
-
+	// Check if Employee user is trying to remove is currently logged in.
+	if (MainController::GetLoggedInUserID() != id) {
+		std::cout << "You are currently logged in with this user. You can't remove it!" << std::endl;
+		return true;
+	}
 	int retval = RemoveEmployee(id); // Remove Employee
 	// Check if it failed
 	if (retval == 1) {

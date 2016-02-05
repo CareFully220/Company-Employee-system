@@ -62,7 +62,7 @@ public:
 	  *	@param MainCtrl Pointer to the EmployeeList used by Login system.
 	  *	@param LoginSys Pointer to Login system to get user permissions.
 	  */
-	static void CommandHandler(EmployeeList& MainCtrl, MainController& LoginSys);
+	static void CommandHandler(EmployeeList& MainCtrl);
 
 	/**
 	  * Create new command!

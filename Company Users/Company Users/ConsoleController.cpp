@@ -35,7 +35,7 @@ void ConsoleController::PrintWelcomeMessage()
 	std::cout << " Type 'help' to see a list of available commands." << std::endl;
 	std::cout << " Before you can do anything, you need to 'login'." << std::endl;
 }
-void ConsoleController::CommandHandler(EmployeeList& EmpList, MainController& LoginSys)
+void ConsoleController::CommandHandler(EmployeeList& EmpList)
 {
 	// Ask for command
 	while (true) {
@@ -74,14 +74,14 @@ void ConsoleController::CommandHandler(EmployeeList& EmpList, MainController& Lo
 			std::cout << "================" << std::endl;
 		}
 		else if (input.compare("login") == 0) {
-			if (!LoginSys.IsLoggedIn()) {
+			if (!MainController::IsLoggedIn()) {
 				std::string Username, Password;
 				std::cout << "Enter your username: ";
 				getline(std::cin, Username);
 				std::cout << "Enter your password: ";
 				Password = hidecin();
 
-				int retval = LoginSys.LogIn(Username, Password, EmpList);
+				int retval = MainController::LogIn(Username, Password, EmpList);
 				if (retval == 1) {
 					std::cout << "Log in successful!" << std::endl;
 				}
@@ -96,11 +96,11 @@ void ConsoleController::CommandHandler(EmployeeList& EmpList, MainController& Lo
 				std::cout << "You are already logged in!" << std::endl;
 			}
 		}
-		else if (LoginSys.IsLoggedIn()) {
+		else if (MainController::IsLoggedIn()) {
 			bool bSuccess = false;
 			for (auto &it : CommandList) {
 				if (it.commandName.compare(input) == 0) {
-					if (EmpList.GetEmployeeByID(LoginSys.GetLoggedInUserID())->GetPermission(it.reqPerms)) {// Check if user has permissions to do this.
+					if (EmpList.GetEmployeeByID(MainController::GetLoggedInUserID())->GetPermission(it.reqPerms)) {// Check if user has permissions to do this.
 						if (it.argNum == argnum) { // Check if user entered the right amount of arguments.
 							if (!it.callbackFnc(arguments)) {
 								std::cout << "Usage >> " << it.commandDesc << std::endl;
