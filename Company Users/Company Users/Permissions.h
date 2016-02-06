@@ -25,28 +25,8 @@
 
 #pragma once
 
-/*enum {
-	PERM_USER, //!< If Employee has an account.
-	PERM_ALLOWLOGIN, //!< If Employee can login.
-	PERM_VIEWUSERS,
-	PERM_VIEWINVENTORY,
-	PERM_VIEWWORKHOURS,
-	PERM_VIEWSALARY,
-	PERM_MODIFYUSERS,
-	PERM_MODIFYINVENTORY,
-	PERM_MODIFYWORKHOURS,
-	PERM_MODIFYSALARY,
-	PERM_ADMIN,
-	PERM_CUSTOM1,
-	PERM_CUSTOM2,
-	PERM_CUSTOM3,
-	PERM_CUSTOM4,
-	PERM_CUSTOM5,
-	PERM_CUSTOM6,
-	PERM_DELETED, //!< If Employee is deleted.
+// TODO: Would need a redesign
 
-	PERMS
-};*/
 //#define PERM_DEFAULT ( PERM_USER | PERM_ALLOWLOGIN | PERM_VIEWUSERS )
 
 #define PERM_USER ( 1 << 0 ) //!< If Employee has an account.
@@ -59,13 +39,21 @@
 #define PERM_MODIFYINVENTORY ( 1 << 7 )
 #define PERM_MODIFYWORKHOURS ( 1 << 8 )
 #define PERM_MODIFYSALARY ( 1 << 9 )
-#define PERM_ADMIN ( 1 << 19 ) 
-#define PERM_DELETED ( 1 << 20 ) //!< If Employee is deleted.
+#define PERM_ADMIN ( 1 << 10 ) 
+#define PERM_DELETED ( 1 << 11 ) //!< If Employee is deleted.
 
 #define PERM_DEFAULT ( PERM_USER | PERM_ALLOWLOGIN | PERM_VIEWUSERS )
-#define PERM_ROOT ( 1 << 0 | 1 << 1 | 1 << 2 | 1 << 3 | 1 << 4 | 1 << 5 | 1 << 6 | 1 << 7 | 1 << 8 | 1 << 9 | 1 << 19 )
+#define PERM_ROOT ( 1 << 0 | 1 << 1 | 1 << 2 | 1 << 3 | 1 << 4 | 1 << 5 | 1 << 6 | 1 << 7 | 1 << 8 | 1 << 9 | 1 << 10 )
+
+//! List of permissions noone can change.
+//! These are permssions that are changed by the system.
+const int PERMS_BLOCKED = ( PERM_USER | PERM_DELETED );
 
 #define PERMS 12
+
+
+
+
 const std::string PermNames[PERMS]{
 	"user",
 	"allow login",
@@ -78,11 +66,5 @@ const std::string PermNames[PERMS]{
 	"modify work hours",
 	"modify salary",
 	"admin",
-	/*"custom1",
-	"custom2",
-	"custom3",
-	"custom4",
-	"custom5",
-	"custom6",*/
 	"deleted user"
 };

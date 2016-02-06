@@ -76,7 +76,7 @@ void Employee::AddPermission(int perm)
 // Removes user permissions
 void Employee::RemovePermission(int perm)
 {
-	permissions |= ~perm;
+	permissions &= ~perm;
 }
 
 // Get user permissions.

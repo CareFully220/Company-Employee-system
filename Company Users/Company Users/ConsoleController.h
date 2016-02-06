@@ -76,6 +76,12 @@ public:
 	static void RegisterCommand(std::string commandName, int nArguments, int requiredPerms, callback callbackFnc, std::string description = "");
 
 	/**
+	* Used to get number input. Loops until user enters a number.
+	*	@returns Inputted number.
+	*/
+	static int cinnum();
+
+	/**
 	  * Used to get passwords. Hides the input. 
 	  *	@returns Inputted string.
 	  */

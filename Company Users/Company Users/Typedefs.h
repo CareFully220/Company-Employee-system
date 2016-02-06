@@ -20,5 +20,7 @@
 * ********************************************************************/
 #pragma once
 
+#define ARRAY_SIZE(array) (sizeof((array))/sizeof((array[0])))
+
 typedef std::vector <std::string> cmdArgs; //!< Vector of strings that can include all inputted arguments of a command
 typedef std::function<bool(cmdArgs)> callback; //!< Command Callback function typedef

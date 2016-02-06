@@ -361,7 +361,78 @@ bool EmployeeList::ConCmd_ListPerms(cmdArgs Args)
 }
 bool EmployeeList::ConCmd_ModifyPerms(cmdArgs Args)
 {
+	// Get arguments
+	int id = atoi(Args[0].c_str());
+
+	// Check if Employee with such id exist.
+	Employee* TempEmp = GetEmployeeByID(id);
+	if (TempEmp == nullptr) {
+		std::cout << "Didn't find Employee with id: " << id << std::endl;
+		return true;
+	}
+	while (true) {
+		std::cout << "================================================" << std::endl;
+		std::cout << " Employee " << TempEmp->GetInfo(EINF_FIRSTNAME) << " " << TempEmp->GetInfo(EINF_LASTNAME) << " permissions" << std::endl;
+		std::cout << "================================================" << std::endl;
+		std::cout << " Enter the permission number you want to toggle." << std::endl;
+		std::cout << " Type 0 to leave." << std::endl;
+		std::cout << "================================================" << std::endl;
+		for (int i = 0; i < PERMS; i++) {
+			if (TempEmp->GetPermission(1 << i)) {
+				std::cout << " [" << i + 1 << "] " << PermNames[i] << " [X] ";
+			}
+			else {
+				std::cout << " [" << i + 1 << "] " << PermNames[i] << " [ ] " ;
+			}
+			// If permission is locked.
+			if ( PERMS_BLOCKED & (1 << i) ) {
+				std::cout << "- Locked";
+			}
+			std::cout << std::endl;
+			
+		}
+		std::cout << "================================================" << std::endl;
+		std::cout << "Permission to toggle: ";
+
 	
+		// Ask permision number
+		int x = ConsoleController::cinnum() - 1 ;
+	
+		if (x < 0) {// If user wants to leave
+			return true;
+		}
+		if (x >= PERMS) { // If user entered a number that doesn't correspond to any permission
+			std::cout << "There is no permission with id: " << x << std::endl;
+		}
+		else {
+			// Check if user is trying to remove locked cvar
+			if (PERMS_BLOCKED & (1 << x)) {
+				// Warn the user!
+				std::cout << "!!! You are about to change Locked Permission!" << std::endl;
+				std::cout << "!!! Doing so may break the system!" << std::endl;
+				std::cout << "!!! Do you want to continue?" << std::endl;
+				std::cout << "[ Y / N ] : ";
+				std::string input;
+				std::getline(std::cin, input); // Ask For input
+				// Continue when user presses 'y'
+				if (input[0] != 'Y' && input[0] != 'y') {
+					std::cout << "Returning..." << std::endl;
+					continue;
+				}
+			}
+			// Change the permission
+			if (TempEmp->GetPermission(1 << x)) {
+				TempEmp->RemovePermission(1 << x);
+				std::cout << "Removed permission '" << PermNames[x] << "'." << std::endl;
+			}
+			else {
+				TempEmp->AddPermission(1 << x);
+				std::cout << "Added permission '" << PermNames[x] << "'." << std::endl;
+			}
+		}
+	}
+
+
 	return true;
 }
 void EmployeeList::ConCmd_CreateRoot() 
@@ -402,6 +473,6 @@ EmployeeList::EmployeeList()
 	ConsoleController::RegisterCommand("addemployee", 2, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_Create, this, _1), "Params: <Frist name> <Last name> | Create a new Employee.");
 	ConsoleController::RegisterCommand("getinfo", 1, PERM_VIEWUSERS, std::bind(&EmployeeList::ConCmd_GetInfo, this, _1), "Params: <UserID> | Get Employee data.");
 	ConsoleController::RegisterCommand("setinfo", 3, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_SetInfo, this, _1), "Params: <UserID> <Info name> <new value> | Set Employee data.");
-	ConsoleController::RegisterCommand("listperms", 1, PERM_ADMIN, std::bind(&EmployeeList::ConCmd_SetInfo, this, _1), "Params: <UserID> | List all the permissions employee has.");
-	ConsoleController::RegisterCommand("modeperms", 1, PERM_ADMIN, std::bind(&EmployeeList::ConCmd_SetInfo, this, _1), "Params: <UserID> | Modify employee permissions.");
+	ConsoleController::RegisterCommand("listperms", 1, PERM_ADMIN, std::bind(&EmployeeList::ConCmd_ListPerms, this, _1), "Params: <UserID> | List all the permissions employee has.");
+	ConsoleController::RegisterCommand("modeperms", 1, PERM_ADMIN, std::bind(&EmployeeList::ConCmd_ModifyPerms, this, _1), "Params: <UserID> | Modify employee permissions.");
 }

@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include "ConsoleController.h"
-
+#undef max
 /*ConsoleController::ConsoleController() :
 	Logsys(this)
 {
@@ -153,6 +153,16 @@ void ConsoleController::RegisterCommand(std::string commandName, int nArguments,
 	else {
 		std::cerr << "Error registering command '" << "' !" << std::endl;
 	}
+}
+int ConsoleController::cinnum() {
+	int x;
+	while (!(std::cin >> x)) {
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::cerr << "You did not enter a number. Try again: ";
+	}
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	return x;
 }
 std::string ConsoleController::hidecin() {
 	// Grabbed from http://www.cplusplus.com/forum/general/3570/#msg15410
