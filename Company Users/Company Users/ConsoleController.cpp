@@ -60,6 +60,9 @@ void ConsoleController::CommandHandler(EmployeeList& EmpList)
 			continue;
 		}
 		input = arguments[0]; // Set the input to only include command
+		// Change command to lowercase
+		std::transform(input.begin(), input.end(), input.begin(), tolower);
+
 		arguments.erase(arguments.begin()); // Remove the command from argument list
 
 		// Check commands
@@ -139,6 +142,8 @@ void ConsoleController::RegisterCommand(std::string commandName, int nArguments,
 	if (callbackFnc != nullptr){
 		if (commandName[0] != '\0') {
 			Command newCommand;
+			// Make command name lowercase.
+			std::transform(commandName.begin(), commandName.end(), commandName.begin(), tolower);
 			newCommand.commandName = commandName;
 			newCommand.commandDesc = description;
 			newCommand.argNum = nArguments < 0 ? 0 : nArguments;

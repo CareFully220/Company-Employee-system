@@ -32,7 +32,7 @@
 #include <sstream>
 #include <vector>
 #include <windows.h>
-
+#include <algorithm>
 #include "Typedefs.h"
 #include "EmployeeList.h"
 #include "MainController.h"

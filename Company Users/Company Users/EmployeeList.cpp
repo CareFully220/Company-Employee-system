@@ -237,6 +237,8 @@ bool EmployeeList::ConCmd_List(cmdArgs Args)
 bool EmployeeList::ConCmd_ListSort(cmdArgs Args)
 {
 	std::string infoName = Args[0];
+	// Change entered info name to lowercase.
+	std::transform(infoName.begin(), infoName.end(), infoName.begin(), tolower);
 
 	EInfo infoID = EINF_INVALID;
 	for (int i = 0; i < EINFOS; i++) {
@@ -274,7 +276,7 @@ bool EmployeeList::ConCmd_ListSort(cmdArgs Args)
 	std::string infoValue;
 	std::string infoValue2;
 	int smallestloc = 0;
-	int times = 0;
+	//int times = 0;
 	for (int i = 0; i < size; i++) {
 		bool swapped = false;
 		for (int i = smallestloc; i < size-1; i++) {
@@ -284,12 +286,12 @@ bool EmployeeList::ConCmd_ListSort(cmdArgs Args)
 			infoValue2 = Employees[loc2].GetInfo(infoID);
 			int curChar = 0;
 			while (true) {
-				times++; // for debugging
+				//times++; // for debugging
 				// If the character is the same
 				if (infoValue[curChar] == infoValue2[curChar]) {
 					curChar++;
 					// Check if we run out of chars to compare.
-					if (curChar > infoValue.size() || curChar > infoValue2.size()) { 
+					if (curChar > (int)infoValue.length() || curChar > (int)infoValue2.length()) {
 						break;
 					}
 					continue;
@@ -307,7 +309,7 @@ bool EmployeeList::ConCmd_ListSort(cmdArgs Args)
 		}
 		if (!swapped) break;
 	}
-	std::cout << "DEBUG: times: " << times << std::endl;
+	//std::cout << "DEBUG: times: " << times << std::endl;
 	// Print cycle
 	for (int i = 0; i < (int)Employees.size(); i++) {
 		int x = filteredEmps[i];
@@ -420,6 +422,11 @@ bool EmployeeList::ConCmd_SetInfo(cmdArgs Args)
 	int userid = atoi(Args[0].c_str());
 	std::string infoName = Args[1];
 	std::string newValue = Args[2];
+
+	// Change entered info name to lowercase.
+	std::transform(infoName.begin(), infoName.end(), infoName.begin(), tolower);
+
+
 	EInfo infoID = EINF_INVALID;
 	for (int i = 0; i < EINFOS; i++) {
 		if (EmployeeInfoNames[i].compare(infoName) == 0) {
@@ -455,6 +462,10 @@ bool EmployeeList::ConCmd_ListPerms(cmdArgs Args)
 		std::cout << "Didn't find Employee with id: " << id << std::endl;
 		return true;
 	}
+	else if (!TempEmp->GetPermission(PERM_USER)) {
+		std::cout << "Employee with id " << id << " does not have an account!" << std::endl;
+		return true;
+	}
 	std::cout << " Employee " << TempEmp->GetInfo(EINF_FIRSTNAME) << " " << TempEmp->GetInfo(EINF_LASTNAME) << " has following permissions" << std::endl;
 	std::cout << "================================================" << std::endl;
 	for (int i = 0; i < PERMS; i++) {
@@ -476,6 +487,11 @@ bool EmployeeList::ConCmd_ModifyPerms(cmdArgs Args)
 		std::cout << "Didn't find Employee with id: " << id << std::endl;
 		return true;
 	}
+	else if (!TempEmp->GetPermission(PERM_USER)) {
+		std::cout << "Employee with id " << id << " does not have an account!" << std::endl;
+		return true;
+	}
+
 	while (true) {
 		std::cout << "================================================" << std::endl;
 		std::cout << " Employee " << TempEmp->GetInfo(EINF_FIRSTNAME) << " " << TempEmp->GetInfo(EINF_LASTNAME) << " permissions" << std::endl;

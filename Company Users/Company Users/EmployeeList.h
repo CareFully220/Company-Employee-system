@@ -29,6 +29,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <algorithm>
 #include <vector>
 #include "Typedefs.h"
 #include "Employee.h"
