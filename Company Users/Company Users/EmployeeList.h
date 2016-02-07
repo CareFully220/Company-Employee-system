@@ -50,6 +50,7 @@ protected:
 	bool ConCmd_Save(cmdArgs Args);
 	bool ConCmd_Remove(cmdArgs Args);
 	bool ConCmd_List(cmdArgs Args);
+	bool ConCmd_ListSort(cmdArgs Args);
 	bool ConCmd_Create(cmdArgs Args);
 	bool ConCmd_CreateUser(cmdArgs Args);
 	bool ConCmd_GetInfo(cmdArgs Args);

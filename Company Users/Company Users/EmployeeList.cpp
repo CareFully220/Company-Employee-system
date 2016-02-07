@@ -229,9 +229,115 @@ bool EmployeeList::ConCmd_List(cmdArgs Args)
 			temp = it.GetInfo(EINF_FIRSTNAME) + " " + it.GetInfo(EINF_LASTNAME);  // Format name column.
 			for (int i = 26 - temp.length(); i > 0; i--) spaces << " "; // Calculate the number of spaces we need to add.
 			std::cout << temp << spaces.str(); // Print the name with the spaces
-			std::cout << it.GetUsername() << std::endl; // Print the Username. Since nothing will come after this, we don't need t ocalculate the spaces.
+			std::cout << it.GetUsername() << std::endl; // Print the Username. Since nothing will come after this, we don't need to calculate the spaces.
 		}
 	}
+	return true;
+}
+bool EmployeeList::ConCmd_ListSort(cmdArgs Args)
+{
+	std::string infoName = Args[0];
+
+	EInfo infoID = EINF_INVALID;
+	for (int i = 0; i < EINFOS; i++) {
+		if (EmployeeInfoNames[i].compare(infoName) == 0) {
+			infoID = (EInfo)i;
+			break;
+		}
+	}
+	if (infoID == EINF_INVALID) {
+		std::cout << "Didn't find Info: '" << infoName << "'" << std::endl;
+		std::cout << "Available infos: ";
+		for (int i = 0; i < EINFOS; i++) {
+			std::cout << EmployeeInfoNames[i] << " ";
+		}
+		std::cout << std::endl;
+		return true;
+	}
+
+	// Employee list size
+	int size = (int)Employees.size();
+
+	// We'll store the indexes in filtered order to this vector.
+	std::vector <int> filteredEmps;
+	// Fill it
+	for (int i = 0; i < size; i++) {
+		filteredEmps.push_back(i);
+	}
+
+	std::cout << " ID    | Name                    | Username          | " << infoName << std::endl;
+	std::cout << "==============================================================================" << std::endl;
+
+	// Bubble sort
+
+	// buffers
+	std::string infoValue;
+	std::string infoValue2;
+	int smallestloc = 0;
+	int times = 0;
+	for (int i = 0; i < size; i++) {
+		bool swapped = false;
+		for (int i = smallestloc; i < size-1; i++) {
+			int loc = filteredEmps[i];
+			int loc2 = filteredEmps[i+1];
+			infoValue = Employees[loc].GetInfo(infoID);
+			infoValue2 = Employees[loc2].GetInfo(infoID);
+			int curChar = 0;
+			while (true) {
+				times++; // for debugging
+				// If the character is the same
+				if (infoValue[curChar] == infoValue2[curChar]) {
+					curChar++;
+					// Check if we run out of chars to compare.
+					if (curChar > infoValue.size() || curChar > infoValue2.size()) { 
+						break;
+					}
+					continue;
+				}
+				// Check if we need to swap the employees.
+				else if (infoValue[curChar] > infoValue2[curChar]) {
+					swapped = true;
+					filteredEmps[i] = loc2;
+					filteredEmps[i + 1] = loc;
+				}
+				break;
+			}
+			
+			
+		}
+		if (!swapped) break;
+	}
+	std::cout << "DEBUG: times: " << times << std::endl;
+	// Print cycle
+	for (int i = 0; i < (int)Employees.size(); i++) {
+		int x = filteredEmps[i];
+		if (!Employees[x].IsRemoved()) {
+			std::string temp;
+			std::stringstream spaces;
+
+			temp = " [" + std::to_string(Employees[x].GetID()) + "] "; // Format id column.
+			for (int i = 9 - temp.length(); i > 0; i--) spaces << " "; // Calculate the number of spaces we need to add.
+			std::cout << temp << spaces.str(); // Print the ID with the spaces
+			// Reset and clear space string
+			spaces.str(std::string());
+			spaces.clear();
+
+			temp = Employees[x].GetInfo(EINF_FIRSTNAME) + " " + Employees[x].GetInfo(EINF_LASTNAME);  // Format name column.
+			for (int i = 26 - temp.length(); i > 0; i--) spaces << " "; // Calculate the number of spaces we need to add.
+			std::cout << temp << spaces.str(); // Print the name with the spaces
+			// Reset and clear space string
+			spaces.str(std::string());
+			spaces.clear();
+
+			temp = Employees[x].GetUsername();  // Format username column.
+			for (int i = 20 - temp.length(); i > 0; i--) spaces << " "; // Calculate the number of spaces we need to add.
+			std::cout << temp << spaces.str(); // Print the name with the spaces
+
+			std::cout << Employees[x].GetInfo(infoID) << std::endl; // Print the last info. Since nothing will come after this, we don't need to calculate the spaces.
+
+		}
+	}
+
 	return true;
 }
 bool EmployeeList::ConCmd_Create(cmdArgs Args)
@@ -468,6 +574,7 @@ EmployeeList::EmployeeList()
 	//ConsoleController::RegisterCommand("load", 0, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_Load, this, _1), "Loads all Employees from file.");
 	ConsoleController::RegisterCommand("save", 0, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_Save, this, _1), "Saves all Employees to file.");
 	ConsoleController::RegisterCommand("list", 0, PERM_VIEWUSERS, std::bind(&EmployeeList::ConCmd_List, this, _1), "Prints a list that contains all Employees.");
+	ConsoleController::RegisterCommand("listsort", 1, PERM_VIEWUSERS, std::bind(&EmployeeList::ConCmd_ListSort, this, _1), "Params: <Info name to sort by> | Prints a sorted list that contains all Employees.");
 	ConsoleController::RegisterCommand("remove", 1, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_Remove, this, _1), "Params: <UserID> | Remove Employee with specific UserID.");
 	ConsoleController::RegisterCommand("adduser", 1, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_CreateUser, this, _1), "Params: <UserID> | Create an Account for an employee.");
 	ConsoleController::RegisterCommand("addemployee", 2, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_Create, this, _1), "Params: <Frist name> <Last name> | Create a new Employee.");
