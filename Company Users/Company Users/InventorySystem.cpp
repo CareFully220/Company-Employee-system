@@ -45,7 +45,7 @@ Inventory::Inventory() {
 	loadDevices(); 
 }
 //==================================================================================================================//
-bool Inventory::removeDevice(string Device_ID) {
+bool Inventory::removeDevice(int Device_ID) {
 	// Loop through all devices
 	for (int i = 0; i < (int)deviceList.size(); i++) { 
 		// Check if we got a correct one
@@ -66,18 +66,21 @@ void Inventory::loadDevices() {
 	string record;
 	while (getline(File, record)) {
 		istringstream ss(record);
-		string field, name, device_ID, model_ID, user_ID, location, setPrice, buyDate, description;
+		int curid = 0;
+		string field, name, location, setPrice, buyDate, description;
+		int device_ID = curid;
+		int	model_ID = 0;
+		int	user_ID = 0;
 		getline(ss, field, ','); name = field;
-		getline(ss, field, ','); user_ID = field;
-		getline(ss, field, ','); device_ID = field;
-		getline(ss, field, ','); model_ID = field;
+		//getline(ss, field, ','); user_ID = field;
+		//getline(ss, field, ','); device_ID = field;
+		//getline(ss, field, ','); model_ID = field;
 		getline(ss, field, ','); location = field;
 		getline(ss, field, ','); setPrice = field;
 		getline(ss, field, ','); buyDate = field;
 		getline(ss, field, ','); description = field;
 		// If the loaded device had bigger id than newid then we need to increase the newid
 		// because we don't want to set this same id to any other device we might create later
-		int curid = atoi(device_ID.c_str()); // Convert id to intreger.
 		if (newid < curid) {
 			newid = curid + 1;
 		}
@@ -95,7 +98,7 @@ void Inventory::saveDevices() {
 
 	{
 		ofstream File("Inventory.db");
-		//cout << deviceList.size(); // <- this shows how many lines are in the info.txt file
+		//cout << deviceList.size(); // <- this shows how many lines are in the inventory.db file
 		for (int i = 0; i < (int)deviceList.size(); i++) {
 			File << deviceList[i].getName() << ", ";
 			File << deviceList[i].getDevice_ID() << ", ";
@@ -113,18 +116,20 @@ void Inventory::saveDevices() {
 //==================================================================================================================//
 void Inventory::addDevice() {
 
-	string name, device_ID, model_ID, user_ID, location, setPrice, buyDate, description;
+	string name, location, setPrice, buyDate, description, newMdlId, newUserId;
+
+
 
 	// Instead of letting user to choose the id, we'll add it automatically
 	// And increase the newid so the next device would not get the same id.
-	device_ID = to_string(newid++); // Here we would not need to this conversion if id's would be ints.
+	//device_ID = newid++;
 	
 	cout << "Enter device name: ";
 	getline(cin, name);
 	cout << "Add model ID: ";
-	getline(cin, model_ID);
+	getline(cin, newMdlId);
 	cout << "Add user ID: ";
-	getline(cin, user_ID);
+	getline(cin, newUserId);
 	cout << "Add location: ";
 	getline(cin, location);
 	cout << "Add purchase price: ";
@@ -133,6 +138,10 @@ void Inventory::addDevice() {
 	getline(cin, buyDate);
 	cout << "Add device description: ";
 	getline(cin, description);
+
+	int device_ID = newid++;
+	int	model_ID = stoi(newMdlId);
+	int	user_ID = stoi(newUserId);
 
 	// Create new device and push it to list
 	deviceList.push_back(Device(name, device_ID, model_ID, user_ID, location, setPrice, buyDate, description));
@@ -155,18 +164,14 @@ bool Inventory::ConCmd_Menu(cmdArgs Args) {
 		cout << "Choose action: ";
 		getline(cin, input); // user enters the action
 
-		if (input == "1") {
-			addDevice();
-		}
-		else if (input == "6") {
-			//cout << buyPrice << endl;
-		}
-		else if (input == "7") {
-			return true;
-		}
-		else {
-			cout << "lol" << endl;
-		}
+		if (input == "1") { addDevice(); }
+		else if (input == "2") { /*changeDevice();*/ }
+		else if (input == "3") { bool removeDevice(int Device_ID); }
+		else if (input == "4") { /*showDevices();*/ }
+		else if (input == "5") { /*showModelDevices();*/ }
+		else if (input == "6") { /*totalValue();*/ }
+		else if (input == "7") { return true; }
+		else { cout << "Incorrect input!" << endl; }
 	}
 	return true;
 }

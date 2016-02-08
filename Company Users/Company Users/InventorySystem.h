@@ -48,19 +48,19 @@ using namespace std;
 class Device {
 protected:
 	string name; // device name
-	string device_ID; // device id
-	string model_ID; // device model id
-	string user_ID; // user id
+	int device_ID; // device id
+	int model_ID; // device model id
+	int user_ID; // user id
 	string location; //device location
 	string description; // item description
 	//float buyPrice;  //Device price
 	string setPrice; //setting device price // it was  float buyPrice;
-	//float buyPrice = stof(setPrice);
+	//string buyPrice;
 	string buyDate; //date when device bought
 	double inValue; //Inventory total value
 public:
 
-	Device(string newName, string newDevice_ID, string newModel_ID, string newUser_ID, string newLocation, string newSetPrice, string newBuyDate, string newDescription) {
+	Device(string newName, int newDevice_ID, int newModel_ID, int newUser_ID, string newLocation, string newSetPrice, string newBuyDate, string newDescription) {
 		name = newName;
 		device_ID = newDevice_ID;
 		model_ID = newModel_ID;
@@ -71,9 +71,9 @@ public:
 		description = newDescription;
 	}
 	string getName() { return name; }
-	string getDevice_ID() { return device_ID; }
-	string getModel_ID() { return model_ID; }
-	string getUser_ID() { return user_ID; }
+	int getDevice_ID() { return device_ID; }
+	int getModel_ID() { return model_ID; }
+	int getUser_ID() { return user_ID; }
 	string getLocation() { return location; }
 	string getDescription() { return description; }
 	string getPrice() { return setPrice; }
@@ -91,14 +91,13 @@ public:
 	Inventory();
 
 	//void addDevice(string newName, string newDevice_ID, string newModel_ID, string newUser_ID, string newLocation, string newSetPrice, string newBuyDate, string newDescription);
-	bool removeDevice(string Device_ID);
+	bool removeDevice(int Device_ID);
 
 	void loadDevices();
 	void saveDevices();
 
 	void addDevice(); // add device
 					  //void changeDevice(); // change stuff
-					  //void removeDevice(); // remove item
 					  //void DeviceList(); // shows all devices
 					  //void DeviceListByModel(); //show devices, criterium - based by model
 					  //void totalValue(); //displays inventory total value
