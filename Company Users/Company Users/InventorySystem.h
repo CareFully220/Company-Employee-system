@@ -32,52 +32,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ConsoleController.h"
 using namespace std;
 
+/* Some notes for you Karl and/or Kevin... and maybe to Lauri?:
+	* You should make ID's into intregers.
+	* So that i wouldn't change the whole code, I left the menu as it is (only fixed it). 
+		If you want you can make all the menu items into commands.
+	* I made seperate Inventory Class that controls the devices.
+	* You need to make checks where user needs to enter user id for example.
+		You need to check if it's valid.
+	* I commented the code i wrote as much as i could.
+
+	-- by *CareFully*
+*/
+
 //class about device
 class Device {
 protected:
 	string name; // device name
-	string getName() {
-		return name;
-	}
 	string device_ID; // device id
-	string getDevice_ID() {
-		return device_ID;
-	}
 	string model_ID; // device model id
-	string getModel_ID() {
-		return model_ID;
-	}
 	string user_ID; // user id
-	string getUser_ID() {
-		return user_ID;
-	}
 	string location; //device location
-	string getLocation() {
-		return location;
-	}
 	string description; // item description
-	string getDescription() {
-		return description;
-	}
 	//float buyPrice;  //Device price
 	string setPrice; //setting device price // it was  float buyPrice;
-	string getPrice() {
-		return setPrice;
-	}
+	//float buyPrice = stof(setPrice);
 	string buyDate; //date when device bought
-	string setDate() {
-		return buyDate;
-	}
 	double inValue; //Inventory total value
-
-	bool ConCmd_addDevice(cmdArgs Args);
-
-
 public:
-	Device();
 
-	
-	void setDevice(string newName, string newDevice_ID, string newModel_ID, string newUser_ID, string newLocation, string newSetPrice, string newBuyDate, string newDescription) {
+	Device(string newName, string newDevice_ID, string newModel_ID, string newUser_ID, string newLocation, string newSetPrice, string newBuyDate, string newDescription) {
 		name = newName;
 		device_ID = newDevice_ID;
 		model_ID = newModel_ID;
@@ -87,11 +70,40 @@ public:
 		buyDate = newBuyDate;
 		description = newDescription;
 	}
+	string getName() { return name; }
+	string getDevice_ID() { return device_ID; }
+	string getModel_ID() { return model_ID; }
+	string getUser_ID() { return user_ID; }
+	string getLocation() { return location; }
+	string getDescription() { return description; }
+	string getPrice() { return setPrice; }
+	string setDate() { return buyDate; }
+
+};
+
+
+class Inventory {
+private:
+	vector <Device> deviceList;
+	int newid; // we will use this to get device id's.
+public:
+
+	Inventory();
+
+	//void addDevice(string newName, string newDevice_ID, string newModel_ID, string newUser_ID, string newLocation, string newSetPrice, string newBuyDate, string newDescription);
+	bool removeDevice(string Device_ID);
+
+	void loadDevices();
+	void saveDevices();
+
 	void addDevice(); // add device
 					  //void changeDevice(); // change stuff
 					  //void removeDevice(); // remove item
 					  //void DeviceList(); // shows all devices
 					  //void DeviceListByModel(); //show devices, criterium - based by model
 					  //void totalValue(); //displays inventory total value
-	void printMenu(); //prints functions
+
+					  // Command callbacks.
+	bool ConCmd_Menu(cmdArgs Args);
+
 };

@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include "ConsoleController.h"
-
+#undef max
 /*ConsoleController::ConsoleController() :
 	Logsys(this)
 {
@@ -35,7 +35,7 @@ void ConsoleController::PrintWelcomeMessage()
 	std::cout << " Type 'help' to see a list of available commands." << std::endl;
 	std::cout << " Before you can do anything, you need to 'login'." << std::endl;
 }
-void ConsoleController::CommandHandler(EmployeeList& EmpList, MainController& LoginSys)
+void ConsoleController::CommandHandler(EmployeeList& EmpList)
 {
 	// Ask for command
 	while (true) {
@@ -56,7 +56,13 @@ void ConsoleController::CommandHandler(EmployeeList& EmpList, MainController& Lo
 			arguments.push_back(temp); // Add it to argument list.
 			argnum++; // Increment argument amount number.
 		}
+		if (arguments.size() == 0) {
+			continue;
+		}
 		input = arguments[0]; // Set the input to only include command
+		// Change command to lowercase
+		std::transform(input.begin(), input.end(), input.begin(), tolower);
+
 		arguments.erase(arguments.begin()); // Remove the command from argument list
 
 		// Check commands
@@ -64,6 +70,7 @@ void ConsoleController::CommandHandler(EmployeeList& EmpList, MainController& Lo
 			return;
 		}
 		else if (input.compare("help") == 0) {
+			// TODO: Make list multipaged.
 			std::cout << "===== Help =====" << std::endl;
 			for (auto &it : CommandList) {
 				std::cout << " " << it.commandName << " - " << it.commandDesc << std::endl;
@@ -71,14 +78,14 @@ void ConsoleController::CommandHandler(EmployeeList& EmpList, MainController& Lo
 			std::cout << "================" << std::endl;
 		}
 		else if (input.compare("login") == 0) {
-			if (!LoginSys.IsLoggedIn()) {
+			if (!MainController::IsLoggedIn()) {
 				std::string Username, Password;
 				std::cout << "Enter your username: ";
 				getline(std::cin, Username);
 				std::cout << "Enter your password: ";
 				Password = hidecin();
 
-				int retval = LoginSys.LogIn(Username, Password, EmpList);
+				int retval = MainController::LogIn(Username, Password, EmpList);
 				if (retval == 1) {
 					std::cout << "Log in successful!" << std::endl;
 				}
@@ -93,11 +100,11 @@ void ConsoleController::CommandHandler(EmployeeList& EmpList, MainController& Lo
 				std::cout << "You are already logged in!" << std::endl;
 			}
 		}
-		else if (LoginSys.IsLoggedIn()) {
+		else if (MainController::IsLoggedIn()) {
 			bool bSuccess = false;
 			for (auto &it : CommandList) {
 				if (it.commandName.compare(input) == 0) {
-					if (EmpList.GetEmployeeByID(LoginSys.GetLoggedInUserID())->GetPermission(it.reqPerms)) {// Check if user has permissions to do this.
+					if (EmpList.GetEmployeeByID(MainController::GetLoggedInUserID())->GetPermission(it.reqPerms)) {// Check if user has permissions to do this.
 						if (it.argNum == argnum) { // Check if user entered the right amount of arguments.
 							if (!it.callbackFnc(arguments)) {
 								std::cout << "Usage >> " << it.commandDesc << std::endl;
@@ -135,6 +142,8 @@ void ConsoleController::RegisterCommand(std::string commandName, int nArguments,
 	if (callbackFnc != nullptr){
 		if (commandName[0] != '\0') {
 			Command newCommand;
+			// Make command name lowercase.
+			std::transform(commandName.begin(), commandName.end(), commandName.begin(), tolower);
 			newCommand.commandName = commandName;
 			newCommand.commandDesc = description;
 			newCommand.argNum = nArguments < 0 ? 0 : nArguments;
@@ -149,6 +158,16 @@ void ConsoleController::RegisterCommand(std::string commandName, int nArguments,
 	else {
 		std::cerr << "Error registering command '" << "' !" << std::endl;
 	}
+}
+int ConsoleController::cinnum() {
+	int x;
+	while (!(std::cin >> x)) {
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::cerr << "You did not enter a number. Try again: ";
+	}
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	return x;
 }
 std::string ConsoleController::hidecin() {
 	// Grabbed from http://www.cplusplus.com/forum/general/3570/#msg15410

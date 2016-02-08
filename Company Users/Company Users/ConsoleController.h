@@ -32,14 +32,14 @@
 #include <sstream>
 #include <vector>
 #include <windows.h>
-
+#include <algorithm>
 #include "Typedefs.h"
 #include "EmployeeList.h"
 #include "MainController.h"
 class MainController;
 class EmployeeList;
 
-//! Single command.
+//! Single command. Used by the ConsoleController
 struct Command
 {
 	std::string commandName;
@@ -52,7 +52,6 @@ struct Command
 //! This is static class! You should never make an object of it!
 class ConsoleController
 {
-	
 	static std::vector <Command> CommandList;
 
 public:
@@ -62,7 +61,7 @@ public:
 	  *	@param MainCtrl Pointer to the EmployeeList used by Login system.
 	  *	@param LoginSys Pointer to Login system to get user permissions.
 	  */
-	static void CommandHandler(EmployeeList& MainCtrl, MainController& LoginSys);
+	static void CommandHandler(EmployeeList& MainCtrl);
 
 	/**
 	  * Create new command!
@@ -75,6 +74,12 @@ public:
 	  *
 	  */
 	static void RegisterCommand(std::string commandName, int nArguments, int requiredPerms, callback callbackFnc, std::string description = "");
+
+	/**
+	* Used to get number input. Loops until user enters a number.
+	*	@returns Inputted number.
+	*/
+	static int cinnum();
 
 	/**
 	  * Used to get passwords. Hides the input. 

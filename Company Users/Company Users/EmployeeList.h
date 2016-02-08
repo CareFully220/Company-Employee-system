@@ -29,6 +29,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <algorithm>
 #include <vector>
 #include "Typedefs.h"
 #include "Employee.h"
@@ -37,10 +38,6 @@
 
 class ConsoleController;
 class MainController;
-
-
-
-
 /**
   * Creates a list of employees and everything required to modify the list.
   */
@@ -54,12 +51,13 @@ protected:
 	bool ConCmd_Save(cmdArgs Args);
 	bool ConCmd_Remove(cmdArgs Args);
 	bool ConCmd_List(cmdArgs Args);
+	bool ConCmd_ListSort(cmdArgs Args);
 	bool ConCmd_Create(cmdArgs Args);
 	bool ConCmd_CreateUser(cmdArgs Args);
 	bool ConCmd_GetInfo(cmdArgs Args);
 	bool ConCmd_SetInfo(cmdArgs Args);
-
-	
+	bool ConCmd_ListPerms(cmdArgs Args);
+	bool ConCmd_ModifyPerms(cmdArgs Args);
 
 	friend MainController;
 public:
@@ -106,11 +104,20 @@ public:
 	*/
 	std::string GetEmployeeInfo(int id, EInfo InfoID);
 
+	/**
+	* Set Employee's information.
+	* @param id User ID.
+	* @param InfoID Information id from the EInfo list.
+	* @param newValue New value.
+	* @returns True if successful. False Employee with such id and/or Information with such id was not found.
+	*/
 	bool SetEmployeeInfo(int id, EInfo InfoID, std::string newValue);
 	
 	//! Returns true if Employee with given id exists.
 	bool IsValidID(int id);
 	
+
+
 	int GetEmployeeCount(); //!< Returns the count of the employees on the list.
 
 	//! Returns Employee's pointer so it is possible to get it's information.

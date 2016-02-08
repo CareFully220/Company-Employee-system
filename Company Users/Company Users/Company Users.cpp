@@ -39,8 +39,8 @@ int main()
 	srand((unsigned int)time(NULL));
 
 	EmployeeList Employees;
-	MainController Loginsys;
-	Device Inventory;
+	//MainController Loginsys;
+	Inventory Inv;
 	// Load employees
 	std::cout << "< Loading Employees." << std::endl;
 	
@@ -54,7 +54,7 @@ int main()
 
 	}
 	ConsoleController::PrintWelcomeMessage();
-	ConsoleController::CommandHandler(Employees, Loginsys);
+	ConsoleController::CommandHandler(Employees);
 
 //	Device go;
 //	go.printMenu();

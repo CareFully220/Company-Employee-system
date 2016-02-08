@@ -22,13 +22,9 @@
 #include "stdafx.h"
 #include "MainController.h"
 
+bool MainController::bLoggedIn = false;
+int MainController::LoggedUserID = -1;
 
-
-MainController::MainController() 
-{
-	bLoggedIn = false;
-	LoggedUserID = -1;
-}
 int MainController::LogIn(std::string Username, std::string Password, EmployeeList& EmpList)
 {
 	if (!bLoggedIn) {

@@ -25,6 +25,10 @@
 
 #pragma once
 
+// TODO: Would need a redesign
+
+//#define PERM_DEFAULT ( PERM_USER | PERM_ALLOWLOGIN | PERM_VIEWUSERS )
+
 #define PERM_USER ( 1 << 0 ) //!< If Employee has an account.
 #define PERM_ALLOWLOGIN ( 1 << 1 ) //!< If Employee can login.
 #define PERM_VIEWUSERS ( 1 << 2 )
@@ -35,8 +39,32 @@
 #define PERM_MODIFYINVENTORY ( 1 << 7 )
 #define PERM_MODIFYWORKHOURS ( 1 << 8 )
 #define PERM_MODIFYSALARY ( 1 << 9 )
-#define PERM_ADMIN ( 1 << 19 ) 
-#define PERM_DELETED ( 1 << 20 ) //!< If Employee is deleted.
+#define PERM_ADMIN ( 1 << 10 ) 
+#define PERM_DELETED ( 1 << 11 ) //!< If Employee is deleted.
 
 #define PERM_DEFAULT ( PERM_USER | PERM_ALLOWLOGIN | PERM_VIEWUSERS )
-#define PERM_ROOT ( 1 << 0 | 1 << 1 | 1 << 2 | 1 << 3 | 1 << 4 | 1 << 5 | 1 << 6 | 1 << 7 | 1 << 8 | 1 << 9 | 1 << 19 )
+#define PERM_ROOT ( 1 << 0 | 1 << 1 | 1 << 2 | 1 << 3 | 1 << 4 | 1 << 5 | 1 << 6 | 1 << 7 | 1 << 8 | 1 << 9 | 1 << 10 )
+
+//! List of permissions noone can change.
+//! These are permssions that are changed by the system.
+const int PERMS_BLOCKED = ( PERM_USER | PERM_DELETED );
+
+#define PERMS 12
+
+
+
+
+const std::string PermNames[PERMS]{
+	"user",
+	"allow login",
+	"view user",
+	"view inventory",
+	"view work hours",
+	"view salary",
+	"modify users",
+	"modify inventory",
+	"modify work hours",
+	"modify salary",
+	"admin",
+	"deleted user"
+};
