@@ -126,7 +126,7 @@ bool EmployeeList::IsValidID(int id) {
 			return true;
 		}
 	}
-	return nullptr;
+	return false;
 }
 Employee* EmployeeList::GetEmployeeByID(int id) {
 	for (int i = 0; i < GetEmployeeCount(); i++) {

@@ -74,10 +74,11 @@ void ConsoleController::CommandHandler(EmployeeList& EmpList)
 			int page = 1;
 			int loc = 0;
 			int maxloc = 10;
-
+			
 			// If user specified different page.
 			if (argnum > 0) {
 				page = atoi(arguments[0].c_str());
+				
 				if (page) { // If valid page number was entered
 					loc = (page - 1) * 10;
 					maxloc = loc + 10;
