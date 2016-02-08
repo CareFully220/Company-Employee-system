@@ -54,13 +54,13 @@ protected:
 	string location; //device location
 	string description; // item description
 	//float buyPrice;  //Device price
-	string setPrice; //setting device price // it was  float buyPrice;
+	float setPrice; //setting device price // it was  float buyPrice;
 	//string buyPrice;
 	string buyDate; //date when device bought
 	double inValue; //Inventory total value
 public:
 
-	Device(string newName, int newDevice_ID, int newModel_ID, int newUser_ID, string newLocation, string newSetPrice, string newBuyDate, string newDescription) {
+	Device(string newName, int newDevice_ID, int newModel_ID, int newUser_ID, string newLocation, float newSetPrice, string newBuyDate, string newDescription) {
 		name = newName;
 		device_ID = newDevice_ID;
 		model_ID = newModel_ID;
@@ -76,7 +76,7 @@ public:
 	int getUser_ID() { return user_ID; }
 	string getLocation() { return location; }
 	string getDescription() { return description; }
-	string getPrice() { return setPrice; }
+	float getPrice() { return setPrice; }
 	string setDate() { return buyDate; }
 
 };
@@ -98,6 +98,7 @@ public:
 
 	void addDevice(); // add device
 					  //void changeDevice(); // change stuff
+	void showDevices();
 					  //void DeviceList(); // shows all devices
 					  //void DeviceListByModel(); //show devices, criterium - based by model
 					  //void totalValue(); //displays inventory total value

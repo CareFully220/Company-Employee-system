@@ -67,26 +67,25 @@ void Inventory::loadDevices() {
 	while (getline(File, record)) {
 		istringstream ss(record);
 		int curid = 0;
-		string field, name, location, setPrice, buyDate, description;
-		int device_ID = curid;
-		int	model_ID = 0;
-		int	user_ID = 0;
+		string field, name, location, szprice, buyDate, description, szuser, szdevice, szmodel;
+		
 		getline(ss, field, ','); name = field;
-		//getline(ss, field, ','); user_ID = field;
-		//getline(ss, field, ','); device_ID = field;
-		//getline(ss, field, ','); model_ID = field;
+		getline(ss, field, ','); szuser = field;
+		getline(ss, field, ','); szmodel = field;
 		getline(ss, field, ','); location = field;
-		getline(ss, field, ','); setPrice = field;
+		getline(ss, field, ','); szprice = field;
 		getline(ss, field, ','); buyDate = field;
 		getline(ss, field, ','); description = field;
+		int	model_ID = atoi(szmodel.c_str());
+		int	user_ID = atoi(szuser.c_str());
+		float setPrice = atof(szprice.c_str());
 		// If the loaded device had bigger id than newid then we need to increase the newid
 		// because we don't want to set this same id to any other device we might create later
-		if (newid < curid) {
-			newid = curid + 1;
-		}
+		curid = newid++;
+
 
 		// Create new device and push it to list
-		deviceList.push_back(Device(name, device_ID, model_ID, user_ID, location, setPrice, buyDate, description));
+		deviceList.push_back(Device(name, curid, model_ID, user_ID, location, setPrice, buyDate, description));
 	}
 
 	cout << "Devices successfully loaded!" << endl;
@@ -101,7 +100,6 @@ void Inventory::saveDevices() {
 		//cout << deviceList.size(); // <- this shows how many lines are in the inventory.db file
 		for (int i = 0; i < (int)deviceList.size(); i++) {
 			File << deviceList[i].getName() << ", ";
-			File << deviceList[i].getDevice_ID() << ", ";
 			File << deviceList[i].getModel_ID() << ", ";
 			File << deviceList[i].getUser_ID() << ", ";
 			File << deviceList[i].getLocation() << ", ";
@@ -116,12 +114,10 @@ void Inventory::saveDevices() {
 //==================================================================================================================//
 void Inventory::addDevice() {
 
-	string name, location, setPrice, buyDate, description, newMdlId, newUserId;
+	string name, location, newPrice, buyDate, description, newMdlId, newUserId, newSetPrice;
 
-
-
-	// Instead of letting user to choose the id, we'll add it automatically
-	// And increase the newid so the next device would not get the same id.
+	//Instead of letting user to choose the id, we'll add it automatically
+	//And increase the newid so the next device would not get the same id.
 	//device_ID = newid++;
 	
 	cout << "Enter device name: ";
@@ -133,20 +129,30 @@ void Inventory::addDevice() {
 	cout << "Add location: ";
 	getline(cin, location);
 	cout << "Add purchase price: ";
-	getline(cin, setPrice);
+	getline(cin, newPrice);
 	cout << "Add purchase date: ";
 	getline(cin, buyDate);
 	cout << "Add device description: ";
 	getline(cin, description);
 
-	int device_ID = newid++;
-	int	model_ID = stoi(newMdlId);
-	int	user_ID = stoi(newUserId);
+	int device_ID = newid++; // set unique device_ID
+	int	model_ID = atoi(newMdlId.c_str()); // make model_ID to int
+	int	user_ID = atoi(newUserId.c_str()); // make user_ID to int
+	float setPrice = atof(newSetPrice.c_str()); //make setPrice to float
 
 	// Create new device and push it to list
 	deviceList.push_back(Device(name, device_ID, model_ID, user_ID, location, setPrice, buyDate, description));
 	// Save devices
 	saveDevices();
+}
+//==================================================================================================================// - Made by Marvin
+void Inventory::showDevices() {
+	cout << "  ID     Name " << endl;
+	cout << "============================ " << endl;
+	for (int i = 0; i < (int)deviceList.size(); i++) {
+		cout << " [" << deviceList[i].getDevice_ID() << "] - " << deviceList[i].getName() << endl;
+	}
+	cout << "============================ " << endl << endl;
 }
 //==================================================================================================================//
 bool Inventory::ConCmd_Menu(cmdArgs Args) {
@@ -166,8 +172,8 @@ bool Inventory::ConCmd_Menu(cmdArgs Args) {
 
 		if (input == "1") { addDevice(); }
 		else if (input == "2") { /*changeDevice();*/ }
-		else if (input == "3") { bool removeDevice(int Device_ID); }
-		else if (input == "4") { /*showDevices();*/ }
+		else if (input == "3") { /*bool removeDevice(int Device_ID);*/ }
+		else if (input == "4") { showDevices(); }
 		else if (input == "5") { /*showModelDevices();*/ }
 		else if (input == "6") { /*totalValue();*/ }
 		else if (input == "7") { return true; }
