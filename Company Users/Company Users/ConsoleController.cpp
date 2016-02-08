@@ -70,10 +70,26 @@ void ConsoleController::CommandHandler(EmployeeList& EmpList)
 			return;
 		}
 		else if (input.compare("help") == 0) {
-			// TODO: Make list multipaged.
+			// Default is page 1
+			int page = 1;
+			int loc = 0;
+			int maxloc = 10;
+
+			// If user specified different page.
+			if (argnum > 0) {
+				page = atoi(arguments[0].c_str());
+				if (page) { // If valid page number was entered
+					loc = (page - 1) * 10;
+					maxloc = loc + 10;
+				}
+				else page = 1;
+			}
 			std::cout << "===== Help =====" << std::endl;
-			for (auto &it : CommandList) {
-				std::cout << " " << it.commandName << " - " << it.commandDesc << std::endl;
+			std::cout << "Page " << page << " / " << (CommandList.size() / 10)+1 << std::endl;
+			std::cout << "================" << std::endl;
+			for (; loc < (int)CommandList.size() && loc < maxloc; loc++) {
+			//for (auto &it : CommandList) {
+				std::cout << " " << CommandList[loc].commandName << " - " << CommandList[loc].commandDesc << std::endl;
 			}
 			std::cout << "================" << std::endl;
 		}
@@ -105,7 +121,7 @@ void ConsoleController::CommandHandler(EmployeeList& EmpList)
 			for (auto &it : CommandList) {
 				if (it.commandName.compare(input) == 0) {
 					if (EmpList.GetEmployeeByID(MainController::GetLoggedInUserID())->GetPermission(it.reqPerms)) {// Check if user has permissions to do this.
-						if (it.argNum == argnum) { // Check if user entered the right amount of arguments.
+						if (argnum >= it.argNum ) { // Check if user entered the right amount of arguments.
 							if (!it.callbackFnc(arguments)) {
 								std::cout << "Usage >> " << it.commandDesc << std::endl;
 							}
