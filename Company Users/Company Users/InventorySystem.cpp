@@ -244,22 +244,24 @@ void Inventory::deviceInfo() {
 	device_ID = atoi(buf.c_str());
 
 
-	for ( device_ID = 0; device_ID < deviceList.size(); device_ID++) { //(int)deviceList.size();
-		if (device_ID == deviceList.size()) { // <-- this is not working right now, without IF Statement, it prints all devices all info
-			cout << "============================ " << endl;
-			cout << "Device name: " << deviceList[device_ID].getName() << endl;
-			cout << "Device model ID : " << deviceList[device_ID].getModel_ID() << endl;
-			cout << "Device user ID : " << deviceList[device_ID].getUser_ID() << endl;
-			cout << "Device location: " << deviceList[device_ID].getLocation() << endl;
-			cout << "Device purchase price: " << deviceList[device_ID].getPrice() << endl;
-			cout << "Device purchase date: " << deviceList[device_ID].setDate() << endl;
-			cout << "Device description: " << deviceList[device_ID].getDescription() << endl;
-			cout << "============================ " << endl;
+	//for (device_ID = 0; device_ID < deviceList.size(); device_ID++;) { //(int)deviceList.size(); //This is not actually needed, and why did you put device ID to 0? '-'
+		for (int i = 0; i < (int)deviceList.size(); i++) {
+			if (deviceList[i].getDevice_ID() == device_ID) { // If my brain data is 100% correct, this should loop trough devicelist and get the correct ID without printing all. ok
+				cout << "============================ " << endl;
+				cout << "Device name: " << deviceList[device_ID].getName() << endl;
+				cout << "Device model ID : " << deviceList[device_ID].getModel_ID() << endl;
+				cout << "Device user ID : " << deviceList[device_ID].getUser_ID() << endl;
+				cout << "Device location: " << deviceList[device_ID].getLocation() << endl;
+				cout << "Device purchase price: " << deviceList[device_ID].getPrice() << endl;
+				cout << "Device purchase date: " << deviceList[device_ID].setDate() << endl;
+				cout << "Device description: " << deviceList[device_ID].getDescription() << endl;
+				cout << "============================ " << endl;
+			}
 		}
 	}
 
 
-}
+//}
 //==================================================================================================================//
 bool Inventory::ConCmd_Menu(cmdArgs Args) {
 
