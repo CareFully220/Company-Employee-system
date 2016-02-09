@@ -68,7 +68,7 @@ const std::string PermNames[PERMS]{
 	"modify work hours",
 	"modify salary",
 	"admin",
-	"delete user",
+	"deleted user",
 	"remove money",
 	"view economy transaction logs"
 };
