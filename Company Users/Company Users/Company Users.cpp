@@ -28,6 +28,7 @@
 #include <ctime>
 //#include <cstdlib>
 #include "InventorySystem.h"
+#include "economy.h"
 
 
 #include "ConsoleController.h"
@@ -42,6 +43,8 @@ int main()
 	//MainController Loginsys;
 	Inventory Inv;
 	// Load employees
+	Economy economy;
+
 	std::cout << "< Loading Employees." << std::endl;
 	
 	if (Employees.LoadEmployees("EmloyeeData.db")) {
