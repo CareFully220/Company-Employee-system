@@ -3,7 +3,7 @@ Inventory System cpp
 ==========
 Changelog:
 ==========
-- Version 0.1|02.02.2016| - prints main menu and can add devices
+- Version 0.1|02.02.2016| - prints main menu and can add devices.
 - Version 0.2|09.02.2016| - now works remove device, view total inventory value, view devices.
 
 */
@@ -85,7 +85,6 @@ void Inventory::addDevice() {
 
 	string name, location, newPrice, buyDate, description, newMdlId, newUserId; //declarations
 
-
 	//user enters Device information
 	cout << "Enter device name: ";
 	getline(cin, name);
@@ -112,7 +111,7 @@ void Inventory::addDevice() {
 	// Save devices
 	saveDevices();
 }
-//==================================================================================================================//
+//==================================================================================================================// - not finished
 void Inventory::changeDevice() {
 	//user selects a device by device_ID
 	showDevices();
@@ -177,7 +176,8 @@ void Inventory::removeDevice() {
 			if (deviceList[i].getDevice_ID() == device_ID) {
 				// If we did erase it and return true.
 				deviceList.erase(deviceList.begin() + i);
-				
+
+				cout << "============================ " << endl;
 				cout << "Device is removed!" << endl;
 				cout << "============================ " << endl;
 			}
@@ -200,7 +200,7 @@ void Inventory::showDevices() {
 	}
 	cout << "============================ " << endl << endl;
 }
-//==================================================================================================================//
+//==================================================================================================================// - add some kind of sorting
 void Inventory::showModelDevices() {
 
 	//sort devices by model ID
@@ -210,7 +210,7 @@ void Inventory::showModelDevices() {
 	for (int i = 0; i < deviceList.size(); i++) { //(int)deviceList.size();
 		cout << " [" << deviceList[i].getModel_ID() << "] - " << deviceList[i].getName() << endl; //displays device ID and device name
 	}
-	cout << "============================ " << endl << endl;
+	cout << "============================ " << endl;
 
 }
 //==================================================================================================================//
@@ -225,7 +225,39 @@ void Inventory::totalValue() {
 	}
 	cout << "============================ " << endl;
 	cout << inventoryValue << " - Euros" << endl;
-	cout << "============================ " << endl << endl;
+	cout << "============================ " << endl;
+
+}
+//==================================================================================================================//
+void Inventory::deviceInfo() {
+	//this function shows specific device information
+	//user chooses device
+	//console prints chosen device info
+
+	int device_ID = 0;
+	string buf;
+	showDevices(); // displays devices
+
+
+	cout << "Enter device_ID to see device information: "; // user enters device_ID
+	getline(cin, buf);
+	device_ID = atoi(buf.c_str());
+
+
+	for ( device_ID = 0; device_ID < deviceList.size(); device_ID++) { //(int)deviceList.size();
+		if (device_ID == deviceList.size()) { // <-- this is not working right now, without IF Statement, it prints all devices all info
+			cout << "============================ " << endl;
+			cout << "Device name: " << deviceList[device_ID].getName() << endl;
+			cout << "Device model ID : " << deviceList[device_ID].getModel_ID() << endl;
+			cout << "Device user ID : " << deviceList[device_ID].getUser_ID() << endl;
+			cout << "Device location: " << deviceList[device_ID].getLocation() << endl;
+			cout << "Device purchase price: " << deviceList[device_ID].getPrice() << endl;
+			cout << "Device purchase date: " << deviceList[device_ID].setDate() << endl;
+			cout << "Device description: " << deviceList[device_ID].getDescription() << endl;
+			cout << "============================ " << endl;
+		}
+	}
+
 
 }
 //==================================================================================================================//
@@ -240,7 +272,8 @@ bool Inventory::ConCmd_Menu(cmdArgs Args) {
 		cout << "[4]Inventory overview" << endl;  //showDevices();
 		cout << "[5]Model-based overview" << endl; //showModelDevices();
 		cout << "[6]Inventory total value" << endl; //totalValue();
-		cout << "[7]Leave inventory system" << endl; //leaves the system
+		cout << "[7]Print specific device info" << endl; //deviceInfo();
+		cout << "[0]Leave inventory system" << endl; //leaves the system
 		cout << "Choose action: ";
 		getline(cin, input); // user enters the action
 
@@ -250,7 +283,8 @@ bool Inventory::ConCmd_Menu(cmdArgs Args) {
 		else if (input == "4") { showDevices(); }
 		else if (input == "5") { showModelDevices(); }
 		else if (input == "6") { totalValue(); }
-		else if (input == "7") { return true; }
+		else if (input == "7") { deviceInfo(); }
+		else if (input == "0") { return true; }
 		else { cout << "\"" << input << "\"" << " is incorrect input!" << endl; } // when user enters unknown input
 	}
 	return true;

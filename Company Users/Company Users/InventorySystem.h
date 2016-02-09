@@ -39,6 +39,7 @@ protected:
 	float inventoryValue; //Inventory total value
 	float setPrice; // device price
 public:
+
 	Device(string newName, int newDevice_ID, int newModel_ID, int newUser_ID, string newLocation, float newSetPrice, string newBuyDate, string newDescription) {
 		name = newName;
 		device_ID = newDevice_ID;
@@ -84,6 +85,8 @@ public:
 	void showModelDevices(); //show devices, criterium - based by model
 
 	void totalValue(); //displays inventory total value
+
+	void deviceInfo(); //displays specific device all information(name,device_Id etc)
 
 	bool ConCmd_Menu(cmdArgs Args); // Command callbacks.
 };
