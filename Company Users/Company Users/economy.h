@@ -15,34 +15,38 @@ kokkuvõtete genereerimine*/
 #include <fstream>
 #include "ConsoleController.h"
 #include "Permissions.h"
+#include "EmployeeList.h"
 
 struct logEntry {
 	int amount;
 	std::string type;
-	std::string explanation;//DO NOT INCLUDE NEWLINES IN THE EXPLANATION
+	std::string explanation;//DO NOT INCLUDE NEWLINES IN THE EXPLANATION OR THE TYPE.
 };
 
 class Economy {
 private:
 	int money = 0;//In cents
+	EmployeeList *EmpList;
 	void addMoney(int amount) {
 		money += amount;
 	};
 	std::vector<logEntry*> log;
 
 public:
-	Economy() {
+	Economy(EmployeeList *newEmpList) {
+		EmpList = newEmpList;
 		using namespace std::placeholders;
+		//register the commands
 		ConsoleController::RegisterCommand("addmoney", 
 			2, 
 			PERM_USER,
 			std::bind(&Economy::ConCmd_add, this, _1), 
-			"addmoney amount description");
+			"addmoney [amount] [description]\t Adds money.");
 		ConsoleController::RegisterCommand("removemoney",
 			3,
 			PERM_REMOVEMONEY,
 			std::bind(&Economy::ConCmd_remove, this, _1),
-			"removemoney amount type description");
+			"removemoney [amount] [type] [description]\t Removes money.");
 		ConsoleController::RegisterCommand("gettotalincome",
 			0,
 			PERM_VIEWECONLOGS,
@@ -63,6 +67,7 @@ public:
 			PERM_VIEWECONLOGS,
 			std::bind(&Economy::ConCmd_getMoneyAmount, this, _1),
 			"Prints the amount of money we have");
+		//Read the save
 		std::ifstream iFile("economy");
 		std::string buf;
 		logEntry *nLogEntry;
@@ -85,23 +90,34 @@ public:
 	};
 	bool ConCmd_add(cmdArgs Args) {
 		int amount = atoi(Args[0].c_str());
-		std::string explanation = Args[1];
+		//The explanation will be username: Rest of the arguments 
+		std::string explanation= " "+EmpList->GetEmployeeInfo(MainController::GetLoggedInUserID(), EINF_FIRSTNAME)+":";
+		for (int i = 1; i < Args.size(); i++) {
+			explanation += " "+Args[i];
+		}
+		//Don't remove money with the addmoney command
 		if (amount <= 0) {
 			return 0;
 		}
 		add(amount, explanation);
-		save();
+		save();//Save to the file
 		return 1;
 	};
-	bool ConCmd_remove(cmdArgs Args) {
+	bool ConCmd_remove(cmdArgs Args) {//TODO: See ConCmd_add
 		int amount = atoi(Args[0].c_str());
 		std::string type = Args[1];
-		std::string explanation = Args[2];
+		//The explanation will be username: Rest of the arguments 
+		std::string explanation = " "+EmpList->GetEmployeeInfo(MainController::GetLoggedInUserID(), EINF_FIRSTNAME) + ":";
+		for (int i = 2; i < Args.size(); i++) {
+			explanation += " " + Args[i];
+		}
+		//Don't add money with the removemoney command
 		if (amount <= 0) {
 			return 0;
 		}
+
 		remove(amount, type, explanation);
-		save();
+		save();//Save to the file
 		return 1;
 	}
 	bool ConCmd_getMoneyAmount(cmdArgs Args) {
@@ -118,7 +134,8 @@ public:
 	}
 	bool ConCmd_getVerboseLog(cmdArgs Args) {
 		for (int i = 0; i < log.size(); i++) {
-			std::cout << log[i]->amount << " type: " << log[i]->type << " explanation: " << log[i]->explanation << "\n";
+			//Print all the transactions in the log
+			std::cout << log[i]->amount << " type: " << log[i]->type << log[i]->explanation << "\n";
 		}
 		return 1;
 	}
@@ -168,7 +185,7 @@ public:
 		return outgo;
 	};
 
-	void save() {
+	void save() {//Saves to file
 		std::ofstream oFile("economy");
 		oFile << money<<"\n";
 		for (int i = 0; i < log.size(); i++) {
