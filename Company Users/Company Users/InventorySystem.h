@@ -1,21 +1,3 @@
-/*==========================================================================
-Inventory 0.1 - can calculate grades, avarage grades, shape girths and areas
-Copyright (C) 2016 Karl Robert Lillipuu
-
-This program iSs free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-==========================================================================*/
-
 /**
 * @file InventorySystem.h
 * @brief Everything related to Inventory system.
@@ -53,13 +35,10 @@ protected:
 	int user_ID; // user id
 	string location; //device location
 	string description; // item description
-	//float buyPrice;  //Device price
-	float setPrice; //setting device price // it was  float buyPrice;
-	//string buyPrice;
 	string buyDate; //date when device bought
-	double inValue; //Inventory total value
+	float inventoryValue; //Inventory total value
+	float setPrice; // device price
 public:
-
 	Device(string newName, int newDevice_ID, int newModel_ID, int newUser_ID, string newLocation, float newSetPrice, string newBuyDate, string newDescription) {
 		name = newName;
 		device_ID = newDevice_ID;
@@ -70,6 +49,7 @@ public:
 		buyDate = newBuyDate;
 		description = newDescription;
 	}
+	//used to return values/information/data
 	string getName() { return name; }
 	int getDevice_ID() { return device_ID; }
 	int getModel_ID() { return model_ID; }
@@ -87,23 +67,23 @@ private:
 	vector <Device> deviceList;
 	int newid; // we will use this to get device id's.
 public:
-
 	Inventory();
 
-	//void addDevice(string newName, string newDevice_ID, string newModel_ID, string newUser_ID, string newLocation, string newSetPrice, string newBuyDate, string newDescription);
-	bool removeDevice(int Device_ID);
+	void removeDevice(); // remove Devices funtion
 
-	void loadDevices();
-	void saveDevices();
+	void loadDevices(); //loads devices
+
+	void saveDevices(); // saves devices
 
 	void addDevice(); // add device
-					  //void changeDevice(); // change stuff
-	void showDevices();
-					  //void DeviceList(); // shows all devices
-					  //void DeviceListByModel(); //show devices, criterium - based by model
-					  //void totalValue(); //displays inventory total value
 
-					  // Command callbacks.
-	bool ConCmd_Menu(cmdArgs Args);
+	void changeDevice(); // change devices information
 
+	void showDevices(); // shows devices
+
+	void showModelDevices(); //show devices, criterium - based by model
+
+	void totalValue(); //displays inventory total value
+
+	bool ConCmd_Menu(cmdArgs Args); // Command callbacks.
 };
