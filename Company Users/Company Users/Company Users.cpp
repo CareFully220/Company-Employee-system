@@ -43,7 +43,7 @@ int main()
 	//MainController Loginsys;
 	Inventory Inv;
 	// Load employees
-	Economy economy;
+	Economy economy(&Employees);
 
 	std::cout << "< Loading Employees." << std::endl;
 	

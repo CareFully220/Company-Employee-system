@@ -15,6 +15,7 @@ kokkuvõtete genereerimine*/
 #include <fstream>
 #include "ConsoleController.h"
 #include "Permissions.h"
+#include "EmployeeList.h"
 
 struct logEntry {
 	int amount;
@@ -25,13 +26,15 @@ struct logEntry {
 class Economy {
 private:
 	int money = 0;//In cents
+	EmployeeList *EmpList;
 	void addMoney(int amount) {
 		money += amount;
 	};
 	std::vector<logEntry*> log;
 
 public:
-	Economy() {
+	Economy(EmployeeList *newEmpList) {
+		EmpList = newEmpList;
 		using namespace std::placeholders;
 		ConsoleController::RegisterCommand("addmoney", 
 			2, 
@@ -85,7 +88,10 @@ public:
 	};
 	bool ConCmd_add(cmdArgs Args) {
 		int amount = atoi(Args[0].c_str());
-		std::string explanation = Args[1];
+		std::string explanation= " "+EmpList->GetEmployeeInfo(MainController::GetLoggedInUserID(), EINF_FIRSTNAME)+":";
+		for (int i = 1; i < Args.size(); i++) {
+			explanation += " "+Args[i];
+		}
 		if (amount <= 0) {
 			return 0;
 		}
@@ -93,13 +99,17 @@ public:
 		save();
 		return 1;
 	};
-	bool ConCmd_remove(cmdArgs Args) {
+	bool ConCmd_remove(cmdArgs Args) {//TODO: See ConCmd_add
 		int amount = atoi(Args[0].c_str());
+		std::string explanation = " "+EmpList->GetEmployeeInfo(MainController::GetLoggedInUserID(), EINF_FIRSTNAME) + ":";
+		for (int i = 2; i < Args.size(); i++) {
+			explanation += " " + Args[i];
+		}
 		std::string type = Args[1];
-		std::string explanation = Args[2];
 		if (amount <= 0) {
 			return 0;
 		}
+
 		remove(amount, type, explanation);
 		save();
 		return 1;
@@ -118,7 +128,7 @@ public:
 	}
 	bool ConCmd_getVerboseLog(cmdArgs Args) {
 		for (int i = 0; i < log.size(); i++) {
-			std::cout << log[i]->amount << " type: " << log[i]->type << " explanation: " << log[i]->explanation << "\n";
+			std::cout << log[i]->amount << " type: " << log[i]->type << log[i]->explanation << "\n";
 		}
 		return 1;
 	}
