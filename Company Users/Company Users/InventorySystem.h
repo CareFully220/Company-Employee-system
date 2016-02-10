@@ -35,9 +35,9 @@ protected:
 	int user_ID; // user id
 	string location; //device location
 	string description; // item description
-	string buyDate; //date when device bought
+	string Date; //date when device bought
 	float inventoryValue; //Inventory total value
-	float setPrice; // device price
+	float Price; // device price
 public:
 
 	Device(string newName, int newDevice_ID, int newModel_ID, int newUser_ID, string newLocation, float newSetPrice, string newBuyDate, string newDescription) {
@@ -46,8 +46,8 @@ public:
 		model_ID = newModel_ID;
 		user_ID = newUser_ID;
 		location = newLocation;
-		setPrice = newSetPrice;
-		buyDate = newBuyDate;
+		Price = newSetPrice;
+		Date = newBuyDate;
 		description = newDescription;
 	}
 	//used to return values/information/data
@@ -57,8 +57,8 @@ public:
 	int getUser_ID() { return user_ID; }
 	string getLocation() { return location; }
 	string getDescription() { return description; }
-	float getPrice() { return setPrice; }
-	string setDate() { return buyDate; }
+	float getPrice() { return Price; }
+	string setDate() { return Date; }
 
 };
 
