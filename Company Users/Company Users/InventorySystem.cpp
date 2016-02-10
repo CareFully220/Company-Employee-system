@@ -74,7 +74,7 @@ void Inventory::saveDevices() {
 			File << deviceList[i].getUser_ID() << ", ";
 			File << deviceList[i].getLocation() << ", ";
 			File << deviceList[i].getPrice() << ", ";
-			File << deviceList[i].setDate() << ",";
+			File << deviceList[i].getDate() << ",";
 			File << deviceList[i].getDescription() << "\n";
 		}
 		File.close();
@@ -111,7 +111,7 @@ void Inventory::addDevice() {
 	// Save devices
 	saveDevices();
 }
-//==================================================================================================================// - not finished
+//==================================================================================================================// - Lauri helped here
 void Inventory::changeDevice() {
 	//user selects a device by device_ID
 	showDevices();
@@ -123,33 +123,39 @@ void Inventory::changeDevice() {
 	getline(cin, buf);
 	device_ID = atoi(buf.c_str());
 
-	//asks if user is sure to change that device
-	string sure;
-	cout << "Are you sure?" << endl; //asks if user is sure to delete device
-	cout << "[1]Yes." << endl;
-	cout << "[2]No." << endl;
-	getline(cin, sure);
 	//information menu
-	string data;
+	//while (true) {
+	for (int i = 0; i < (int)deviceList.size(); i++) {
+		if (deviceList[i].getDevice_ID() == device_ID) { // If my brain data is 100% correct, this should loop trough devicelist and get the correct ID without printing all. ok
+			string data;
+			cout << "[1]Name" << endl;
+			cout << "[2]Model_ID" << endl;
+			cout << "[3]User_ID" << endl;
+			cout << "[4]Location" << endl;
+			cout << "[5]Purchase Price" << endl;
+			cout << "[6]Purchase Date" << endl;
+			cout << "[7]Description" << endl;
+			cout << "[0]exit" << endl;
+			cout << "Choose what to change: ";
+			getline(cin, data);
+			if (data == "1") { deviceList[device_ID].setName(); }
+			if (data == "2") { deviceList[device_ID].setModel_ID(); }
+			if (data == "3") { deviceList[device_ID].setUser_ID(); }
+			if (data == "4") { deviceList[device_ID].setLocation(); }
+			if (data == "5") { deviceList[device_ID].setPrice(); }
+			if (data == "6") { deviceList[device_ID].setDate(); }
+			if (data == "7") { deviceList[device_ID].setDescription(); }
 
-	cout << "[1]Name" << endl;
-	cout << "[2]Model_ID" << endl;
-	cout << "[3]User_ID" << endl;
-	cout << "[4]Location" << endl;
-	cout << "[5]Purchase Price" << endl;
-	cout << "[6]Purchase Date" << endl;
-	getline(cin, data);
-
-	//make loop to the right device
-	//go to the data what user want to change
-	//erase current data
-	//user enters new data
-
-
-	//here happens the magic
-	// I don't know how it works so yeah, It's kinda GG
-	//this->deviceList.name = changeName;
-
+			string sure;
+			cout << "Do you want to save changes?" << endl; //asks if user is sure to delete device
+			cout << "[1]Yes." << endl;
+			cout << "[2]No." << endl;
+			getline(cin, sure);
+			if (sure == "1") { saveDevices();}
+			else if (sure == "2") {return;}
+			else { cout << "Wrong input!"; }
+		}
+	}
 }
 //==================================================================================================================//
 void Inventory::removeDevice() {
@@ -253,7 +259,7 @@ void Inventory::deviceInfo() {
 				cout << "Device user ID : " << deviceList[device_ID].getUser_ID() << endl;
 				cout << "Device location: " << deviceList[device_ID].getLocation() << endl;
 				cout << "Device purchase price: " << deviceList[device_ID].getPrice() << endl;
-				cout << "Device purchase date: " << deviceList[device_ID].setDate() << endl;
+				cout << "Device purchase date: " << deviceList[device_ID].getDate() << endl;
 				cout << "Device description: " << deviceList[device_ID].getDescription() << endl;
 				cout << "============================ " << endl;
 			}

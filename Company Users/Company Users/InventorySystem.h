@@ -58,7 +58,23 @@ public:
 	string getLocation() { return location; }
 	string getDescription() { return description; }
 	float getPrice() { return Price; }
-	string setDate() { return Date; }
+	string getDate() { return Date; } // muuda ära ka pärast k
+
+	void setName() { cout << "Enter new name for device: ";  string input;  getline(cin, input); name = input; }
+
+	void setDevice_ID() { cout << "Enter new device ID : ";  int input;  input = ConsoleController::cinnum(); device_ID = input; }
+
+	void setModel_ID() { cout << "Enter new model ID: ";  int input;  input = ConsoleController::cinnum(); model_ID = input; }
+
+	void setUser_ID() { cout << "Enter new user ID: "; int input;  input = ConsoleController::cinnum(); user_ID = input; }
+
+	void setLocation() { cout << "Enter new location: "; string input;  getline(cin, input); location = input; }
+
+	void setDescription() { cout << "Enter new description: "; string input;  getline(cin, input); description = input; }
+
+	void setPrice() { cout << "Enter new price: "; float input;  cin >> input; Price = input; }
+
+	void setDate() { cout << "Enter new date for the device: ";  string input;  getline(cin, input); Date = input; }
 
 };
 
