@@ -41,32 +41,32 @@ public:
 			2, 
 			PERM_USER,
 			std::bind(&Economy::ConCmd_add, this, _1), 
-			"addmoney [amount] [description]\t Adds money.");
+			"Params: <amount> <description> | Adds money.");
 		ConsoleController::RegisterCommand("removemoney",
 			3,
-			PERM_REMOVEMONEY,
+			PERM_MODIFYSALARY,
 			std::bind(&Economy::ConCmd_remove, this, _1),
-			"removemoney [amount] [type] [description]\t Removes money.");
+			"Params: <amount> <type> <description> | Removes money.");
 		ConsoleController::RegisterCommand("gettotalincome",
 			0,
-			PERM_VIEWECONLOGS,
+			PERM_VIEWSALARY,
 			std::bind(&Economy::ConCmd_getTotalIncome, this, _1),
-			"Gets the total income");
+			"Get the total income");
 		ConsoleController::RegisterCommand("gettotaloutgo",
 			0,
-			PERM_VIEWECONLOGS,
+			PERM_VIEWSALARY,
 			std::bind(&Economy::ConCmd_getTotalOutgo, this, _1),
-			"Gets the total outgo");
+			"Get the total outgo");
 		ConsoleController::RegisterCommand("getvtransactlog",
 			0,
-			PERM_VIEWECONLOGS,
+			PERM_VIEWSALARY,
 			std::bind(&Economy::ConCmd_getVerboseLog, this, _1),
-			"Gets verbose logs of transactions");
+			"Get verbose logs of transactions");
 		ConsoleController::RegisterCommand("countmoney",
 			0,
-			PERM_VIEWECONLOGS,
+			PERM_VIEWSALARY,
 			std::bind(&Economy::ConCmd_getMoneyAmount, this, _1),
-			"Prints the amount of money we have");
+			"Print the amount of money we have");
 		//Read the save
 		std::ifstream iFile("economy");
 		std::string buf;

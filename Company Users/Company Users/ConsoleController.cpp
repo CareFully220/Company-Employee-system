@@ -71,22 +71,24 @@ void ConsoleController::CommandHandler(EmployeeList& EmpList)
 		}
 		else if (input.compare("help") == 0) {
 			// Default is page 1
-			int page = 1;
-			int loc = 0;
-			int maxloc = 10;
-			
+			int page = 1; // current page
+			int loc = 0; // current location
+			int maxloc = 10; // max commands per page
+			int maxpages = (CommandList.size() / maxloc) + 1; // Max pages
 			// If user specified different page.
 			if (argnum > 0) {
-				page = atoi(arguments[0].c_str());
-				
-				if (page) { // If valid page number was entered
-					loc = (page - 1) * 10;
-					maxloc = loc + 10;
+				int tempPage = atoi(arguments[0].c_str()); // String to number.
+				if (tempPage > 1){ // if there is such page
+					if (tempPage > maxpages)
+						page = maxpages;
+					else 
+						page = tempPage;
+					loc = (page - 1) * 10; // set location to chosen page.
+					maxloc = loc + maxloc; // set maximum location to the end of the page.
 				}
-				else page = 1;
 			}
 			std::cout << "===== Help =====" << std::endl;
-			std::cout << "Page " << page << " / " << (CommandList.size() / 10)+1 << std::endl;
+			std::cout << "Page " << page << " / " << maxpages << std::endl;
 			std::cout << "================" << std::endl;
 			for (; loc < (int)CommandList.size() && loc < maxloc; loc++) {
 			//for (auto &it : CommandList) {

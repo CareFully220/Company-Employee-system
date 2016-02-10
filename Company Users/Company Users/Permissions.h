@@ -26,6 +26,7 @@
 #pragma once
 
 // TODO: Would need a redesign
+// Please don't change permissions without asking!
 
 //#define PERM_DEFAULT ( PERM_USER | PERM_ALLOWLOGIN | PERM_VIEWUSERS )
 
@@ -41,8 +42,7 @@
 #define PERM_MODIFYSALARY ( 1 << 9 )
 #define PERM_ADMIN ( 1 << 10 ) 
 #define PERM_DELETED ( 1 << 11 ) //!< If Employee is deleted.
-#define PERM_REMOVEMONEY (1<<12)
-#define PERM_VIEWECONLOGS (1<<13)
+
 
 #define PERM_DEFAULT ( PERM_USER | PERM_ALLOWLOGIN | PERM_VIEWUSERS )
 #define PERM_ROOT ( 1 << 0 | 1 << 1 | 1 << 2 | 1 << 3 | 1 << 4 | 1 << 5 | 1 << 6 | 1 << 7 | 1 << 8 | 1 << 9 | 1 << 10 )
@@ -68,7 +68,5 @@ const std::string PermNames[PERMS]{
 	"modify work hours",
 	"modify salary",
 	"admin",
-	"deleted user",
-	"remove money",
-	"view economy transaction logs"
+	"deleted user"
 };
