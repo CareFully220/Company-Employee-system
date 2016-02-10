@@ -9,6 +9,7 @@ Changelog:
 */
 #include "stdafx.h"
 #include "InventorySystem.h"
+#include "EmployeeList.h"
 
 #include <iostream>
 #include <string>
@@ -89,14 +90,14 @@ void Inventory::addDevice() {
 	cout << "Enter device name: ";
 	getline(cin, name);
 	cout << "Add model ID: ";
-	getline(cin, newMdlId);
+	newMdlId = ConsoleController::cinnum();
 	cout << "Add user ID: ";
-	getline(cin, newUserId);
+	newUserId = ConsoleController::cinnum(); 
 	cout << "Add location: ";
 	getline(cin, location);
 	cout << "Add purchase price: ";
 	getline(cin, newPrice);
-	cout << "Add purchase date: ";
+	cout << "Add purchase date (DD.MM.YY): ";
 	getline(cin, buyDate);
 	cout << "Add device description: ";
 	getline(cin, description);
@@ -113,18 +114,17 @@ void Inventory::addDevice() {
 }
 //==================================================================================================================// - Lauri helped here
 void Inventory::changeDevice() {
-	//user selects a device by device_ID
+	//prints  devices
 	showDevices();
 
 	int device_ID;
 	string buf;
 	//user enters device_ID what he/she wants to change/modify
 	cout << "Select device you want to change: ";
-	getline(cin, buf);
+	buf = ConsoleController::cinnum();
 	device_ID = atoi(buf.c_str());
 
 	//information menu
-	//while (true) {
 	for (int i = 0; i < (int)deviceList.size(); i++) {
 		if (deviceList[i].getDevice_ID() == device_ID) { // If my brain data is 100% correct, this should loop trough devicelist and get the correct ID without printing all. ok
 			string data;
@@ -137,6 +137,7 @@ void Inventory::changeDevice() {
 			cout << "[7]Description" << endl;
 			cout << "[0]exit" << endl;
 			cout << "Choose what to change: ";
+			//user selects what he/she wants to change
 			getline(cin, data);
 			if (data == "1") { deviceList[device_ID].setName(); }
 			if (data == "2") { deviceList[device_ID].setModel_ID(); }
@@ -154,6 +155,9 @@ void Inventory::changeDevice() {
 			if (sure == "1") { saveDevices();}
 			else if (sure == "2") {return;}
 			else { cout << "Wrong input!"; }
+		}
+		else {
+			cout << "ERROR 404: DEVICE NOT FOUND" << endl;
 		}
 	}
 }
