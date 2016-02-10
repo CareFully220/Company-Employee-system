@@ -410,8 +410,13 @@ bool EmployeeList::ConCmd_GetInfo(cmdArgs Args)
 	int userid = atoi(Args[0].c_str());
 	std::cout << "Employee id " << userid << " info" << std::endl;
 	std::cout << "=============================" << std::endl;
-	for (int i = 0; i < EINFOS; i++) {
-		std::cout << EmployeeInfoNames[i] << ": " << GetEmployeeInfo(userid, (EInfo)i) << std::endl;
+	if (IsValidID(userid)) {
+		for (int i = 0; i < EINFOS; i++) {
+			std::cout << EmployeeInfoNames[i] << ": " << GetEmployeeInfo(userid, (EInfo)i) << std::endl;
+		}
+	}
+	else {
+		std::cout << "No such user found." <<std::endl;
 	}
 	std::cout << "=============================" << std::endl;
 	return true;
