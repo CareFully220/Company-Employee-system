@@ -18,17 +18,24 @@ Changelog:
 #include <vector>
 #include <cstdlib>
 using namespace std;
-//==================================================================================================================//
+/*==================================================================================================================// - Created by Karl
+				COMMENT BOX - comment here if any bugs found or any ideas to make system better 
+	|Bug - device lisamisel miski nullib user_ID ja model_ID <-- MUST FIX loaddevices(); problem mby, or addDevice();  - Karl(11.02.2016)
+	|
+	|
+	|
+	|											
+//==================================================================================================================*/
 // Constructor
 Inventory::Inventory() { 
 	newid = 0; // We will start from the id 0.
 
-	// Register commands
+	//Register commands
 	using namespace std::placeholders; // for `_1` placeholder
 	ConsoleController::RegisterCommand("inventory", 0, PERM_MODIFYINVENTORY, std::bind(&Inventory::ConCmd_Menu, this, _1), "Enter the inventory system.");
 
-	// Load inventory.
-	loadDevices(); 
+	//Load inventory.
+	loadDevices();
 }
 //==================================================================================================================//
 void Inventory::loadDevices() {
@@ -84,13 +91,13 @@ void Inventory::saveDevices() {
 //==================================================================================================================//
 void Inventory::addDevice() {
 
-	string name, location, newPrice, buyDate, description, newMdlId, newUserId; //declarations
+	string name, location, newPrice, buyDate, description, newModelId, newUserId; //declarations
 
 	//user enters Device information
 	cout << "Enter device name: ";
 	getline(cin, name);
 	cout << "Add model ID: ";
-	newMdlId = ConsoleController::cinnum();
+	newModelId = ConsoleController::cinnum(); // <-- I think it wont save it - Karl(26.02.2016)
 	cout << "Add user ID: ";
 	newUserId = ConsoleController::cinnum(); 
 	cout << "Add location: ";
@@ -103,12 +110,14 @@ void Inventory::addDevice() {
 	getline(cin, description);
 
 	int device_ID = newid++; // set unique device_ID
-	int	model_ID = atoi(newMdlId.c_str()); // make model_ID to int
+	int	model_ID = atoi(newModelId.c_str()); // make model_ID to int
 	int	user_ID = atoi(newUserId.c_str()); // make user_ID to int
 	float setPrice = atof(newPrice.c_str()); //make setPrice to float
-
-											 // Create new device and push it to list
+												
+	// Create new device and push it to list
 	deviceList.push_back(Device(name, device_ID, model_ID, user_ID, location, setPrice, buyDate, description));
+
+	cout << "Device added successfully!" << endl;
 	// Save devices
 	saveDevices();
 }
@@ -140,13 +149,13 @@ void Inventory::changeDevice() {
 			//user selects what he/she wants to change
 			getline(cin, data);
 			if (data == "1") { deviceList[device_ID].setName(); }
-			if (data == "2") { deviceList[device_ID].setModel_ID(); }
-			if (data == "3") { deviceList[device_ID].setUser_ID(); }
-			if (data == "4") { deviceList[device_ID].setLocation(); }
-			if (data == "5") { deviceList[device_ID].setPrice(); }
-			if (data == "6") { deviceList[device_ID].setDate(); }
-			if (data == "7") { deviceList[device_ID].setDescription(); }
-
+			else if (data == "2") { deviceList[device_ID].setModel_ID(); }
+			else if (data == "3") { deviceList[device_ID].setUser_ID(); }
+			else if (data == "4") { deviceList[device_ID].setLocation(); }
+			else if (data == "5") { deviceList[device_ID].setPrice(); }
+			else if (data == "6") { deviceList[device_ID].setDate(); }
+			else if (data == "7") { deviceList[device_ID].setDescription(); }
+			else { cout << "Wrong input!"; return; }
 			string sure;
 			cout << "Do you want to save changes?" << endl; //asks if user is sure to delete device
 			cout << "[1]Yes." << endl;
