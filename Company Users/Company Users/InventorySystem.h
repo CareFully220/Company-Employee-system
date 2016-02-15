@@ -35,9 +35,9 @@ protected:
 	int user_ID; // user id
 	string location; //device location
 	string description; // item description
+	float Price; // device price
 	string Date; //date when device bought
 	float inventoryValue; //Inventory total value
-	float Price; // device price
 public:
 
 	Device(string newName, int newDevice_ID, int newModel_ID, int newUser_ID, string newLocation, float newSetPrice, string newBuyDate, string newDescription) {
@@ -58,7 +58,7 @@ public:
 	string getLocation() { return location; }
 	string getDescription() { return description; }
 	float getPrice() { return Price; }
-	string getDate() { return Date; } // muuda ära ka pärast k
+	string getDate() { return Date; }
 
 
 	//these are used to change/modify device information

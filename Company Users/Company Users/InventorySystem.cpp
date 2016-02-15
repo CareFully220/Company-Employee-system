@@ -5,8 +5,18 @@ Changelog:
 ==========
 - Version 0.1|02.02.2016| - prints main menu and can add devices.
 - Version 0.2|09.02.2016| - now works remove device, view total inventory value, view devices.
+- Version 1.0|15.02.2016| - Basicly done, bug fixes(might still have some).
 
 */
+
+/*==================================================================================================================// - Created by Karl
+COMMENT BOX - comment here if any bugs found or any ideas to make system better
+|
+|
+|
+|
+|
+//==================================================================================================================*/
 #include "stdafx.h"
 #include "InventorySystem.h"
 #include "EmployeeList.h"
@@ -18,14 +28,6 @@ Changelog:
 #include <vector>
 #include <cstdlib>
 using namespace std;
-/*==================================================================================================================// - Created by Karl
-				COMMENT BOX - comment here if any bugs found or any ideas to make system better 
-	|Bug - device lisamisel miski nullib user_ID ja model_ID <-- MUST FIX loaddevices(); problem mby, or addDevice();  - Karl(11.02.2016)
-	|
-	|
-	|
-	|											
-//==================================================================================================================*/
 // Constructor
 Inventory::Inventory() { 
 	newid = 0; // We will start from the id 0.
@@ -137,6 +139,7 @@ void Inventory::changeDevice() {
 	for (int i = 0; i < (int)deviceList.size(); i++) {
 		if (deviceList[i].getDevice_ID() == device_ID) { // If my brain data is 100% correct, this should loop trough devicelist and get the correct ID without printing all. ok
 			string data;
+			cout << "============================ " << endl;
 			cout << "[1]Name" << endl;
 			cout << "[2]Model_ID" << endl;
 			cout << "[3]User_ID" << endl;
@@ -145,6 +148,7 @@ void Inventory::changeDevice() {
 			cout << "[6]Purchase Date" << endl;
 			cout << "[7]Description" << endl;
 			cout << "[0]exit" << endl;
+			cout << "============================ " << endl;
 			cout << "Choose what to change: ";
 
 			//user selects what he/she wants to change
@@ -295,7 +299,7 @@ bool Inventory::ConCmd_Menu(cmdArgs Args) {
 
 	while (true) {
 		string input; // user option
-
+		cout << "============================ " << endl;
 		cout << "[1]Add device" << endl; //addDevice();
 		cout << "[2]Change device" << endl; //changeDevice();
 		cout << "[3]Remove device" << endl; //removeDevice();
@@ -304,6 +308,7 @@ bool Inventory::ConCmd_Menu(cmdArgs Args) {
 		cout << "[6]Inventory total value" << endl; //totalValue();
 		cout << "[7]Print specific device info" << endl; //deviceInfo();
 		cout << "[0]Leave inventory system" << endl; //leaves the system
+		cout << "============================ " << endl;
 		cout << "Choose action: ";
 		getline(cin, input); // user enters the action
 
