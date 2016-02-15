@@ -82,6 +82,12 @@ public:
 	static int cinnum();
 
 	/**
+	* Used to get float number input. Loops until user enters a number.
+	*	@returns Inputted number.
+	*/
+	static float cinfloat();
+
+	/**
 	  * Used to get passwords. Hides the input. 
 	  *	@returns Inputted string.
 	  */

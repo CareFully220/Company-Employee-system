@@ -188,6 +188,26 @@ int ConsoleController::cinnum() {
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	return x;
 }
+float ConsoleController::cinfloat() {
+	std::string input;
+
+	float dummy;
+	while (std::cin >> input)
+	{
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::istringstream iss(input);
+		
+		iss >> std::noskipws >> dummy;
+		if (!(iss && iss.eof()))
+			std::cerr << "You did not enter a float. Try again: ";
+		else
+			break;
+	}
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	return dummy;
+
+}
 std::string ConsoleController::hidecin() {
 	// Grabbed from http://www.cplusplus.com/forum/general/3570/#msg15410
 	// Set the console mode to no-echo, not-line-buffered input

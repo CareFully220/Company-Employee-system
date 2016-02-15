@@ -92,7 +92,7 @@ public:
 		int amount = atoi(Args[0].c_str());
 		//The explanation will be username: Rest of the arguments 
 		std::string explanation= " "+EmpList->GetEmployeeInfo(MainController::GetLoggedInUserID(), EINF_FIRSTNAME)+":";
-		for (int i = 1; i < Args.size(); i++) {
+		for (int i = 1; i < (int)Args.size(); i++) {
 			explanation += " "+Args[i];
 		}
 		//Don't remove money with the addmoney command
@@ -108,7 +108,7 @@ public:
 		std::string type = Args[1];
 		//The explanation will be username: Rest of the arguments 
 		std::string explanation = " "+EmpList->GetEmployeeInfo(MainController::GetLoggedInUserID(), EINF_FIRSTNAME) + ":";
-		for (int i = 2; i < Args.size(); i++) {
+		for (int i = 2; i < (int)Args.size(); i++) {
 			explanation += " " + Args[i];
 		}
 		//Don't add money with the removemoney command
@@ -133,7 +133,7 @@ public:
 		return 1;
 	}
 	bool ConCmd_getVerboseLog(cmdArgs Args) {
-		for (int i = 0; i < log.size(); i++) {
+		for (int i = 0; i < (int)log.size(); i++) {
 			//Print all the transactions in the log
 			std::cout << log[i]->amount << " type: " << log[i]->type << log[i]->explanation << "\n";
 		}
@@ -168,7 +168,7 @@ public:
 	};
 	int getTotalIncome() {//income
 		int income=0;
-		for (int i = 0; i < log.size(); i++) {
+		for (int i = 0; i < (int)log.size(); i++) {
 			if (log[i]->type == "PROFIT"){
 				income += log[i]->amount;
 			}
@@ -177,7 +177,7 @@ public:
 	};
 	int getTotalOutgo() {//outgo
 		int outgo=0;//Seems like some legit english
-		for (int i = 0; i < log.size(); i++) {
+		for (int i = 0; i < (int)log.size(); i++) {
 			if (log[i]->type != "PROFIT") {
 				outgo+= log[i]->amount;
 			}
@@ -188,12 +188,12 @@ public:
 	void save() {//Saves to file
 		std::ofstream oFile("economy");
 		oFile << money<<"\n";
-		for (int i = 0; i < log.size(); i++) {
+		for (int i = 0; i < (int)log.size(); i++) {
 			oFile << log[i]->amount << "\n";
-			for (int ii = 0; ii < log[i]->explanation.size(); ii++)
+			for (int ii = 0; ii < (int)log[i]->explanation.size(); ii++)
 				oFile.put(log[i]->explanation[ii]);
 			oFile.put('\n');
-			for (int ii = 0; ii < log[i]->type.size(); ii++)
+			for (int ii = 0; ii < (int)log[i]->type.size(); ii++)
 				oFile.put(log[i]->type[ii]);
 			oFile.put('\n');
 		}

@@ -91,7 +91,9 @@ void Inventory::saveDevices() {
 //==================================================================================================================//
 void Inventory::addDevice() {
 
-	string name, location, newPrice, buyDate, description, newModelId, newUserId; //declarations
+	string name, location, buyDate, description;
+	int newModelId, newUserId; //declarations
+	float newPrice;
 
 	//user enters Device information
 	cout << "Enter device name: ";
@@ -103,19 +105,19 @@ void Inventory::addDevice() {
 	cout << "Add location: ";
 	getline(cin, location);
 	cout << "Add purchase price: ";
-	getline(cin, newPrice);
+	newPrice = ConsoleController::cinfloat();
 	cout << "Add purchase date (DD.MM.YY): ";
 	getline(cin, buyDate);
 	cout << "Add device description: ";
 	getline(cin, description);
 
 	int device_ID = newid++; // set unique device_ID
-	int	model_ID = atoi(newModelId.c_str()); // make model_ID to int
-	int	user_ID = atoi(newUserId.c_str()); // make user_ID to int
-	float setPrice = atof(newPrice.c_str()); //make setPrice to float
+	//int	model_ID = atoi(newModelId.c_str()); // make model_ID to int
+	//int	user_ID = atoi(newUserId.c_str()); // make user_ID to int
+	//float setPrice = atof(newPrice.c_str()); //make setPrice to float
 												
 	// Create new device and push it to list
-	deviceList.push_back(Device(name, device_ID, model_ID, user_ID, location, setPrice, buyDate, description));
+	deviceList.push_back(Device(name, device_ID, newModelId, newUserId, location, newPrice, buyDate, description));
 
 	cout << "Device added successfully!" << endl;
 	// Save devices
@@ -127,11 +129,9 @@ void Inventory::changeDevice() {
 	showDevices();
 
 	int device_ID;
-	string buf;
 	//user enters device_ID what he/she wants to change/modify
 	cout << "Select device you want to change: ";
-	buf = ConsoleController::cinnum();
-	device_ID = atoi(buf.c_str());
+	device_ID = ConsoleController::cinnum();
 
 	//information menu
 	for (int i = 0; i < (int)deviceList.size(); i++) {
@@ -146,29 +146,38 @@ void Inventory::changeDevice() {
 			cout << "[7]Description" << endl;
 			cout << "[0]exit" << endl;
 			cout << "Choose what to change: ";
+
 			//user selects what he/she wants to change
 			getline(cin, data);
-			if (data == "1") { deviceList[device_ID].setName(); }
-			else if (data == "2") { deviceList[device_ID].setModel_ID(); }
-			else if (data == "3") { deviceList[device_ID].setUser_ID(); }
-			else if (data == "4") { deviceList[device_ID].setLocation(); }
-			else if (data == "5") { deviceList[device_ID].setPrice(); }
-			else if (data == "6") { deviceList[device_ID].setDate(); }
-			else if (data == "7") { deviceList[device_ID].setDescription(); }
-			else { cout << "Wrong input!"; return; }
+			if (data == "1") deviceList[device_ID].setName();
+			else if (data == "2") deviceList[device_ID].setModel_ID();
+			else if (data == "3") deviceList[device_ID].setUser_ID();
+			else if (data == "4") deviceList[device_ID].setLocation();
+			else if (data == "5") deviceList[device_ID].setPrice();
+			else if (data == "6") deviceList[device_ID].setDate();
+			else if (data == "7") deviceList[device_ID].setDescription();
+			else {
+				cout << "Wrong input!" << endl; 
+				return; 
+			}
+			
 			string sure;
 			cout << "Do you want to save changes?" << endl; //asks if user is sure to delete device
 			cout << "[1]Yes." << endl;
 			cout << "[2]No." << endl;
 			getline(cin, sure);
-			if (sure == "1") { saveDevices();}
-			else if (sure == "2") {return;}
+			if (sure == "1") { 
+				saveDevices();
+				return;
+			}
+			else if (sure == "2") { 
+				return; 
+			}
 			else { cout << "Wrong input!"; }
-		}
-		else {
-			cout << "ERROR 404: DEVICE NOT FOUND" << endl;
+			
 		}
 	}
+	cout << "ERROR 404: DEVICE NOT FOUND" << endl;
 }
 //==================================================================================================================//
 void Inventory::removeDevice() {
