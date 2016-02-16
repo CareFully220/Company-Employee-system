@@ -598,7 +598,7 @@ EmployeeList::EmployeeList()
 	ConsoleController::RegisterCommand("listsort", 1, PERM_VIEWUSERS, std::bind(&EmployeeList::ConCmd_ListSort, this, _1), "Params: <Info name to sort by> | Prints a sorted list that contains all Employees.");
 	ConsoleController::RegisterCommand("remove", 1, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_Remove, this, _1), "Params: <UserID> | Remove Employee with specific UserID.");
 	ConsoleController::RegisterCommand("adduser", 1, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_CreateUser, this, _1), "Params: <UserID> | Create an Account for an employee.");
-	ConsoleController::RegisterCommand("addemployee", 2, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_Create, this, _1), "Params: <Frist name> <Last name> | Create a new Employee.");
+	ConsoleController::RegisterCommand("addemployee", 2, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_Create, this, _1), "Params: <First name> <Last name> | Create a new Employee.");
 	ConsoleController::RegisterCommand("getinfo", 1, PERM_VIEWUSERS, std::bind(&EmployeeList::ConCmd_GetInfo, this, _1), "Params: <UserID> | Get Employee data.");
 	ConsoleController::RegisterCommand("setinfo", 3, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_SetInfo, this, _1), "Params: <UserID> <Info name> <new value> | Set Employee data.");
 	ConsoleController::RegisterCommand("listperms", 1, PERM_ADMIN, std::bind(&EmployeeList::ConCmd_ListPerms, this, _1), "Params: <UserID> | List all the permissions employee has.");
