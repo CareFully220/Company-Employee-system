@@ -232,7 +232,7 @@ void Inventory::showDevices() {
 	}
 	cout << "============================ " << endl << endl;
 }
-//==================================================================================================================// - add some kind of sorting
+//==================================================================================================================// - add some kind of sorting mbybe
 void Inventory::showModelDevices() {
 
 	//sort devices by model ID
@@ -296,6 +296,8 @@ void Inventory::deviceInfo() {
 //}
 //==================================================================================================================//
 bool Inventory::ConCmd_Menu(cmdArgs Args) {
+
+	//function names says all what the function does
 
 	while (true) {
 		string input; // user option
