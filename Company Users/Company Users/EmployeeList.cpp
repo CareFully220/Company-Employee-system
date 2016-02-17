@@ -562,6 +562,40 @@ bool EmployeeList::ConCmd_ModifyPerms(cmdArgs Args)
 
 	return true;
 }
+bool EmployeeList::ConCmd_ModifyPassword(cmdArgs Args) {
+
+	std::string Password;
+	int userid = MainController::GetLoggedInUserID();
+	Employee* Emp = GetEmployeeByID(userid);
+	while (true) { // Ask for old password
+		std::cout << "Enter your old password: ";
+		Password = ConsoleController::hidecin(); // Use hidecin to not show the password.
+		
+		if ( Password[0] == '\0' ) { // If it's empty then cancel password changing
+			return true;
+		}
+		else if ( !Emp->CheckPassword(Password) ) { // If old password is invalid
+			std::cout << "Invalid password! Please Try Again..." << std::endl;
+			continue;
+		}
+		break;
+	}
+
+	while (true) {
+		std::cout << "Enter new password: ";
+		Password = ConsoleController::hidecin(); // Use hidecin to not show the password.
+												 // Check if password is the right length
+		if (Password.size() < 6 || Password.size() > 20) {
+			std::cout << "Password must be 6 to 20 characters long! Try Again..." << std::endl;
+		}
+		else {
+			Emp->SetPassword(Password);
+			return true;
+		}
+		
+	}
+
+}
 void EmployeeList::ConCmd_CreateRoot() 
 {
 	std::string Firstname, Lastname, Username, Password;
@@ -603,4 +637,5 @@ EmployeeList::EmployeeList()
 	ConsoleController::RegisterCommand("setinfo", 3, PERM_MODIFYUSERS, std::bind(&EmployeeList::ConCmd_SetInfo, this, _1), "Params: <UserID> <Info name> <new value> | Set Employee data.");
 	ConsoleController::RegisterCommand("listperms", 1, PERM_ADMIN, std::bind(&EmployeeList::ConCmd_ListPerms, this, _1), "Params: <UserID> | List all the permissions employee has.");
 	ConsoleController::RegisterCommand("modeperms", 1, PERM_ADMIN, std::bind(&EmployeeList::ConCmd_ModifyPerms, this, _1), "Params: <UserID> | Modify employee permissions.");
+	ConsoleController::RegisterCommand("changepw", 0, PERM_USER, std::bind(&EmployeeList::ConCmd_ModifyPassword, this, _1), "Change your password.");
 }

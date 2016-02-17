@@ -58,6 +58,7 @@ protected:
 	bool ConCmd_SetInfo(cmdArgs Args);
 	bool ConCmd_ListPerms(cmdArgs Args);
 	bool ConCmd_ModifyPerms(cmdArgs Args);
+	bool ConCmd_ModifyPassword(cmdArgs Args);
 
 	friend MainController;
 public:

@@ -41,7 +41,7 @@ int main()
 
 	EmployeeList Employees;
 	//MainController Loginsys;
-	Inventory Inv;
+	Inventory Inv(&Employees);
 	// Load employees
 	Economy economy(&Employees);
 

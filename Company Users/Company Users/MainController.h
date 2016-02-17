@@ -55,4 +55,5 @@ public:
 	static void LogOut();
 
 	static bool IsLoggedIn();
+
 };

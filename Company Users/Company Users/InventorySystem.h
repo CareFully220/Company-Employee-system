@@ -75,10 +75,11 @@ public:
 
 class Inventory {
 private:
+	EmployeeList* EmpList;
 	vector <Device> deviceList;
 	int newid; // we will use this to get device id's.
 public:
-	Inventory();
+	Inventory(EmployeeList* newEmpList);
 
 	void removeDevice(); // remove Devices funtion
 

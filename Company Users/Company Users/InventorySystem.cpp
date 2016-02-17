@@ -29,8 +29,10 @@ COMMENT BOX - comment here if any bugs found or any ideas to make system better
 #include <cstdlib>
 using namespace std;
 // Constructor
-Inventory::Inventory() { 
+Inventory::Inventory(EmployeeList* newEmpList) {
 	newid = 0; // We will start from the id 0.
+
+	EmpList = newEmpList;
 
 	//Register commands
 	using namespace std::placeholders; // for `_1` placeholder
@@ -102,8 +104,23 @@ void Inventory::addDevice() {
 	getline(cin, name);
 	cout << "Add model ID: ";
 	newModelId = ConsoleController::cinnum(); // <-- I think it wont save it - Karl(26.02.2016)
-	cout << "Add user ID: ";
-	newUserId = ConsoleController::cinnum(); 
+	while (true) {
+		cout << "Add user ID: ";
+		newUserId = ConsoleController::cinnum();
+		if (newUserId == -1)
+		{
+			return;
+		}
+		if (!EmpList->IsValidID(newUserId))
+		{
+			cout << "Invalid User ID: " << newUserId << endl;
+			cout << "Try Again, or write -1 to cancel." << endl;
+			continue;
+		}
+		break;
+	}
+	
+
 	cout << "Add location: ";
 	getline(cin, location);
 	cout << "Add purchase price: ";
