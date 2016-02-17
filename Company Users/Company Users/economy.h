@@ -17,7 +17,7 @@ kokkuvõtete genereerimine*/
 #include "Permissions.h"
 #include "EmployeeList.h"
 
-struct logEntry {
+struct logEntry {//Struct to store transactions
 	int amount;
 	std::string type;
 	std::string explanation;//DO NOT INCLUDE NEWLINES IN THE EXPLANATION OR THE TYPE.
@@ -88,9 +88,9 @@ public:
 	int getMoney() {//gets the amount of money
 		return money;
 	};
-	bool ConCmd_add(cmdArgs Args) {
+	bool ConCmd_add(cmdArgs Args) {//Console command for adding money
 		int amount = atoi(Args[0].c_str());
-		//The explanation will be username: Rest of the arguments 
+		//The explanation will be "username: Rest of the arguments" 
 		std::string explanation= " "+EmpList->GetEmployeeInfo(MainController::GetLoggedInUserID(), EINF_FIRSTNAME)+":";
 		for (int i = 1; i < (int)Args.size(); i++) {
 			explanation += " "+Args[i];
@@ -103,10 +103,10 @@ public:
 		save();//Save to the file
 		return 1;
 	};
-	bool ConCmd_remove(cmdArgs Args) {//TODO: See ConCmd_add
+	bool ConCmd_remove(cmdArgs Args) {
 		int amount = atoi(Args[0].c_str());
 		std::string type = Args[1];
-		//The explanation will be username: Rest of the arguments 
+		//The explanation will be "username: Rest of the arguments"
 		std::string explanation = " "+EmpList->GetEmployeeInfo(MainController::GetLoggedInUserID(), EINF_FIRSTNAME) + ":";
 		for (int i = 2; i < (int)Args.size(); i++) {
 			explanation += " " + Args[i];
@@ -120,27 +120,26 @@ public:
 		save();//Save to the file
 		return 1;
 	}
-	bool ConCmd_getMoneyAmount(cmdArgs Args) {
+	bool ConCmd_getMoneyAmount(cmdArgs Args) {//Console command for getting the amount of money
 		cout << getMoney()<<"\n";
 		return 1;
 	}
-	bool ConCmd_getTotalIncome(cmdArgs Args) {
+	bool ConCmd_getTotalIncome(cmdArgs Args) {//Console command for getting the total income
 		std::cout << getTotalIncome()<<"\n";
 		return 1;
 	}
-	bool ConCmd_getTotalOutgo(cmdArgs Args) {
+	bool ConCmd_getTotalOutgo(cmdArgs Args) {//Console command for getting the total outgo
 		std::cout << getTotalOutgo() << "\n";
 		return 1;
 	}
-	bool ConCmd_getVerboseLog(cmdArgs Args) {
+	bool ConCmd_getVerboseLog(cmdArgs Args) {//Print all the transactions in the log
 		for (int i = 0; i < (int)log.size(); i++) {
-			//Print all the transactions in the log
 			std::cout << log[i]->amount << " type: " << log[i]->type << log[i]->explanation << "\n";
 		}
 		return 1;
 	}
 	int add(int amount, std::string explanation) {//adds money
-		//DO NOT INCLUDE NEWLINES IN THE EXPLANATION
+		//DO NOT INCLUDE NEWLINES IN THE EXPLANATION(TODO: check for newlines and remove em)
 		logEntry *nLogEntry = new logEntry();
 		addMoney(amount);
 		nLogEntry->amount = amount;
