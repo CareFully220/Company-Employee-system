@@ -564,7 +564,7 @@ bool EmployeeList::ConCmd_ModifyPerms(cmdArgs Args)
 }
 bool EmployeeList::ConCmd_ModifyPassword(cmdArgs Args) {
 
-	std::string Password;
+	std::string Password, ReTypedPass;
 	int userid = MainController::GetLoggedInUserID();
 	Employee* Emp = GetEmployeeByID(userid);
 	while (true) { // Ask for old password
@@ -572,6 +572,7 @@ bool EmployeeList::ConCmd_ModifyPassword(cmdArgs Args) {
 		Password = ConsoleController::hidecin(); // Use hidecin to not show the password.
 		
 		if ( Password[0] == '\0' ) { // If it's empty then cancel password changing
+			std::cout << "Password change cancelled!" << std::endl;
 			return true;
 		}
 		else if ( !Emp->CheckPassword(Password) ) { // If old password is invalid
@@ -581,20 +582,35 @@ bool EmployeeList::ConCmd_ModifyPassword(cmdArgs Args) {
 		break;
 	}
 
-	while (true) {
+	while (true) { // Ask for new password
 		std::cout << "Enter new password: ";
 		Password = ConsoleController::hidecin(); // Use hidecin to not show the password.
 												 // Check if password is the right length
 		if (Password.size() < 6 || Password.size() > 20) {
 			std::cout << "Password must be 6 to 20 characters long! Try Again..." << std::endl;
+			continue;
 		}
-		else {
-			Emp->SetPassword(Password);
-			return true;
-		}
-		
+		break;
 	}
 
+	while (true) { // Ask to retype new password
+		std::cout << "Re-enter new password: ";
+		ReTypedPass = ConsoleController::hidecin(); // Use hidecin to not show the password.
+												 // Check if password is the right length
+		if (ReTypedPass[0] == '\0') { // If it's empty then cancel password changing
+			std::cout << "Password change cancelled!" << std::endl;
+			return true;
+		}
+		else if (Password != ReTypedPass) { // If re-Entered password is invalid
+			std::cout << "Invalid password! Please Try Again..." << std::endl;
+			continue;
+		}
+		else { // If passwords matched
+			Emp->SetPassword(Password); // Update password
+			std::cout << "Password change successful!" << std::endl;
+			return true;
+		}
+	}
 }
 void EmployeeList::ConCmd_CreateRoot() 
 {
