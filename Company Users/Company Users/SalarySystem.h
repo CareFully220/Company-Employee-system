@@ -39,6 +39,8 @@ private:
 	//Unemployment insurance rate (töötuskindlustusmaksu määr) 
 	const float uipRate = 0.008f;
 
+	SalarySystem();
+
 protected:
 	//gets employee worked hours from employee list
 	bool ConCmd_GetWorkHours(cmdArgs Args);
@@ -50,9 +52,10 @@ protected:
 	//test command
 	bool ConCmd_Test1(cmdArgs Args);
 
+	
 public:
 	//default constructor
-	SalarySystem();
+	SalarySystem(EmployeeList *EmpList);
 
 	//constructor for adding employee expense info
 	SalarySystem(int ID, int workHours, float jobPayRate, float salary,

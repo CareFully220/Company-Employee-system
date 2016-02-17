@@ -45,7 +45,7 @@ int main()
 	// Load employees
 	Economy economy(&Employees);
 
-	SalarySystem salary;
+	SalarySystem salary(&Employees);
 
 	std::cout << "< Loading Employees." << std::endl;
 	

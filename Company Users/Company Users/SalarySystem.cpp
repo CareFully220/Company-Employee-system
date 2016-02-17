@@ -3,8 +3,10 @@
 using namespace std;
 
 //constructor
-SalarySystem::SalarySystem()
+SalarySystem::SalarySystem(EmployeeList *EmpList)
 {
+	this->EmpList = EmpList;
+
 	using namespace std::placeholders;
 
 	ConsoleController::RegisterCommand("getworkhours", 2, PERM_VIEWWORKHOURS,
