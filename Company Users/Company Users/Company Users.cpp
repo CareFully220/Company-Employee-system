@@ -29,7 +29,7 @@
 //#include <cstdlib>
 #include "InventorySystem.h"
 #include "economy.h"
-
+#include "SalarySystem.h"
 
 #include "ConsoleController.h"
 #include "EmployeeList.h"
@@ -44,6 +44,8 @@ int main()
 	Inventory Inv(&Employees);
 	// Load employees
 	Economy economy(&Employees);
+
+	SalarySystem salary;
 
 	std::cout << "< Loading Employees." << std::endl;
 	
