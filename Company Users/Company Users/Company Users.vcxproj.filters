@@ -91,9 +91,6 @@
     <None Include="default.doxygen">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="EmployeeExpense.db">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Company Users1.rc">

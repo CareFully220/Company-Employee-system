@@ -189,7 +189,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="default.doxygen" />
-    <None Include="EmployeeExpense.db" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Company Users1.rc" />
