@@ -11,7 +11,7 @@ Changelog:
 - Version 0.2|09.02.2016| - now works remove device, view total inventory value, view devices.
 - Version 1.0|15.02.2016| - Basicly done, bug fixes(might still have some).
 - Version 1.1|18.02.2016| - Huge commenting and instructions.
-/*===================================================================================================================//
+/*===================================================================================================================/
 INSTRUCTIONS - here is comments how inventory system works
 			 - write: "inventory" to get access to inventory functions -> prints inventory functions
 			 - Inventory function:
@@ -26,7 +26,7 @@ INSTRUCTIONS - here is comments how inventory system works
 				* deviceInfo(); - used to see specific device information
 			 - Enter "0" to leave from inventory system
 			 - More comments in the code below
-//==================================================================================================================*/
+//==================================================================================================================//
 /*==================================================================================================================//
  COMMENT BOX - comment here if any bugs found or any ideas to make system better
 			 - 
