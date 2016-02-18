@@ -20,8 +20,9 @@ SalarySystem::SalarySystem(EmployeeList *EmpList)
 	*/
 
 	//test command
-	ConsoleController::RegisterCommand("test1", 0, PERM_MODIFYSALARY,
-		bind(&SalarySystem::ConCmd_Test1, this, _1), "test");
+	ConsoleController::RegisterCommand("addemployeeexpense", 0, PERM_MODIFYSALARY,
+		bind(&SalarySystem::ConCmd_AddEmployeeExpense, this, _1),
+		"Enters employee expense database loop");
 
 	loadFile();
 }
@@ -200,9 +201,11 @@ void SalarySystem::addExpense()
 			break;
 		}
 
-
+		//temporary
 		cout << "Enter worked hours ";
 		getline(cin, uWorkHours);
+
+
 		cout << "Enter gainz per hour ";
 		getline(cin, uJobPayRate);
 
@@ -286,7 +289,7 @@ return true;
 */
 
 //test command
-bool SalarySystem::ConCmd_Test1(cmdArgs Args)
+bool SalarySystem::ConCmd_AddEmployeeExpense(cmdArgs Args)
 {
 	string input;
 
