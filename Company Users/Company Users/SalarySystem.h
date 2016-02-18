@@ -45,14 +45,9 @@ protected:
 	//gets employee worked hours from employee list
 	bool ConCmd_GetWorkHours(cmdArgs Args);
 
-	//changes employee salary
-	//bool ConCmd_ModifySalary(cmdArgs Args);
+	//adds employee expense
+	bool ConCmd_AddEmployeeExpense(cmdArgs Args);
 
-
-	//test command
-	bool ConCmd_Test1(cmdArgs Args);
-
-	
 public:
 	//default constructor
 	SalarySystem(EmployeeList *EmpList);

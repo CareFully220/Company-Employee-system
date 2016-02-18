@@ -13,15 +13,9 @@ SalarySystem::SalarySystem(EmployeeList *EmpList)
 		bind(&SalarySystem::ConCmd_GetWorkHours, this, _1),
 		"Params: <Employee ID> <Month number> | Gets employee worked hours");
 
-	/*
-	ConsoleController::RegisterCommand("modifysalary", 3, PERM_MODIFYSALARY,
-	bind(&SalarySystem::ConCmd_ModifySalary, this, _1),
-	"Params: <Employee ID> <Worked Hours> <JobPayRate> | Modifys employee salary");
-	*/
-
-	//test command
-	ConsoleController::RegisterCommand("test1", 0, PERM_MODIFYSALARY,
-		bind(&SalarySystem::ConCmd_Test1, this, _1), "test");
+	ConsoleController::RegisterCommand("addemployeeexpense", 0, PERM_MODIFYSALARY,
+		bind(&SalarySystem::ConCmd_AddEmployeeExpense, this, _1),
+		"Enters employee expense database loop");
 
 	loadFile();
 }
@@ -184,9 +178,9 @@ void SalarySystem::saveFile()
 
 void SalarySystem::addExpense()
 {
-	string choice, input, uID, uWorkHours, uJobPayRate, uSalary, uFica, uUip,
+	string choice, input, uID, uWorkHours, uSalary, uFica, uUip,
 		uSalaryExpense, uBonus, uBonusFica, uBonusUip, uBonusExpense, uTotalExpense;
-
+	float fJobPayRate;
 
 	while (true)
 	{
@@ -201,14 +195,32 @@ void SalarySystem::addExpense()
 		}
 
 
+
+		//temporary (will come from workhour system)
 		cout << "Enter worked hours ";
 		getline(cin, uWorkHours);
-		cout << "Enter gainz per hour ";
-		getline(cin, uJobPayRate);
 
 
+
+
+		//jobPayRate
+		string Pos = EmpList->GetEmployeeInfo(iID, EINF_POSITION);
+		if (Pos == "ylemus") {
+			fJobPayRate = 10;
+		}
+		else if (Pos == "programmeerija") {
+			fJobPayRate = 8;
+		}
+		else if (Pos == "koristaja") {
+			fJobPayRate = 5;
+		}
+		else {
+			cout << "Please set position for employee with id " << uID << " before continueing!" << endl;
+			break;
+		}
+
+		
 		int iWorkHours = atoi(uWorkHours.c_str());
-		float fJobPayRate = atof(uJobPayRate.c_str());
 		float fSalary = calSalary((float)iWorkHours, fJobPayRate);
 		float fFica = calFica(fSalary);
 		float fUip = calUip(fSalary);
@@ -243,8 +255,6 @@ void SalarySystem::addExpense()
 	}
 }
 
-
-
 bool SalarySystem::ConCmd_GetWorkHours(cmdArgs Args)
 {
 	int id = atoi(Args[0].c_str());
@@ -265,28 +275,9 @@ bool SalarySystem::ConCmd_GetWorkHours(cmdArgs Args)
 
 	return true;
 }
-/*
-bool SalarySystem::ConCmd_ModifySalary(cmdArgs Args) {
-int id = atoi(Args[0].c_str());
-int WorkedHours = atoi(Args[1].c_str());
-float JobPayRate = stof(Args[2].c_str());
 
-if (!EmpList->IsValidID(id)) {
-cout << "There is no Employee with id: " << id << endl;
-return true;
-}
-
-if (WorkedHours < 0) {
-cout << "Error" << endl;
-return true;
-}
-employee.calSalary(WorkedHours, JobPayRate);
-return true;
-}
-*/
-
-//test command
-bool SalarySystem::ConCmd_Test1(cmdArgs Args)
+//add employee expense to EmployeeExpense.db
+bool SalarySystem::ConCmd_AddEmployeeExpense(cmdArgs Args)
 {
 	string input;
 
