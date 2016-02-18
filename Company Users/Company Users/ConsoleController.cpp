@@ -74,7 +74,7 @@ void ConsoleController::CommandHandler(EmployeeList& EmpList)
 			int page = 1; // current page
 			int loc = 0; // current location
 			int maxloc = 10; // max commands per page
-			int maxpages = (CommandList.size() / maxloc) + 1; // Max pages
+			int maxpages = ((CommandList.size()-1) / maxloc) + 1; // Max pages
 			// If user specified different page.
 			if (argnum > 0) {
 				int tempPage = atoi(arguments[0].c_str()); // String to number.
