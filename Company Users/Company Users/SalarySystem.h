@@ -50,7 +50,7 @@ protected:
 
 
 	//test command
-	bool ConCmd_Test1(cmdArgs Args);
+	bool ConCmd_AddEmployeeExpense(cmdArgs Args);
 
 	
 public:

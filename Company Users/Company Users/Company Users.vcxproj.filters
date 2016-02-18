@@ -86,9 +86,15 @@
     <ClCompile Include="SalarySystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="economy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="default.doxygen">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="EmployeeExpense.db">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
