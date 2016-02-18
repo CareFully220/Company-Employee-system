@@ -82,7 +82,10 @@ bool Economy::ConCmd_remove(cmdArgs Args) {
 	if (amount <= 0) {
 		return 0;
 	}
-
+	if ((money - amount) < 0) {
+		std::cout << "Not enough money\n";
+		return 1;
+	}
 	remove(amount, type, explanation);
 	save();//Save to the file
 	return 1;
