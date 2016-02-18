@@ -204,7 +204,7 @@ float ConsoleController::cinfloat() {
 		else
 			break;
 	}
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	//std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	return dummy;
 
 }
