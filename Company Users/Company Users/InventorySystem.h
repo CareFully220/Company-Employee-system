@@ -1,8 +1,18 @@
-/**
-* @file InventorySystem.h
-* @brief Everything related to Inventory system.
-*/
-
+//INVENTORY SYSTEM H//
+/*=========================================================================//
+Made by: Karl Robert Lillipuu & Kevin Jasson(a little bit)
+People who helped(many thanks!): Lauri Mäe, Marvin Helstein, Samael Tamm
+//=========================================================================*/
+/*===================================================================================================================//
+ INTRODUCTIONS - here is comments what's in this header file
+			   - Device information declarations are in the class called: Device
+					* string name - device name
+					* int device_ID - device unique id
+					* int user_ID - device user
+					* string location - where the device is used 
+			   - All the functions(also deviceList vector) are declared in class called: Inventory
+			   - 
+//=====================================================================================================================*/
 #pragma once
 
 #include <iostream>
@@ -13,18 +23,6 @@
 #include <cstdlib>
 #include "ConsoleController.h"
 using namespace std;
-
-/* Some notes for you Karl and/or Kevin... and maybe to Lauri?:
-	* You should make ID's into intregers.
-	* So that i wouldn't change the whole code, I left the menu as it is (only fixed it). 
-		If you want you can make all the menu items into commands.
-	* I made seperate Inventory Class that controls the devices.
-	* You need to make checks where user needs to enter user id for example.
-		You need to check if it's valid.
-	* I commented the code i wrote as much as i could.
-
-	-- by *CareFully*
-*/
 
 //class about device
 class Device {
