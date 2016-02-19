@@ -30,6 +30,7 @@
 #include "InventorySystem.h"
 #include "economy.h"
 #include "SalarySystem.h"
+#include "Workhoursystem.h"
 
 #include "ConsoleController.h"
 #include "EmployeeList.h"
@@ -56,6 +57,10 @@ int main()
 	std::cout << "< Loading Devices..." << std::endl;
 	Inventory Inv(&Employees);
 	cout << "< Devices loaded successfully!" << endl;
+
+	// Workhour System;
+	WorkhourSystem();
+	std::cout << "< Loaded Workhour System!" << std::endl;
 
 	// Economy System;
 	Economy economy(&Employees);
