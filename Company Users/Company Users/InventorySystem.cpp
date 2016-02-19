@@ -1,21 +1,38 @@
-/*
-Inventory System cpp
-==========
+//INVENTORY SYSTEM CPP//
+/*==================================================================================================================//
+Made by: Karl Robert Lillipuu & Kevin Jasson(a little bit)
+People who helped(many thanks!): Lauri Mäe, Marvin Helstein, Samael Tamm
+//==================================================================================================================*/
+/*==================================================================================================================//
+
 Changelog:
-==========
+
 - Version 0.1|02.02.2016| - prints main menu and can add devices.
 - Version 0.2|09.02.2016| - now works remove device, view total inventory value, view devices.
 - Version 1.0|15.02.2016| - Basicly done, bug fixes(might still have some).
-
-*/
-
-/*==================================================================================================================// - Created by Karl
+- Version 1.1|18.02.2016| - Huge commenting and instructions.
+/*===================================================================================================================/
+INSTRUCTIONS - here is comments how inventory system works
+			 - write: "inventory" to get access to inventory functions -> prints inventory functions
+			 - Inventory function:
+				* loadDevices(); - loads saved devices in file called inventory.db
+				* saveDevices(); - used for saving devices information
+				* addDevice(); -  used for adding device(name,device_id, model_id, user_id, location, price, date, description)
+				* removeDevice(); - used to remove specific device 
+				* changeDevice(); - used to change specific devices information(name, model_id etc)
+				* showDevices(); -  used to see all devices(and their device_id)
+				* showModelDevice(); -  shows devices model_ID and names
+				* totalValue(); -  used to see inventory(devices) total value
+				* deviceInfo(); - used to see specific device information
+			 - Enter "0" to leave from inventory system
+			 - More comments in the code below
+//==================================================================================================================//
+/*==================================================================================================================//
 COMMENT BOX - comment here if any bugs found or any ideas to make system better
-|
-|
-|
-|
-|
+			 - 
+			 -
+			 -
+			 -
 //==================================================================================================================*/
 #include "stdafx.h"
 #include "InventorySystem.h"
@@ -69,7 +86,7 @@ void Inventory::loadDevices() {
 		deviceList.push_back(Device(name, curid, model_ID, user_ID, location, setPrice, buyDate, description));
 	}
 	//when devices are loaded successfully
-	cout << "Devices successfully loaded!" << endl;
+	
 	File.close();
 
 }
@@ -95,15 +112,16 @@ void Inventory::saveDevices() {
 //==================================================================================================================//
 void Inventory::addDevice() {
 
+	//declarations
 	string name, location, buyDate, description;
-	int newModelId, newUserId; //declarations
+	int newModelId, newUserId; 
 	float newPrice;
 
 	//user enters Device information
 	cout << "Enter device name: ";
 	getline(cin, name);
 	cout << "Add model ID: ";
-	newModelId = ConsoleController::cinnum(); // <-- I think it wont save it - Karl(26.02.2016)
+	newModelId = ConsoleController::cinnum();
 	while (true) {
 		cout << "Add user ID: ";
 		newUserId = ConsoleController::cinnum();
@@ -131,9 +149,6 @@ void Inventory::addDevice() {
 	getline(cin, description);
 
 	int device_ID = newid++; // set unique device_ID
-	//int	model_ID = atoi(newModelId.c_str()); // make model_ID to int
-	//int	user_ID = atoi(newUserId.c_str()); // make user_ID to int
-	//float setPrice = atof(newPrice.c_str()); //make setPrice to float
 												
 	// Create new device and push it to list
 	deviceList.push_back(Device(name, device_ID, newModelId, newUserId, location, newPrice, buyDate, description));
@@ -142,7 +157,7 @@ void Inventory::addDevice() {
 	// Save devices
 	saveDevices();
 }
-//==================================================================================================================// - Lauri helped here
+//==================================================================================================================//
 void Inventory::changeDevice() {
 	//prints  devices
 	showDevices();
@@ -154,7 +169,7 @@ void Inventory::changeDevice() {
 
 	//information menu
 	for (int i = 0; i < (int)deviceList.size(); i++) {
-		if (deviceList[i].getDevice_ID() == device_ID) { // If my brain data is 100% correct, this should loop trough devicelist and get the correct ID without printing all. ok
+		if (deviceList[i].getDevice_ID() == device_ID) { //this should loop trough devicelist and get the correct ID
 			string data;
 			cout << "============================ " << endl;
 			cout << "[1]Name" << endl;
@@ -182,9 +197,9 @@ void Inventory::changeDevice() {
 				cout << "Wrong input!" << endl; 
 				return; 
 			}
-	  }
-   }
-}
+			}
+			}
+		}
 //==================================================================================================================//
 void Inventory::removeDevice() {
 
@@ -234,7 +249,7 @@ void Inventory::showDevices() {
 	}
 	cout << "============================ " << endl << endl;
 }
-//==================================================================================================================// - add some kind of sorting mbybe
+//==================================================================================================================//
 void Inventory::showModelDevices() {
 
 	//sort devices by model ID
