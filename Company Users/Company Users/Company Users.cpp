@@ -39,16 +39,10 @@ int main()
 {
 	srand((unsigned int)time(NULL));
 
-	EmployeeList Employees;
-	//MainController Loginsys;
-	Inventory Inv(&Employees);
 	// Load employees
-	Economy economy(&Employees);
+	std::cout << "< Loading Employees..." << std::endl;
+	EmployeeList Employees;
 
-	SalarySystem salary(&Employees);
-
-	std::cout << "< Loading Employees." << std::endl;
-	
 	if (Employees.LoadEmployees("EmloyeeData.db")) {
 		std::cout << "< Employees loaded successfully!" << std::endl;
 	}
@@ -58,11 +52,22 @@ int main()
 		Employees.ConCmd_CreateRoot();
 
 	}
+	// Inventory System;
+	std::cout << "< Loading Devices..." << std::endl;
+	Inventory Inv(&Employees);
+	cout << "< Devices loaded successfully!" << endl;
+
+	// Economy System;
+	Economy economy(&Employees);
+	std::cout << "< Loaded Economy System!" << std::endl;
+
+	// Salary System;
+	SalarySystem salary(&Employees);
+	std::cout << "< Loaded Salary System!" << std::endl;
+	
+	// CLS;
 	ConsoleController::PrintWelcomeMessage();
 	ConsoleController::CommandHandler(Employees);
-
-//	Device go;
-//	go.printMenu();
 
     return 0;
 }

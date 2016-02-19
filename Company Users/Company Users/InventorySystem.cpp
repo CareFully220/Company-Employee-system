@@ -86,7 +86,7 @@ void Inventory::loadDevices() {
 		deviceList.push_back(Device(name, curid, model_ID, user_ID, location, setPrice, buyDate, description));
 	}
 	//when devices are loaded successfully
-	cout << "Devices successfully loaded!" << endl;
+	
 	File.close();
 
 }
