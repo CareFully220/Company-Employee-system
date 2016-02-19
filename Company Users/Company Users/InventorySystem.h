@@ -69,7 +69,7 @@ public:
 	void setLocation() { cout << "Enter new location: "; string input;  getline(cin, input); location = input; }
 	void setDescription() { cout << "Enter new description: "; string input;  getline(cin, input); description = input; }
 	void setPrice() { cout << "Enter new price: "; float input;  cin >> input; Price = input; }
-	void setDate() { cout << "Enter new date for the device: ";  string input;  getline(cin, input); Date = input; }
+	void setDate() { cout << "Enter new date for the device (DD.MM.YY): ";  string input;  getline(cin, input); Date = input; }
 };
 
 
@@ -82,6 +82,8 @@ public:
 	Inventory(EmployeeList* newEmpList);
 
 	void removeDevice(); // remove Devices funtion
+
+	void unloadDevice();
 
 	void loadDevices(); //loads devices
 
@@ -98,6 +100,8 @@ public:
 	void totalValue(); //displays inventory total value
 
 	void deviceInfo(); //displays specific device all information(name,device_Id etc)
+
+	void saveChanges(); // used for save changes
 
 	bool ConCmd_Menu(cmdArgs Args); // Command callbacks.
 };

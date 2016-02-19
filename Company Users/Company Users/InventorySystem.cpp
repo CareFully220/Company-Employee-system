@@ -177,28 +177,13 @@ void Inventory::changeDevice() {
 			else if (data == "5") deviceList[device_ID].setPrice();
 			else if (data == "6") deviceList[device_ID].setDate();
 			else if (data == "7") deviceList[device_ID].setDescription();
+			else if (data == "0") return;
 			else {
 				cout << "Wrong input!" << endl; 
 				return; 
 			}
-			
-			string sure;
-			cout << "Do you want to save changes?" << endl; //asks if user is sure to delete device
-			cout << "[1]Yes." << endl;
-			cout << "[2]No." << endl;
-			getline(cin, sure);
-			if (sure == "1") { 
-				saveDevices();
-				return;
-			}
-			else if (sure == "2") { 
-				return; 
-			}
-			else { cout << "Wrong input!"; }
-			
-		}
-	}
-	cout << "ERROR 404: DEVICE NOT FOUND" << endl;
+	  }
+   }
 }
 //==================================================================================================================//
 void Inventory::removeDevice() {
@@ -312,6 +297,40 @@ void Inventory::deviceInfo() {
 
 //}
 //==================================================================================================================//
+void Inventory::unloadDevice() {
+	deviceList.clear();
+}
+//==================================================================================================================//
+void Inventory::saveChanges() {
+
+	string sure;
+	while (true) {
+		cout << "Do you want to save changes?" << endl; //asks if user is sure to delete device
+		cout << "[1]Yes." << endl;
+		cout << "[2]No." << endl;
+		getline(cin, sure);
+		if (sure == "1") {
+			cout << "Device changes saved!" << endl;
+			saveDevices();
+			return;
+		}
+		else if (sure == "2") {
+			cout << "Device changes not saved!" << endl;
+			unloadDevice();
+			loadDevices();
+			return;
+		}
+		else {
+			cout << "============================" << endl;
+			cout << "Wrong input! You Typed: " << sure << endl;
+			cout << "Try again!" << endl;
+			continue;
+		}
+		break;
+	}
+
+}
+//==================================================================================================================//
 bool Inventory::ConCmd_Menu(cmdArgs Args) {
 
 	//function names says all what the function does
@@ -338,7 +357,7 @@ bool Inventory::ConCmd_Menu(cmdArgs Args) {
 		else if (input == "5") { showModelDevices(); }
 		else if (input == "6") { totalValue(); }
 		else if (input == "7") { deviceInfo(); }
-		else if (input == "0") { return true; }
+		else if (input == "0") { saveChanges(); return true; }
 		else { cout << "\"" << input << "\"" << " is incorrect input!" << endl; } // when user enters unknown input
 	}
 	return true;
