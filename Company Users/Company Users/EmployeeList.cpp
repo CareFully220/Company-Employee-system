@@ -166,7 +166,7 @@ bool EmployeeList::ConCmd_Load(cmdArgs Args)
 bool EmployeeList::ConCmd_Save(cmdArgs Args)
 {
 	SaveEmployees("EmloyeeData.db");
-	std::cout << "Employees saved!" << std::endl;
+	std::cout << "Employees saved successfully!" << std::endl;
 	return true;
 }
 bool EmployeeList::ConCmd_Remove(cmdArgs Args)
@@ -202,7 +202,7 @@ bool EmployeeList::ConCmd_Remove(cmdArgs Args)
 	int retval = RemoveEmployee(id); 
 	// Check if it failed
 	if (retval == 1) {
-		std::cout << "Sucessfully removed Employee ID: " << id << std::endl;
+		std::cout << "Successfully removed Employee ID: " << id << std::endl;
 		return true;
 	}
 	else {
@@ -350,6 +350,8 @@ bool EmployeeList::ConCmd_Create(cmdArgs Args)
 
 	Employee newEmployee(Firstname, Lastname);
 	AddEmployee(newEmployee);
+	std::cout << "Employee added successfully!" << std::endl;
+
 	return true;
 }
 bool EmployeeList::ConCmd_CreateUser(cmdArgs Args)
@@ -382,7 +384,7 @@ bool EmployeeList::ConCmd_CreateUser(cmdArgs Args)
 		for (auto &it : Employees) {
 			if (it.GetUsername().compare(Username) == 0) {
 				bIsUnique = false;
-				std::cout << "Entered username is already in use!  Try Again..." << std::endl;
+				std::cout << "Entered username is already in use! Try Again..." << std::endl;
 				break;
 			}
 		}
@@ -403,6 +405,8 @@ bool EmployeeList::ConCmd_CreateUser(cmdArgs Args)
 
 	// Create the account.
 	TempEmp->CreateAccount(Username, Password, PERM_DEFAULT );
+
+	std::cout << "Employee account created successfully!" << std::endl;
 	return true;
 }
 bool EmployeeList::ConCmd_GetInfo(cmdArgs Args)
@@ -607,7 +611,7 @@ bool EmployeeList::ConCmd_ModifyPassword(cmdArgs Args) {
 		}
 		else { // If passwords matched
 			Emp->SetPassword(Password); // Update password
-			std::cout << "Password change successful!" << std::endl;
+			std::cout << "Password changed successfully!" << std::endl;
 			return true;
 		}
 	}
