@@ -3,7 +3,9 @@
 #include "ConsoleController.h"
 #include <vector>
 
-struct Task
+using namespace std;
+
+struct WorkTask
 {
 	int newid = 0;
 	int task_id;
@@ -18,7 +20,7 @@ struct Task
 class WorkhourSystem
 {
 private:
-	std::vector<Task> list;
+	vector<WorkTask> list;
 
 public:
 	WorkhourSystem();
@@ -33,10 +35,12 @@ public:
 
 };
 WorkhourSystem::WorkhourSystem() {
+	using namespace placeholders; // for `_1` placeholder
+
 	ConsoleController::RegisterCommand("workhoursystem",
 		0,
 		PERM_VIEWWORKHOURS,
-		std::bind(&WorkhourSystem::ConCmd_mmain, this, _1), 
+		bind(&WorkhourSystem::ConCmd_mmain, this, _1), 
 		"Work hour system");
 	
 }
@@ -47,7 +51,7 @@ void WorkhourSystem::readFile()
 	string rida;
 	while (getline(ifile, rida))
 	{
-		Task temp;
+		WorkTask temp;
 		stringstream(rida);
 		string lahter;
 		rida >> lahter;
@@ -67,15 +71,15 @@ void WorkhourSystem::saveFile()
 
 	ofstream ofile;
 	ofile.open("out_t66tunnid.db");
-	for (auto &it : list) {
-		ofile << it.month << " " << it.person_id << " " << it.hours << " " << it.description << endl;
+	for (int i = 0; i < list.size(); i++) {
+		ofile << list[i].month << " " << list[i].person_id << " " << list[i].hours << " " << list[i].description << endl;
 	}
 	ofile.close();
 }
 
 int WorkhourSystem::add_task(int person_id, float hours, int month, std::string description)
 {
-	Task temptask;
+	WorkTask temptask;
 	temptask.task_id = temptask.newid++;
 	temptask.month = month;
 	temptask.person_id = person_id;
@@ -129,21 +133,17 @@ int WorkhourSystem::search_month(int person_id, int month)
 	return size;
 }
 bool WorkhourSystem::ConCmd_mmain(cmdArgs Args) {
-	WorkhourSystem mySystem = WorkhourSystem();
-	mySystem.add_task(1, 8, 1, "lal");
-	mySystem.add_task(2, 8, 2, "lel");
-	mySystem.add_task(3, 15, 1, "lel");
-	mySystem.add_task(2, 9, 1, "lel");
-	mySystem.add_task(2, 20, 2, "lel");
-	mySystem.saveFile();
-	mySystem.review(0);
-	int id;
-	cout << "type person_id:   ";
-	cin >> id;
-	cout << "type month:   ";
-	int month;
-	cin >> month;
-	cout << mySystem.search_month(id, month);
-	cin >> id;
+	add_task(1, 8, 1, "lal");
+	add_task(2, 8, 2, "lel");
+	add_task(3, 15, 1, "lel");
+	add_task(2, 9, 1, "lel");
+	add_task(2, 20, 2, "lel");
+	saveFile();
+	review(0);
+	cout << "type person_id: ";
+	int id = ConsoleController::cinnum();
+	cout << "type month: ";
+	int month = ConsoleController::cinnum();
+	cout << search_month(id, month);
 	return 0;
 }
