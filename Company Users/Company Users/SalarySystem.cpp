@@ -15,7 +15,7 @@ SalarySystem::SalarySystem(EmployeeList *EmpList)
 
 	ConsoleController::RegisterCommand("addemployeeexpense", 0, PERM_MODIFYSALARY,
 		bind(&SalarySystem::ConCmd_AddEmployeeExpense, this, _1),
-		"Enters employee expense database loop");
+		"Enters employee expense adding loop.");
 
 	loadFile();
 }
@@ -184,20 +184,20 @@ void SalarySystem::addExpense()
 
 	while (true)
 	{
-		cout << "Enter employee ID ";
+		cout << "Enter employee ID: ";
 		getline(cin, uID);
 		int iID = atoi(uID.c_str());
 
 
 		if (!EmpList->IsValidID(iID)) {
-			cout << "There is no Employee with id: " << iID << endl;
+			cout << "There is no employee with ID: " << iID << endl;
 			break;
 		}
 
 
 
 		//temporary (will come from workhour system)
-		cout << "Enter worked hours ";
+		cout << "Enter worked hours: ";
 		getline(cin, uWorkHours);
 
 
@@ -215,7 +215,7 @@ void SalarySystem::addExpense()
 			fJobPayRate = 5;
 		}
 		else {
-			cout << "Please set position for employee with id " << uID << " before continueing!" << endl;
+			cout << "Please set position for employee with ID " << uID << " before continueing!" << endl;
 			break;
 		}
 
@@ -226,7 +226,9 @@ void SalarySystem::addExpense()
 		float fUip = calUip(fSalary);
 		float fSalaryExpense = calSalaryExpense(fSalary, fFica, fUip);
 
-		cout << "Would you like to add bonus? 1 - yes; <anything else> - no" << endl;
+		cout << "Add bonus?" << endl;
+		cout << "[1]Yes" << endl;
+		cout << "[2]No" << endl;
 		getline(cin, choice);
 		if (choice == "1")
 		{
@@ -262,12 +264,12 @@ bool SalarySystem::ConCmd_GetWorkHours(cmdArgs Args)
 
 	if (!EmpList->IsValidID(id))
 	{
-		cout << "There is no Employee with id: " << id << endl;
+		cout << "There is no employee with ID: " << id << endl;
 		return true;
 	}
 	if (month < 1 || month > 12)
 	{
-		cout << "Invalid month number" << endl;
+		cout << "Invalid month number!" << endl;
 		return true;
 	}
 
@@ -284,8 +286,8 @@ bool SalarySystem::ConCmd_AddEmployeeExpense(cmdArgs Args)
 	while (true)
 	{
 		cout << "============================" << endl;
-		cout << "1 - add expense" << endl;
-		cout << "2 - exit" << endl;
+		cout << "[1]Add expense" << endl;
+		cout << "[2]Exit" << endl;
 
 		getline(cin, input);
 
