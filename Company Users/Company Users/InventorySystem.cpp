@@ -307,13 +307,6 @@ void Inventory::deviceInfo() {
 				cout << "============================ " << endl;
 			}
 		}
-	}
-
-
-//}
-//==================================================================================================================//
-void Inventory::unloadDevice() {
-	deviceList.clear();
 }
 //==================================================================================================================//
 void Inventory::saveChanges() {
@@ -331,8 +324,6 @@ void Inventory::saveChanges() {
 		}
 		else if (sure == "2") {
 			cout << "Device changes not saved!" << endl;
-			unloadDevice();
-			loadDevices();
 			return;
 		}
 		else {

@@ -9,9 +9,12 @@ People who helped(many thanks!): Lauri Mäe, Marvin Helstein, Samael Tamm
 					* string name - device name
 					* int device_ID - device unique id
 					* int user_ID - device user
-					* string location - where the device is used 
+					* string location - where the device is used
+					* string description - describes device / extra information about device
+					* float price - device price
+					* string date - device date(when bought)
+					* float inventoryValue - displays inventory whole value
 			   - All the functions(also deviceList vector) are declared in class called: Inventory
-			   - 
 //=====================================================================================================================*/
 #pragma once
 
@@ -80,8 +83,6 @@ public:
 	Inventory(EmployeeList* newEmpList);
 
 	void removeDevice(); // remove Devices funtion
-
-	void unloadDevice();
 
 	void loadDevices(); //loads devices
 
