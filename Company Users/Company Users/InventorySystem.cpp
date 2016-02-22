@@ -212,8 +212,13 @@ void Inventory::removeDevice() {
 	getline(cin, buf);
 	device_ID = atoi(buf.c_str());
 
+	if (device_ID >= deviceList.size()) {
+		cout << "Device not found!" << endl;
+		return;
+	}
+
 	string sure;
-	cout << "Are you sure?" << endl; //asks if user is sure to delete device
+	cout << "Are you sure? - You have to restart the program when device(s) is/are remove(d)." << endl; //asks if user is sure to delete device
 	cout << "[1]Yes." << endl;
 	cout << "[2]No." << endl;
 	getline(cin, sure);
@@ -228,7 +233,7 @@ void Inventory::removeDevice() {
 
 				cout << "============================ " << endl;
 				cout << "Device is removed!" << endl;
-				cout << "============================ " << endl;
+				cout << "Please restart program!" << endl;
 			}
 		}
 		saveDevices(); // saves devices
@@ -242,18 +247,18 @@ void Inventory::removeDevice() {
 }
 //==================================================================================================================//
 void Inventory::showDevices() {
+	cout << "============================ " << endl;
 	cout << "  ID     Name " << endl;
 	cout << "============================ " << endl;
 	for (int i = 0; i < deviceList.size(); i++) { //(int)deviceList.size();
 		cout << " [" << deviceList[i].getDevice_ID() << "] - " << deviceList[i].getName() << endl; //displays device ID and device name
 	}
-	cout << "============================ " << endl << endl;
 }
 //==================================================================================================================//
 void Inventory::showModelDevices() {
 
 	//sort devices by model ID
-
+	cout << "============================ " << endl;
 	cout << "  Model ID     Name " << endl;
 	cout << "============================ " << endl;
 	for (int i = 0; i < deviceList.size(); i++) { //(int)deviceList.size();
@@ -274,7 +279,6 @@ void Inventory::totalValue() {
 	}
 	cout << "============================ " << endl;
 	cout << inventoryValue << " - Euros" << endl;
-	cout << "============================ " << endl;
 
 }
 //==================================================================================================================//
@@ -291,6 +295,11 @@ void Inventory::deviceInfo() {
 	cout << "Enter device_ID to see device information: "; // user enters device_ID
 	getline(cin, buf);
 	device_ID = atoi(buf.c_str());
+
+	if (device_ID >= deviceList.size()) {
+		cout << "Device not found!" << endl;
+		return;
+	}
 
 
 	//for (device_ID = 0; device_ID < deviceList.size(); device_ID++;) { //(int)deviceList.size(); //This is not actually needed, and why did you put device ID to 0? '-'
