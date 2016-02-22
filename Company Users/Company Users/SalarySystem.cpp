@@ -142,6 +142,7 @@ void SalarySystem::loadFile()
 		float fBonusExpense = atof(bonusExpense.c_str());
 		float fTotalExpense = atof(totalExpense.c_str());
 
+		//adds new expense
 		salaryList.push_back(SalarySystem(iID, iWorkHours, fJobPayRate, fSalary, fFica,
 			fUip, fSalaryExpense, fBonus, fBonusFica, fBonusUip, fBonusExpense, fTotalExpense));
 	}
@@ -152,6 +153,7 @@ void SalarySystem::saveFile()
 {
 	ofstream file("EmployeeExpense.db");
 
+	//runs through file and saves everything until the end
 	for (int i = 0; i < (int)salaryList.size(); i++)
 	{
 		file << salaryList[i].getID() << ", ";
@@ -170,6 +172,7 @@ void SalarySystem::saveFile()
 	file.close();
 }
 
+//adds expense
 void SalarySystem::addExpense()
 {
 	string choice, input, uID, uWorkHours, uSalary, uFica, uUip,
@@ -239,6 +242,7 @@ void SalarySystem::addExpense()
 
 		float fTotalExpense = calTotalExpense(fSalaryExpense, fBonusExpense);
 
+		//adds new expense
 		salaryList.push_back(SalarySystem(iID, iWorkHours, fJobPayRate, fSalary, fFica,
 			fUip, fSalaryExpense, fBonus, fBonusFica, fBonusUip, fBonusExpense, fTotalExpense));
 

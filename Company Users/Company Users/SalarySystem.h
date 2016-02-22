@@ -76,13 +76,13 @@ public:
 	//calculates uip tax
 	float calUip(float salary);
 
-	//calculates uip tax
+	//calculates total salary expense
 	float calSalaryExpense(float salary, float fica, float uip);
 
 	//calculates bonus fica tax
 	float calBonusFica(float bonus);
 
-	//calculates uip tax
+	//calculates bonus uip tax
 	float calBonusUip(float bonus);
 
 	//calculates total expense per employee
@@ -91,7 +91,7 @@ public:
 	//calculates total bonus expense per employee
 	float calBonusExpense(float bonus, float bonusFica, float bonusUip);
 
-	//calculates total bonus expense per employee
+	//calculates total expense per employee
 	float calTotalExpense(float salaryExpense, float bonusExpense);
 
 	//loads employee total expense database
