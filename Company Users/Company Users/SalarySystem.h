@@ -13,7 +13,6 @@
 
 class SalarySystem {
 private:
-	//'s' means string
 	std::string sID;
 	std::string sWorkHours;
 	std::string sJobPayRate;
@@ -42,9 +41,6 @@ private:
 	SalarySystem();
 
 protected:
-	//gets employee worked hours from employee list
-	bool ConCmd_GetWorkHours(cmdArgs Args);
-
 	//adds employee expense
 	bool ConCmd_AddEmployeeExpense(cmdArgs Args);
 
@@ -106,7 +102,6 @@ public:
 
 	//adds new employee expense
 	void addExpense();
-
 
 	//get functions
 	std::string getID();

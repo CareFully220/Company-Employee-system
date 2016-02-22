@@ -1,21 +1,17 @@
 #include "stdafx.h"
 #include "SalarySystem.h"
+//#include "Workhoursystem.h"
 using namespace std;
 
 //constructor
 SalarySystem::SalarySystem(EmployeeList *EmpList)
 {
 	this->EmpList = EmpList;
-
 	using namespace std::placeholders;
-
-	ConsoleController::RegisterCommand("getworkhours", 2, PERM_VIEWWORKHOURS,
-		bind(&SalarySystem::ConCmd_GetWorkHours, this, _1),
-		"Params: <Employee ID> <Month number> | Gets employee worked hours");
 
 	ConsoleController::RegisterCommand("addemployeeexpense", 0, PERM_MODIFYSALARY,
 		bind(&SalarySystem::ConCmd_AddEmployeeExpense, this, _1),
-		"Enters employee expense adding loop.");
+		"Adds employee expense.");
 
 	loadFile();
 }
@@ -108,9 +104,7 @@ float SalarySystem::calTotalExpense(float salaryExpense, float bonusExpense)
 	return salaryExpense + bonusExpense;
 }
 
-
 //EmployeeExpense.db functions
-
 void SalarySystem::loadFile()
 {
 	ifstream file("EmployeeExpense.db");
@@ -188,7 +182,6 @@ void SalarySystem::addExpense()
 		getline(cin, uID);
 		int iID = atoi(uID.c_str());
 
-
 		if (!EmpList->IsValidID(iID)) {
 			cout << "There is no employee with ID: " << iID << endl;
 			break;
@@ -199,7 +192,6 @@ void SalarySystem::addExpense()
 		//temporary (will come from workhour system)
 		cout << "Enter worked hours: ";
 		getline(cin, uWorkHours);
-
 
 
 
@@ -218,7 +210,6 @@ void SalarySystem::addExpense()
 			cout << "Please set position for employee with ID " << uID << " before continueing!" << endl;
 			break;
 		}
-
 		
 		int iWorkHours = atoi(uWorkHours.c_str());
 		float fSalary = calSalary((float)iWorkHours, fJobPayRate);
@@ -255,27 +246,6 @@ void SalarySystem::addExpense()
 		saveFile();
 		break;
 	}
-}
-
-bool SalarySystem::ConCmd_GetWorkHours(cmdArgs Args)
-{
-	int id = atoi(Args[0].c_str());
-	int month = atoi(Args[1].c_str());
-
-	if (!EmpList->IsValidID(id))
-	{
-		cout << "There is no employee with ID: " << id << endl;
-		return true;
-	}
-	if (month < 1 || month > 12)
-	{
-		cout << "Invalid month number!" << endl;
-		return true;
-	}
-
-	// TODO: workhours..
-
-	return true;
 }
 
 //add employee expense to EmployeeExpense.db
