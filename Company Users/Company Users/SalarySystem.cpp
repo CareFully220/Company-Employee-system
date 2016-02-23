@@ -131,16 +131,16 @@ void SalarySystem::loadFile()
 
 		int	iID = atoi(ID.c_str());
 		int	iWorkHours = atoi(workHours.c_str());
-		float fJobPayRate = atof(jobPayRate.c_str());
-		float fSalary = atof(salary.c_str());
-		float fFica = atof(fica.c_str());
-		float fUip = atof(uip.c_str());
-		float fSalaryExpense = atof(salaryExpense.c_str());
-		float fBonus = atof(bonus.c_str());
-		float fBonusFica = atof(bonusFica.c_str());
-		float fBonusUip = atof(bonusUip.c_str());
-		float fBonusExpense = atof(bonusExpense.c_str());
-		float fTotalExpense = atof(totalExpense.c_str());
+		float fJobPayRate = (float)atof(jobPayRate.c_str());
+		float fSalary = (float)atof(salary.c_str());
+		float fFica = (float)atof(fica.c_str());
+		float fUip = (float)atof(uip.c_str());
+		float fSalaryExpense = (float)atof(salaryExpense.c_str());
+		float fBonus = (float)atof(bonus.c_str());
+		float fBonusFica = (float)atof(bonusFica.c_str());
+		float fBonusUip = (float)atof(bonusUip.c_str());
+		float fBonusExpense = (float)atof(bonusExpense.c_str());
+		float fTotalExpense = (float)atof(totalExpense.c_str());
 
 		//adds new expense
 		salaryList.push_back(SalarySystem(iID, iWorkHours, fJobPayRate, fSalary, fFica,
@@ -235,7 +235,7 @@ void SalarySystem::addExpense()
 			uBonus = "0";
 		}
 
-		float fBonus = atof(uBonus.c_str());
+		float fBonus = (float)atof(uBonus.c_str());
 		float fBonusFica = calBonusFica(fBonus);
 		float fBonusUip = calBonusUip(fBonus);
 		float fBonusExpense = calBonusExpense(fBonus, fBonusFica, fBonusUip);
