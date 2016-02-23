@@ -219,7 +219,7 @@ void Inventory::removeDevice() {
 	}
 
 	string sure;
-	cout << "Are you sure? - You have to restart inventory system when device(s) is/are remove(d)!" << endl; //asks if user is sure to delete device
+	cout << "Are you sure?" << endl; //asks if user is sure to delete device
 	cout << "[1]Yes." << endl;
 	cout << "[2]No." << endl;
 	getline(cin, sure);
@@ -234,7 +234,6 @@ void Inventory::removeDevice() {
 
 				cout << "============================ " << endl;
 				cout << "Device is removed!" << endl;
-				cout << "Please restart inventory system!" << endl;
 			}
 		}
 		saveDevices(); // saves devices
