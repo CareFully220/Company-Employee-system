@@ -31,7 +31,8 @@ INSTRUCTIONS - here is comments how inventory system works
 COMMENT BOX - comment here if any bugs found or any ideas to make system better
 			 - atof returns double. That produces warnings when you assign the return value of it to float.
 				I Fixed it by casting the double to float. See line 79 for example. You can now delete this message.
-			 -
+			 - vector.size() returns an unsigned int. Comparing it with an int causes warning. 
+				I Fixed it by casting the size to int. See line 171 for example. You can now delete this message.
 			 -
 			 -
 //==================================================================================================================*/
@@ -211,7 +212,7 @@ void Inventory::removeDevice() {
 	getline(cin, buf);
 	device_ID = atoi(buf.c_str());
 
-	if (device_ID >= deviceList.size()) {
+	if (device_ID >= (int)deviceList.size()) {
 		cout << "Device not found!" << endl;
 		return;
 	}
@@ -295,7 +296,7 @@ void Inventory::deviceInfo() {
 	getline(cin, buf);
 	device_ID = atoi(buf.c_str());
 
-	if (device_ID >= deviceList.size()) {
+	if (device_ID >= (int)deviceList.size()) {
 		cout << "Device not found!" << endl;
 		return;
 	}

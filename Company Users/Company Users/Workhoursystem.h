@@ -7,9 +7,11 @@ using namespace std;
 
 
 // Note by Care:
-	// Changed hours to integer, since you tried to always add int to that.
-	// Obviously it produced warnings. And you never used it as a float.
-	// You can now delete this message.
+	// -Changed hours to integer, since you tried to always add int to that.
+		// Obviously it produced warnings. And you never used it as a float.
+		// You can now delete this message.
+	// -vector.size() returns an unsigned int.Comparing it with an int causes warning.
+		// I Fixed it by casting the size to int.See line 82 for example. You can now delete this message.
 
 struct WorkTask
 {
