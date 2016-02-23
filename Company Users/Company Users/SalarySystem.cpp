@@ -2,9 +2,11 @@
 #include "SalarySystem.h"
 //#include "Workhoursystem.h"
 using namespace std;
-
-// -atof returns double.That produces warnings when you assign the return value of it to float.
-//	I Fixed it by casting the double to float. See line 137 for example. You can now delete this message.
+// Note by Care:
+	// -atof returns double.That produces warnings when you assign the return value of it to float.
+		// I Fixed it by casting the double to float. See line 137 for example. You can now delete this message.
+	// -vector.size() returns an unsigned int.Comparing it with an int causes warning.
+		// I Fixed it by casting the size to int. See line 162 for example. You can now delete this message.
 
 //constructor
 SalarySystem::SalarySystem(EmployeeList *EmpList)
@@ -19,7 +21,7 @@ SalarySystem::SalarySystem(EmployeeList *EmpList)
 	loadFile();
 }
 
-//Get functions
+//get functions
 string SalarySystem::getID()
 {
 	return sID;
@@ -213,7 +215,7 @@ void SalarySystem::addExpense()
 			fJobPayRate = 5;
 		}
 		else {
-			cout << "Please set position for employee with ID " << uID << " before continuing!" << endl;
+			cout << "Please set position for employee with ID " << uID << " before continueing!" << endl;
 			break;
 		}
 		
@@ -249,7 +251,7 @@ void SalarySystem::addExpense()
 		salaryList.push_back(SalarySystem(iID, iWorkHours, fJobPayRate, fSalary, fFica,
 			fUip, fSalaryExpense, fBonus, fBonusFica, fBonusUip, fBonusExpense, fTotalExpense));
 
-		cout << "Expense added succesfully!" << endl;
+		cout << "Expense added succesfully" << endl;
 		saveFile();
 		break;
 	}
