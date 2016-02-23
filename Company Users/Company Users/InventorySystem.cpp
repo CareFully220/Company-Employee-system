@@ -55,8 +55,6 @@ Inventory::Inventory(EmployeeList* newEmpList) {
 	using namespace std::placeholders; // for `_1` placeholder
 	ConsoleController::RegisterCommand("inventory", 0, PERM_MODIFYINVENTORY, std::bind(&Inventory::ConCmd_Menu, this, _1), "Enter the inventory system.");
 
-	//Load inventory.
-	loadDevices();
 }
 //==================================================================================================================//
 void Inventory::loadDevices() {
@@ -340,6 +338,17 @@ void Inventory::saveChanges() {
 bool Inventory::ConCmd_Menu(cmdArgs Args) {
 
 	//function names says all what the function does
+
+
+	//Load inventory.
+	std::cout << "Loading Devices..." << std::endl;
+	// Remove any old devices.
+	deviceList.clear();
+	// Reset id counter.
+	newid = 0;
+	// Load devices.
+	loadDevices();
+	std::cout << "Done..." << std::endl;
 
 	while (true) {
 		string input; // user option
