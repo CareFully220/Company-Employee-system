@@ -131,8 +131,8 @@ void Inventory::addDevice() {
 		}
 		if (!EmpList->IsValidID(newUserId))
 		{
-			cout << "Invalid User ID: " << newUserId << endl;
-			cout << "Try Again, or write -1 to cancel." << endl;
+			cerr << "Invalid User ID: " << newUserId << endl;
+			cerr << "Try Again, or write -1 to cancel." << endl;
 			continue;
 		}
 		break;
@@ -199,7 +199,7 @@ void Inventory::changeDevice() {
 			}
 		}
 	}
-	// Add here an error msg.
+	cerr << "Invalid Device ID: " << device_ID << endl;
 }
 //==================================================================================================================//
 void Inventory::removeDevice() {
