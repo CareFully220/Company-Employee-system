@@ -54,9 +54,8 @@ int main()
 
 	}
 	// Inventory System;
-	std::cout << "< Loading Devices..." << std::endl;
+	std::cout << "< Loaded Inventory System!" << std::endl;
 	Inventory Inv(&Employees);
-	cout << "< Devices loaded successfully!" << endl;
 
 	// Workhour System;
 	WorkhourSystem();

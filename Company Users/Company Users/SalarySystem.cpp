@@ -1,21 +1,17 @@
 #include "stdafx.h"
 #include "SalarySystem.h"
+//#include "Workhoursystem.h"
 using namespace std;
 
 //constructor
 SalarySystem::SalarySystem(EmployeeList *EmpList)
 {
 	this->EmpList = EmpList;
-
 	using namespace std::placeholders;
-
-	ConsoleController::RegisterCommand("getworkhours", 2, PERM_VIEWWORKHOURS,
-		bind(&SalarySystem::ConCmd_GetWorkHours, this, _1),
-		"Params: <Employee ID> <Month number> | Gets employee worked hours");
 
 	ConsoleController::RegisterCommand("addemployeeexpense", 0, PERM_MODIFYSALARY,
 		bind(&SalarySystem::ConCmd_AddEmployeeExpense, this, _1),
-		"Enters employee expense adding loop.");
+		"Adds employee expense.");
 
 	loadFile();
 }
@@ -108,9 +104,7 @@ float SalarySystem::calTotalExpense(float salaryExpense, float bonusExpense)
 	return salaryExpense + bonusExpense;
 }
 
-
 //EmployeeExpense.db functions
-
 void SalarySystem::loadFile()
 {
 	ifstream file("EmployeeExpense.db");
@@ -137,17 +131,18 @@ void SalarySystem::loadFile()
 
 		int	iID = atoi(ID.c_str());
 		int	iWorkHours = atoi(workHours.c_str());
-		float fJobPayRate = atof(jobPayRate.c_str());
-		float fSalary = atof(salary.c_str());
-		float fFica = atof(fica.c_str());
-		float fUip = atof(uip.c_str());
-		float fSalaryExpense = atof(salaryExpense.c_str());
-		float fBonus = atof(bonus.c_str());
-		float fBonusFica = atof(bonusFica.c_str());
-		float fBonusUip = atof(bonusUip.c_str());
-		float fBonusExpense = atof(bonusExpense.c_str());
-		float fTotalExpense = atof(totalExpense.c_str());
+		float fJobPayRate = (float)atof(jobPayRate.c_str());
+		float fSalary = (float)atof(salary.c_str());
+		float fFica = (float)atof(fica.c_str());
+		float fUip = (float)atof(uip.c_str());
+		float fSalaryExpense = (float)atof(salaryExpense.c_str());
+		float fBonus = (float)atof(bonus.c_str());
+		float fBonusFica = (float)atof(bonusFica.c_str());
+		float fBonusUip = (float)atof(bonusUip.c_str());
+		float fBonusExpense = (float)atof(bonusExpense.c_str());
+		float fTotalExpense = (float)atof(totalExpense.c_str());
 
+		//adds new expense
 		salaryList.push_back(SalarySystem(iID, iWorkHours, fJobPayRate, fSalary, fFica,
 			fUip, fSalaryExpense, fBonus, fBonusFica, fBonusUip, fBonusExpense, fTotalExpense));
 	}
@@ -158,6 +153,7 @@ void SalarySystem::saveFile()
 {
 	ofstream file("EmployeeExpense.db");
 
+	//runs through file and saves everything until the end
 	for (int i = 0; i < (int)salaryList.size(); i++)
 	{
 		file << salaryList[i].getID() << ", ";
@@ -176,6 +172,7 @@ void SalarySystem::saveFile()
 	file.close();
 }
 
+//adds expense
 void SalarySystem::addExpense()
 {
 	string choice, input, uID, uWorkHours, uSalary, uFica, uUip,
@@ -188,7 +185,6 @@ void SalarySystem::addExpense()
 		getline(cin, uID);
 		int iID = atoi(uID.c_str());
 
-
 		if (!EmpList->IsValidID(iID)) {
 			cout << "There is no employee with ID: " << iID << endl;
 			break;
@@ -199,7 +195,6 @@ void SalarySystem::addExpense()
 		//temporary (will come from workhour system)
 		cout << "Enter worked hours: ";
 		getline(cin, uWorkHours);
-
 
 
 
@@ -218,7 +213,6 @@ void SalarySystem::addExpense()
 			cout << "Please set position for employee with ID " << uID << " before continueing!" << endl;
 			break;
 		}
-
 		
 		int iWorkHours = atoi(uWorkHours.c_str());
 		float fSalary = calSalary((float)iWorkHours, fJobPayRate);
@@ -241,13 +235,14 @@ void SalarySystem::addExpense()
 			uBonus = "0";
 		}
 
-		float fBonus = atof(uBonus.c_str());
+		float fBonus = (float)atof(uBonus.c_str());
 		float fBonusFica = calBonusFica(fBonus);
 		float fBonusUip = calBonusUip(fBonus);
 		float fBonusExpense = calBonusExpense(fBonus, fBonusFica, fBonusUip);
 
 		float fTotalExpense = calTotalExpense(fSalaryExpense, fBonusExpense);
 
+		//adds new expense
 		salaryList.push_back(SalarySystem(iID, iWorkHours, fJobPayRate, fSalary, fFica,
 			fUip, fSalaryExpense, fBonus, fBonusFica, fBonusUip, fBonusExpense, fTotalExpense));
 
@@ -255,27 +250,6 @@ void SalarySystem::addExpense()
 		saveFile();
 		break;
 	}
-}
-
-bool SalarySystem::ConCmd_GetWorkHours(cmdArgs Args)
-{
-	int id = atoi(Args[0].c_str());
-	int month = atoi(Args[1].c_str());
-
-	if (!EmpList->IsValidID(id))
-	{
-		cout << "There is no employee with ID: " << id << endl;
-		return true;
-	}
-	if (month < 1 || month > 12)
-	{
-		cout << "Invalid month number!" << endl;
-		return true;
-	}
-
-	// TODO: workhours..
-
-	return true;
 }
 
 //add employee expense to EmployeeExpense.db

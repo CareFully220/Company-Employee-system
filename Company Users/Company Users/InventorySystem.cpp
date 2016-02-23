@@ -55,8 +55,6 @@ Inventory::Inventory(EmployeeList* newEmpList) {
 	using namespace std::placeholders; // for `_1` placeholder
 	ConsoleController::RegisterCommand("inventory", 0, PERM_MODIFYINVENTORY, std::bind(&Inventory::ConCmd_Menu, this, _1), "Enter the inventory system.");
 
-	//Load inventory.
-	loadDevices();
 }
 //==================================================================================================================//
 void Inventory::loadDevices() {
@@ -77,7 +75,7 @@ void Inventory::loadDevices() {
 		getline(ss, field, ','); description = field;
 		int	model_ID = atoi(szmodel.c_str());
 		int	user_ID = atoi(szuser.c_str());
-		float setPrice = atof(szprice.c_str());
+		float setPrice = (float)atof(szprice.c_str());
 		// If the loaded device had bigger id than newid then we need to increase the newid
 		// because we don't want to set this same id to any other device we might create later
 		curid = newid++;
@@ -250,7 +248,7 @@ void Inventory::showDevices() {
 	cout << "============================ " << endl;
 	cout << "  ID     Name " << endl;
 	cout << "============================ " << endl;
-	for (int i = 0; i < deviceList.size(); i++) { //(int)deviceList.size();
+	for (int i = 0; i < (int)deviceList.size(); i++) { //(int)deviceList.size();
 		cout << " [" << deviceList[i].getDevice_ID() << "] - " << deviceList[i].getName() << endl; //displays device ID and device name
 	}
 }
@@ -261,7 +259,7 @@ void Inventory::showModelDevices() {
 	cout << "============================ " << endl;
 	cout << "  Model ID     Name " << endl;
 	cout << "============================ " << endl;
-	for (int i = 0; i < deviceList.size(); i++) { //(int)deviceList.size();
+	for (int i = 0; i < (int)deviceList.size(); i++) { //(int)deviceList.size();
 		cout << " [" << deviceList[i].getModel_ID() << "] - " << deviceList[i].getName() << endl; //displays device ID and device name
 	}
 	cout << "============================ " << endl;
@@ -272,7 +270,7 @@ void Inventory::totalValue() {
 
 	float inventoryValue = 0; // sets inv value to 0
 
-	for (int i = 0; i < deviceList.size(); i++) { //loops through so many times how many devices there is
+	for (int i = 0; i < (int)deviceList.size(); i++) { //loops through so many times how many devices there is
 		if (deviceList[i].getPrice()) { //when price is found
 			inventoryValue += deviceList[i].getPrice(); //adds devices value to inventory Value
 		}
@@ -349,6 +347,17 @@ void Inventory::saveChanges() {
 bool Inventory::ConCmd_Menu(cmdArgs Args) {
 
 	//function names says all what the function does
+
+
+	//Load inventory.
+	std::cout << "Loading Devices..." << std::endl;
+	// Remove any old devices.
+	deviceList.clear();
+	// Reset id counter.
+	newid = 0;
+	// Load devices.
+	loadDevices();
+	std::cout << "Done..." << std::endl;
 
 	while (true) {
 		string input; // user option
