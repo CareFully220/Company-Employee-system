@@ -364,12 +364,12 @@ bool EmployeeList::ConCmd_CreateUser(cmdArgs Args)
 	// Check if Employee with such id exist.
 	Employee* TempEmp = GetEmployeeByID(userid);
 	if (TempEmp == nullptr) { 
-		std::cout << "Didn't find Employee with id: " << userid << std::endl;
+		std::cout << "Didn't find Employee with ID: " << userid << std::endl;
 		return true;
 	}
 	// Check if user already has an account.
 	if (TempEmp->GetPermission(PERM_USER)) {
-		std::cout << "Employee id " << userid << " already has an account!" << std::endl;
+		std::cout << "Employee with ID " << userid << " already has an account!" << std::endl;
 		return true;
 	}
 	// Ask for Employee's username.
@@ -412,7 +412,7 @@ bool EmployeeList::ConCmd_CreateUser(cmdArgs Args)
 bool EmployeeList::ConCmd_GetInfo(cmdArgs Args)
 {
 	int userid = atoi(Args[0].c_str());
-	std::cout << "Employee id " << userid << " info" << std::endl;
+	std::cout << "Employee ID " << userid << " info" << std::endl;
 	std::cout << "=============================" << std::endl;
 	if (IsValidID(userid)) {
 		for (int i = 0; i < EINFOS; i++) {
@@ -456,7 +456,7 @@ bool EmployeeList::ConCmd_SetInfo(cmdArgs Args)
 		std::cout << "Successfully changed Employee's info! " << std::endl;
 	}
 	else
-		std::cout << "Didn't find Employee with id: " << userid << std::endl;
+		std::cout << "Didn't find Employee with ID: " << userid << std::endl;
 
 	return true;
 }
@@ -468,11 +468,11 @@ bool EmployeeList::ConCmd_ListPerms(cmdArgs Args)
 	// Check if Employee with such id exist.
 	Employee* TempEmp = GetEmployeeByID(id);
 	if (TempEmp == nullptr) {
-		std::cout << "Didn't find Employee with id: " << id << std::endl;
+		std::cout << "Didn't find Employee with ID: " << id << std::endl;
 		return true;
 	}
 	else if (!TempEmp->GetPermission(PERM_USER)) {
-		std::cout << "Employee with id " << id << " does not have an account!" << std::endl;
+		std::cout << "Employee with ID " << id << " does not have an account!" << std::endl;
 		return true;
 	}
 	std::cout << " Employee " << TempEmp->GetInfo(EINF_FIRSTNAME) << " " << TempEmp->GetInfo(EINF_LASTNAME) << " has following permissions" << std::endl;
@@ -493,11 +493,11 @@ bool EmployeeList::ConCmd_ModifyPerms(cmdArgs Args)
 	// Check if Employee with such id exist.
 	Employee* TempEmp = GetEmployeeByID(id);
 	if (TempEmp == nullptr) {
-		std::cout << "Didn't find Employee with id: " << id << std::endl;
+		std::cout << "Didn't find Employee with ID: " << id << std::endl;
 		return true;
 	}
 	else if (!TempEmp->GetPermission(PERM_USER)) {
-		std::cout << "Employee with id " << id << " does not have an account!" << std::endl;
+		std::cout << "Employee with ID " << id << " does not have an account!" << std::endl;
 		return true;
 	}
 
