@@ -100,7 +100,7 @@ void WorkhourSystem::remove_task(int task_id)
 }
 void WorkhourSystem::review(int task_id)
 {
-	cout << "Month\t" << "Person_id\t" << "Workhours\t" << "Description\t" << "\n";
+	cout << "Month\t" << "Employee ID\t" << "Workhours\t" << "Description\t" << "\n";
 	for (int i = 0; i < (int)list.size(); i++) {
 		cout << list[i].month << "\t" << list[i].person_id << "\t\t" << list[i].hours << "\t\t" << list[i].description << "\n";
 
@@ -135,14 +135,14 @@ int WorkhourSystem::search_month(int person_id, int month)
 bool WorkhourSystem::ConCmd_mmain(cmdArgs Args) {
 	add_task(1, 8, 1, "lal");
 	add_task(2, 8, 2, "lel");
-	add_task(3, 15, 1, "lel");
+	add_task(3, 15, 1, "lel");  // Need võiks siit ära võtta!
 	add_task(2, 9, 1, "lel");
 	add_task(2, 20, 2, "lel");
 	saveFile();
 	review(0);
-	cout << "type person_id: ";
+	cout << "Type employee ID: ";
 	int id = ConsoleController::cinnum();
-	cout << "type month: ";
+	cout << "Type month: ";
 	int month = ConsoleController::cinnum();
 	cout << search_month(id, month);
 	return 0;

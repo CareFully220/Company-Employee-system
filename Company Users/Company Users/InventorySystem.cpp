@@ -206,7 +206,7 @@ void Inventory::removeDevice() {
 	showDevices(); // displays devices
 
 
-	cout << "Enter device_ID you want to remove: "; // user enters device_ID
+	cout << "Enter device ID you want to remove: "; // user enters device_ID
 	getline(cin, buf);
 	device_ID = atoi(buf.c_str());
 
@@ -290,7 +290,7 @@ void Inventory::deviceInfo() {
 	showDevices(); // displays devices
 
 
-	cout << "Enter device_ID to see device information: "; // user enters device_ID
+	cout << "Enter device ID to see device information: "; // user enters device_ID
 	getline(cin, buf);
 	device_ID = atoi(buf.c_str());
 

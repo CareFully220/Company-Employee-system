@@ -3,7 +3,7 @@
 //#include "Workhoursystem.h"
 using namespace std;
 
-//constructor
+//Constructor
 SalarySystem::SalarySystem(EmployeeList *EmpList)
 {
 	this->EmpList = EmpList;
@@ -16,7 +16,7 @@ SalarySystem::SalarySystem(EmployeeList *EmpList)
 	loadFile();
 }
 
-//get functions
+//Get functions
 string SalarySystem::getID()
 {
 	return sID;
@@ -210,7 +210,7 @@ void SalarySystem::addExpense()
 			fJobPayRate = 5;
 		}
 		else {
-			cout << "Please set position for employee with ID " << uID << " before continueing!" << endl;
+			cout << "Please set position for employee with ID " << uID << " before continuing!" << endl;
 			break;
 		}
 		
@@ -246,7 +246,7 @@ void SalarySystem::addExpense()
 		salaryList.push_back(SalarySystem(iID, iWorkHours, fJobPayRate, fSalary, fFica,
 			fUip, fSalaryExpense, fBonus, fBonusFica, fBonusUip, fBonusExpense, fTotalExpense));
 
-		cout << "Expense added succesfully" << endl;
+		cout << "Expense added succesfully!" << endl;
 		saveFile();
 		break;
 	}
