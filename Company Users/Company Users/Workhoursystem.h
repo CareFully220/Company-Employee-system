@@ -5,6 +5,12 @@
 
 using namespace std;
 
+
+// Note by Care:
+	// Changed hours to integer, since you tried to always add int to that.
+	// Obviously it produced warnings. And you never used it as a float.
+	// You can now delete this message.
+
 struct WorkTask
 {
 	int newid = 0;

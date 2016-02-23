@@ -3,7 +3,10 @@
 //#include "Workhoursystem.h"
 using namespace std;
 
-//Constructor
+// -atof returns double.That produces warnings when you assign the return value of it to float.
+//	I Fixed it by casting the double to float. See line 137 for example. You can now delete this message.
+
+//constructor
 SalarySystem::SalarySystem(EmployeeList *EmpList)
 {
 	this->EmpList = EmpList;
