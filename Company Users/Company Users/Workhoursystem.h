@@ -10,7 +10,7 @@ struct WorkTask
 	int newid = 0;
 	int task_id;
 	int person_id;
-	float hours;
+	int hours;
 	int month;
 	std::string description;
 
@@ -25,7 +25,7 @@ private:
 public:
 	WorkhourSystem();
 	bool ConCmd_mmain(cmdArgs Args);
-	int add_task(int person_id, float hours, int month, std::string description);
+	int add_task(int person_id, int hours, int month, std::string description);
 	void remove_task(int task_id);
 	void review(int task_id);
 	void readFile();
@@ -47,7 +47,7 @@ WorkhourSystem::WorkhourSystem() {
 void WorkhourSystem::readFile()
 {
 	ifstream ifile;
-	ifile.open("in_t66tunnid.db");
+	ifile.open("t66tunnid.db");
 	string rida;
 	while (getline(ifile, rida))
 	{
@@ -70,14 +70,14 @@ void WorkhourSystem::saveFile()
 {
 
 	ofstream ofile;
-	ofile.open("out_t66tunnid.db");
-	for (int i = 0; i < list.size(); i++) {
+	ofile.open("t66tunnid.db");
+	for (int i = 0; i < (int)list.size(); i++) {
 		ofile << list[i].month << " " << list[i].person_id << " " << list[i].hours << " " << list[i].description << endl;
 	}
 	ofile.close();
 }
 
-int WorkhourSystem::add_task(int person_id, float hours, int month, std::string description)
+int WorkhourSystem::add_task(int person_id, int hours, int month, std::string description)
 {
 	WorkTask temptask;
 	temptask.task_id = temptask.newid++;
@@ -101,7 +101,7 @@ void WorkhourSystem::remove_task(int task_id)
 void WorkhourSystem::review(int task_id)
 {
 	cout << "Month\t" << "Person_id\t" << "Workhours\t" << "Description\t" << "\n";
-	for (int i = 0; i < list.size(); i++) {
+	for (int i = 0; i < (int)list.size(); i++) {
 		cout << list[i].month << "\t" << list[i].person_id << "\t\t" << list[i].hours << "\t\t" << list[i].description << "\n";
 
 	}
@@ -110,7 +110,7 @@ int WorkhourSystem::search(int person_id)
 {
 	int size = 0;
 
-	for (int i = 0; i < list.size(); i++) {
+	for (int i = 0; i < (int)list.size(); i++) {
 		if (list[i].person_id == person_id) {
 			size += list[i].hours;
 
@@ -123,7 +123,7 @@ int WorkhourSystem::search_month(int person_id, int month)
 {
 	int size = 0;
 
-	for (int i = 0; i < list.size(); i++) {
+	for (int i = 0; i < (int)list.size(); i++) {
 		if (list[i].person_id == person_id && list[i].month == month) {
 			size += list[i].hours;
 
