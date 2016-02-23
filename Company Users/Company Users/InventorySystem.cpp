@@ -185,21 +185,22 @@ void Inventory::changeDevice() {
 
 			//user selects what he/she wants to change
 			getline(cin, data);
-			if (data == "1") deviceList[device_ID].setName();
-			else if (data == "2") deviceList[device_ID].setModel_ID();
-			else if (data == "3") deviceList[device_ID].setUser_ID();
-			else if (data == "4") deviceList[device_ID].setLocation();
-			else if (data == "5") deviceList[device_ID].setPrice();
-			else if (data == "6") deviceList[device_ID].setDate();
-			else if (data == "7") deviceList[device_ID].setDescription();
+			if (data == "1") deviceList[i].setName();
+			else if (data == "2") deviceList[i].setModel_ID();
+			else if (data == "3") deviceList[i].setUser_ID();
+			else if (data == "4") deviceList[i].setLocation();
+			else if (data == "5") deviceList[i].setPrice();
+			else if (data == "6") deviceList[i].setDate();
+			else if (data == "7") deviceList[i].setDescription();
 			else if (data == "0") return;
 			else {
 				cout << "Wrong input!" << endl; 
 				return; 
 			}
-			}
-			}
 		}
+	}
+	// Add here an error msg.
+}
 //==================================================================================================================//
 void Inventory::removeDevice() {
 
@@ -344,6 +345,15 @@ void Inventory::saveChanges() {
 		break;
 	}
 
+}
+//==================================================================================================================//
+Device* getDeviceByID(int id)
+{
+	Device * item = nullptr;
+
+
+
+	return item;
 }
 //==================================================================================================================//
 bool Inventory::ConCmd_Menu(cmdArgs Args) {
