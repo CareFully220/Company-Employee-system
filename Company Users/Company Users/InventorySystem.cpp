@@ -29,7 +29,8 @@ INSTRUCTIONS - here is comments how inventory system works
 //==================================================================================================================//
 /*==================================================================================================================//
 COMMENT BOX - comment here if any bugs found or any ideas to make system better
-			 - 
+			 - atof returns double. That produces warnings when you assign the return value of it to float.
+				I Fixed it by casting the double to float. See line 79 for example. You can now delete this message.
 			 -
 			 -
 			 -
@@ -357,7 +358,7 @@ bool Inventory::ConCmd_Menu(cmdArgs Args) {
 	newid = 0;
 	// Load devices.
 	loadDevices();
-	std::cout << "Done..." << std::endl;
+	std::cout << "Done!" << std::endl;
 
 	while (true) {
 		string input; // user option
