@@ -255,7 +255,7 @@ void Inventory::showDevices() {
 	}
 }
 //==================================================================================================================//
-void Inventory::showModelDevices() {
+void Inventory::showModelDevices() {;
 
 	//sort devices by model ID
 	cout << "============================ " << endl;
