@@ -89,6 +89,10 @@ void ConsoleController::CommandHandler(EmployeeList& EmpList)
 			}
 			std::cout << "===== Help =====" << std::endl;
 			std::cout << "Page " << page << " / " << maxpages << std::endl;
+			if (argnum == 0) {
+				std::cout << "Type help <page> to open different page." << std::endl;
+				std::cout << "Ex: help 2" << std::endl;
+			}
 			std::cout << "================" << std::endl;
 			for (; loc < (int)CommandList.size() && loc < maxloc; loc++) {
 			//for (auto &it : CommandList) {
