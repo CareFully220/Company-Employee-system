@@ -219,7 +219,7 @@ void Inventory::removeDevice() {
 	}
 
 	string sure;
-	cout << "Are you sure? - You have to restart the program when device(s) is/are remove(d)." << endl; //asks if user is sure to delete device
+	cout << "Are you sure? - You have to restart inventory system when device(s) is/are remove(d)!" << endl; //asks if user is sure to delete device
 	cout << "[1]Yes." << endl;
 	cout << "[2]No." << endl;
 	getline(cin, sure);
@@ -234,7 +234,7 @@ void Inventory::removeDevice() {
 
 				cout << "============================ " << endl;
 				cout << "Device is removed!" << endl;
-				cout << "Please restart program!" << endl;
+				cout << "Please restart inventory system!" << endl;
 			}
 		}
 		saveDevices(); // saves devices
@@ -323,7 +323,7 @@ void Inventory::saveChanges() {
 
 	string sure;
 	while (true) {
-		cout << "Do you want to save changes?" << endl; //asks if user is sure to delete device
+		cout << "Do you want to save changes?" << endl; //asks if user is sure to save devices
 		cout << "[1]Yes." << endl;
 		cout << "[2]No." << endl;
 		getline(cin, sure);
@@ -362,14 +362,14 @@ bool Inventory::ConCmd_Menu(cmdArgs Args) {
 
 
 	//Load inventory.
-	std::cout << "Loading Devices..." << std::endl;
+	cout << "Loading Devices..." << endl;
 	// Remove any old devices.
 	deviceList.clear();
 	// Reset id counter.
 	newid = 0;
 	// Load devices.
 	loadDevices();
-	std::cout << "Done!" << std::endl;
+	cout << "Done!" << endl;
 
 	while (true) {
 		string input; // user option
